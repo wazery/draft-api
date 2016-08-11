@@ -3,10 +3,16 @@ source 'http://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.0'
+
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+# gem 'sqlite3'
+# TODO: Decide if to use Mongoid
+# gem 'mongoid', git: 'https://github.com/estolfo/mongoid.git', branch: 'MONGOID-4218-rails-5'
+gem 'pg'
+
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
@@ -18,11 +24,25 @@ gem 'puma', '~> 3.0'
 # gem 'capistrano-rails', group: :development
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-# gem 'rack-cors'
+gem 'rack-cors', require: 'rack/cors'
+
+# Authenication
+gem 'devise_token_auth'
+gem 'omniauth-github'
+
+# Environment variables managmenet
+gem 'figaro'
+
+# Documentation
+gem 'yard'
+gem 'apipie-rails'
+
+gem 'rubocop', require: false, group: %i(development test)
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+  gem 'awesome_print', require: 'ap'
 end
 
 group :development do
