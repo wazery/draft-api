@@ -37,12 +37,11 @@ gem 'figaro'
 gem 'yard'
 gem 'apipie-rails'
 
-gem 'rubocop', require: false, group: %i(development test)
-
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
   gem 'awesome_print', require: 'ap'
+  gem 'rubocop', require: false
 end
 
 group :development do
@@ -53,7 +52,11 @@ group :development do
 end
 
 group :test do
-  gem 'rspec'
+  gem 'rspec-rails'
+  gem 'database_cleaner', '~> 1.4.1'
+  gem 'webmock'
+  gem 'simplecov', require: false
+  gem 'factory_girl_rails'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
