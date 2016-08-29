@@ -69,4 +69,3 @@
 #     api_sessions_path(token)
 #   end
 # end
-#
