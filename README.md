@@ -1,6 +1,6 @@
-[![Build Status](http://104.131.207.101/api/badge/github.com/wazery/api/status.svg?branch=master)](http://104.131.207.101/github.com/wazery/api)
+<!--- [![Build Status](http://104.131.207.101/api/badge/github.com/wazery/api/status.svg?branch=master)](http://104.131.207.101/github.com/wazery/api) --->
 
-![Draft Logo](https://raw.githubusercontent.com/wazery/api/dev/public/images/logo.png?token=AActgZWd9j8UwdwUXUndWIWbbMVv8f2Bks5WEqt1wA%3D%3D)
+![Draft Logo](https://dl.dropboxusercontent.com/u/71605080/logo.png)
 
 # Draft Agnostic Rails API
 The agnostic Rails API that powers the Draft Chrome extension, Angular web and mobile applications.
