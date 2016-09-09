@@ -10,14 +10,58 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160810063344) do
+ActiveRecord::Schema.define(version: 20160831034651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "artboards", force: :cascade do |t|
+    t.integer  "project_id"
+    t.string   "page_name"
+    t.string   "page_object_id"
+    t.string   "name"
+    t.string   "slug"
+    t.string   "object_id"
+    t.integer  "width"
+    t.integer  "height"
+    t.string   "image_path"
+    t.json     "layers"
+    t.json     "slices"
+    t.json     "exportables"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["project_id"], name: "index_artboards_on_project_id", using: :btree
+  end
+
+  create_table "notes", force: :cascade do |t|
+    t.integer  "artboard_id"
+    t.text     "note"
+    t.json     "rect"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["artboard_id"], name: "index_notes_on_artboard_id", using: :btree
+  end
+
+  create_table "projects", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.string   "slug"
+    t.string   "platform"
+    t.string   "thumb"
+    t.string   "scale"
+    t.string   "unit"
+    t.string   "color_format"
+    t.integer  "artboards_count"
+    t.json     "slices"
+    t.json     "colors"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["user_id"], name: "index_projects_on_user_id", using: :btree
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "provider",               default: "email", null: false
-    t.string   "uid",                    default: "",      null: false
+    t.string   "uid",                    default: ""
     t.string   "encrypted_password",     default: "",      null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -32,7 +76,6 @@ ActiveRecord::Schema.define(version: 20160810063344) do
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
     t.string   "name"
-    t.string   "nickname"
     t.string   "image"
     t.string   "email"
     t.json     "tokens"

@@ -5,3 +5,11 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+p 'Seeding Draft...'
+
+User.create(email: 'wazery@ubuntu.com', password: '123456789')
+Project.create(name: 'TopCoder', scale: '1', unit: 'pt', color_format: 'Hex', user_id: 1)
+Project.create(name: 'Apple Pay', scale: '2', unit: 'px', color_format: 'HRGBA', user_id: 1)
+
+p 'Seeding Finished!'

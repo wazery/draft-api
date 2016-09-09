@@ -37,6 +37,12 @@ gem 'omniauth-github'
 # Environment variables managmenet
 gem 'figaro'
 
+# Decoration
+gem 'draper', github: 'drapergem/draper', branch: 'support-rails-api'
+
+# Slugging
+gem 'friendly_id'
+
 # Documentation
 gem 'yard'
 gem 'apipie-rails'

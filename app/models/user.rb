@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
 
   include DeviseTokenAuth::Concerns::User
 
+  has_many :projects
+
   # # Use friendly_id on Users
   # extend FriendlyId
   # friendly_id :friendify, use: :slugged
