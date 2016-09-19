@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :tags
   apipie
 
   root to: 'misc#ping'
