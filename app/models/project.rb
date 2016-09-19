@@ -1,13 +1,17 @@
 class Project < ApplicationRecord
-  # extend FriendlyId
-  # friendly_id :name, use: :slugged
+  extend FriendlyId
+  friendly_id :name, use: :slugged
 
+  # Constants
   SETTINGS = %i(slug scale unit color_format)
 
   # Relations
   has_many :artboards
 
   accepts_nested_attributes_for :artboards
+
+  # Validations
+  validates_uniqueness_of :name, scope: :user_id
 
   def update_settings(project_settings)
     return if settings_match?(project_settings)

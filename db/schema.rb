@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20160831034651) do
 
   create_table "notes", force: :cascade do |t|
     t.integer  "artboard_id"
+    t.string   "object_id"
     t.text     "note"
     t.json     "rect"
     t.datetime "created_at",  null: false
@@ -51,11 +52,11 @@ ActiveRecord::Schema.define(version: 20160831034651) do
     t.string   "scale"
     t.string   "unit"
     t.string   "color_format"
-    t.integer  "artboards_count"
+    t.integer  "artboards_count", default: 0
     t.json     "slices"
     t.json     "colors"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.index ["user_id"], name: "index_projects_on_user_id", using: :btree
   end
 
