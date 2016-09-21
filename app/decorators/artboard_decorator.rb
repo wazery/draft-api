@@ -8,7 +8,6 @@ class ArtboardDecorator < Draper::Decorator
     ret[:notes] = notes.decorate.to_json
     ret[:slices] = slices
     ret[:exportables] = exportables
-    byebug
 
     ret
   end
