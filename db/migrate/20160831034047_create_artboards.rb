@@ -2,13 +2,16 @@ class CreateArtboards < ActiveRecord::Migration[5.0]
   def change
     create_table :artboards do |t|
       t.references :project
-      t.string :page_name
+      t.string :object_id
       t.string :page_object_id
+      t.string :page_name
       t.string :name
       t.string :slug
-      t.string :object_id
+      t.integer :status
       t.integer :width
       t.integer :height
+      t.datetime :due_date
+      t.string :token
       t.string :image_path
       t.json :layers
       t.json :slices

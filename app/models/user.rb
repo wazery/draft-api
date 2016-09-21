@@ -1,11 +1,12 @@
 class User < ActiveRecord::Base
   devise :database_authenticatable, :recoverable,
-    :trackable, :validatable, :registerable,
+    :trackable, :validatable, :registerable, :invitable,
     :omniauthable
 
   include DeviseTokenAuth::Concerns::User
 
   has_many :projects
+  has_many :project_members, dependent: :destroy
 
   # # Use friendly_id on Users
   # extend FriendlyId

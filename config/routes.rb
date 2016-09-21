@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :tags
   apipie
 
   root to: 'misc#ping'
@@ -7,10 +6,16 @@ Rails.application.routes.draw do
   match 'pong', to: 'misc#pong', via: :post
 
   resources :projects do
-    get 'project_names', on: :collection
+    get :project_names, on: :collection
 
+    resources :project_members
     resources :artboards do
       resources :notes
+      resources :tags
+      resources :links
+
+      post :set_due_date, on: :member
+      post :set_status, on: :member
     end
   end
 

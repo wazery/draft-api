@@ -26,6 +26,7 @@ gem 'rack-cors', require: 'rack/cors'
 
 # Authenication
 gem 'devise_token_auth', github: 'lynndylanhurley/devise_token_auth'
+gem 'devise_invitable'
 gem 'omniauth-github'
 
 # Environment variables managmenet

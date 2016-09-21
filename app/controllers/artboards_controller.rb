@@ -1,5 +1,5 @@
 class ArtboardsController < ApplicationController
-  before_action :set_artboard, only: [:show, :update, :destroy]
+  before_action :set_artboard, only: %i(show update destroy set_due_date set_status)
 
   # GET /artboards
   def index
@@ -36,6 +36,28 @@ class ArtboardsController < ApplicationController
   # DELETE /artboards/1
   def destroy
     @artboard.destroy
+  end
+
+  # POST /artboards/1/set_due_date
+  def set_due_date
+    return unless params[:due_date].present?
+
+    if @artboard.update(due_date: params[:due_date])
+      render json: @artboard
+    else
+      render json: @artboard.errors, status: :unprocessable_entity
+    end
+  end
+
+  # POST /artboards/1/set_status
+  def set_status
+    return unless params[:status].present?
+
+    if @artboard.update(status: params[:status])
+      render json: @artboard
+    else
+      render json: @artboard.errors, status: :unprocessable_entity
+    end
   end
 
   private

@@ -10,20 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160831034651) do
+ActiveRecord::Schema.define(version: 20160919172313) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "artboards", force: :cascade do |t|
     t.integer  "project_id"
-    t.string   "page_name"
+    t.string   "object_id"
     t.string   "page_object_id"
+    t.string   "page_name"
     t.string   "name"
     t.string   "slug"
-    t.string   "object_id"
+    t.integer  "status"
     t.integer  "width"
     t.integer  "height"
+    t.datetime "due_date"
+    t.string   "token"
     t.string   "image_path"
     t.json     "layers"
     t.json     "slices"
@@ -31,6 +34,15 @@ ActiveRecord::Schema.define(version: 20160831034651) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.index ["project_id"], name: "index_artboards_on_project_id", using: :btree
+  end
+
+  create_table "links", force: :cascade do |t|
+    t.integer  "artboard_id"
+    t.string   "link"
+    t.boolean  "public"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["artboard_id"], name: "index_links_on_artboard_id", using: :btree
   end
 
   create_table "notes", force: :cascade do |t|
@@ -41,6 +53,16 @@ ActiveRecord::Schema.define(version: 20160831034651) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.index ["artboard_id"], name: "index_notes_on_artboard_id", using: :btree
+  end
+
+  create_table "project_members", force: :cascade do |t|
+    t.integer  "project_id"
+    t.integer  "user_id"
+    t.boolean  "admin"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_project_members_on_project_id", using: :btree
+    t.index ["user_id"], name: "index_project_members_on_user_id", using: :btree
   end
 
   create_table "projects", force: :cascade do |t|
@@ -60,6 +82,14 @@ ActiveRecord::Schema.define(version: 20160831034651) do
     t.index ["user_id"], name: "index_projects_on_user_id", using: :btree
   end
 
+  create_table "tags", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "artboard_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["artboard_id"], name: "index_tags_on_artboard_id", using: :btree
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "provider",               default: "email", null: false
     t.string   "uid",                    default: ""
@@ -76,15 +106,27 @@ ActiveRecord::Schema.define(version: 20160831034651) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.string   "name"
+    t.string   "invitation_token"
+    t.datetime "invitation_created_at"
+    t.datetime "invitation_sent_at"
+    t.datetime "invitation_accepted_at"
+    t.integer  "invitation_limit"
+    t.integer  "invited_by_id"
+    t.string   "invited_by_type"
+    t.string   "username"
+    t.string   "firstname"
+    t.string   "lastname"
     t.string   "image"
     t.string   "email"
     t.json     "tokens"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["email"], name: "index_users_on_email", using: :btree
+    t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
   end
 
+  add_foreign_key "project_members", "projects"
+  add_foreign_key "project_members", "users"
 end

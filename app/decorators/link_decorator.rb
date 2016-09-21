@@ -1,4 +1,4 @@
-class TagDecorator < Draper::Decorator
+class LinkDecorator < Draper::Decorator
   delegate_all
 
   def to_json

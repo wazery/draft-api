@@ -1,11 +1,11 @@
 class TagsController < ApplicationController
-  before_action :set_tag, only: [:show, :update, :destroy]
+  before_action :set_tag, only: %i(show update destroy)
 
   # GET /tags
   def index
-    @tags = Tag.all
+    @tags = Artboard.find(params[:artboard_id]).tags
 
-    render json: @tags
+    render json: @tags.decorate.to_json
   end
 
   # GET /tags/1
@@ -15,13 +15,10 @@ class TagsController < ApplicationController
 
   # POST /tags
   def create
-    @tag = Tag.new(tag_params)
+    @tag = Tag.find_or_create_by(name: tag_params[:name],
+                                 artboard_id: params[:artboard_id])
 
-    if @tag.save
-      render json: @tag, status: :created, location: @tag
-    else
-      render json: @tag.errors, status: :unprocessable_entity
-    end
+    render json: @tag.decorate.to_json, status: :ok
   end
 
   # PATCH/PUT /tags/1
@@ -46,6 +43,6 @@ class TagsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def tag_params
-      params.require(:tag).permit(:name, :artboard_id)
+      params.require(:tag).permit(:name)
     end
 end

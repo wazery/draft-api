@@ -7,6 +7,7 @@ class Project < ApplicationRecord
 
   # Relations
   has_many :artboards
+  has_many :project_members, dependent: :destroy
 
   accepts_nested_attributes_for :artboards
 

@@ -3,9 +3,9 @@ class ProjectsController < ApplicationController
 
   # GET /projects
   def index
-    @projects = Project.all
+    @projects = current_user.projects
 
-    render json: @projects.to_json
+    render json: @projects.decorate.to_json, status: :ok
   end
 
   # GET /projects/project_names
