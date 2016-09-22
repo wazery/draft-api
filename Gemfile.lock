@@ -265,13 +265,14 @@ DEPENDENCIES
   byebug
   database_cleaner (~> 1.4.1)
   devise_invitable
-  devise_token_auth (~> 0.1.31.beta9)
+  devise_token_auth
   draper!
   factory_girl_rails
   figaro
   friendly_id
   listen (~> 3.0.5)
   omniauth-github
+  omniauth-oauth2
   paperclip
   pg
   puma (~> 3.0)

@@ -25,9 +25,10 @@ gem 'redis', '~> 3.0'
 gem 'rack-cors', require: 'rack/cors'
 
 # Authenication
-gem 'devise_token_auth', '~> 0.1.31.beta9'
-gem 'devise_invitable'
+gem 'devise_token_auth'
+gem 'omniauth-oauth2'
 gem 'omniauth-github'
+gem 'devise_invitable'
 
 # Environment variables managmenet
 gem 'figaro'
