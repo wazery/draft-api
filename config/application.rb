@@ -34,10 +34,7 @@ module DraftAppApi
 
     # Setup Active Job Adapter
     config.active_job.queue_adapter = :sidekiq
-
-    # Use selective stack middleware to enable the session middleware when
-    # the URL does not start with /api/
-    # config.middleware.insert_before ActionDispatch::ParamsParser, 'SelectiveStack'
+    config.session_store :cookie_store, key: '_app_session', domain: 'api.draftapp.io'
 
     # Rack Cors configuration
     config.middleware.use Rack::Cors do
