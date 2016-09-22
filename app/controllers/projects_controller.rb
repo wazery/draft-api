@@ -1,4 +1,4 @@
-class ProjectsController < ApplicationController
+class ProjectsController < BaseController
   before_action :set_project, only: %i(show create update destroy)
 
   # GET /projects

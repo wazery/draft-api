@@ -35,14 +35,6 @@ module DraftAppApi
     # Setup Active Job Adapter
     config.active_job.queue_adapter = :sidekiq
 
-    # Skip before action for SessionsController
-    config.to_prepare do
-      DeviseTokenAuth::SessionsController.skip_before_action :authenticate_user!
-      DeviseTokenAuth::RegistrationsController.skip_before_action :authenticate_user!
-      DeviseTokenAuth::PasswordsController.skip_before_action :authenticate_user!
-      DeviseTokenAuth::OmniauthCallbacksController.skip_before_action :authenticate_user!
-    end
-
     # Use selective stack middleware to enable the session middleware when
     # the URL does not start with /api/
     # config.middleware.insert_before ActionDispatch::ParamsParser, 'SelectiveStack'

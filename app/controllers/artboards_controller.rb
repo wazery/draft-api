@@ -1,4 +1,4 @@
-class ArtboardsController < ApplicationController
+class ArtboardsController < BaseController
   before_action :set_artboard, only: %i(show update destroy set_due_date set_status)
 
   # GET /artboards

@@ -1,4 +1,4 @@
-class ProjectMembersController < ApplicationController
+class ProjectMembersController < BaseController
   before_action :set_project_member, only: %i(show update destroy)
   before_action :set_project, only: %i(index create)
 

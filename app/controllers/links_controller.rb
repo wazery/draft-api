@@ -1,4 +1,4 @@
-class LinksController < ApplicationController
+class LinksController < BaseController
   before_action :set_link, only: [:show, :update, :destroy]
 
   # GET artboards/1/links
