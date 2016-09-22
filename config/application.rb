@@ -34,7 +34,6 @@ module DraftAppApi
 
     # Setup Active Job Adapter
     config.active_job.queue_adapter = :sidekiq
-    config.session_store :cookie_store, key: '_app_session', domain: 'api.draftapp.io'
 
     # Rack Cors configuration
     config.middleware.use Rack::Cors do
