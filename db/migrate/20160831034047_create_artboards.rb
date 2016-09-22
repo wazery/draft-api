@@ -12,12 +12,13 @@ class CreateArtboards < ActiveRecord::Migration[5.0]
       t.integer :height
       t.datetime :due_date
       t.string :token
-      t.string :image_path
       t.json :layers
       t.json :slices
       t.json :exportables
 
       t.timestamps
     end
+
+    add_attachment :artboards, :artboard_image
   end
 end

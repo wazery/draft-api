@@ -9,8 +9,13 @@ class Artboard < ApplicationRecord
   belongs_to :project, counter_cache: true
   # has_many :notification_logs, as: :loggable
 
+  # Attachments
+  has_attached_file :artboard_image, styles: { medium: '300x300>', thumb: '191x335>' }, default_url: '/images/:style/missing.png'
+
   # Validations
   validates :object_id, uniqueness: true
+  validates :artboard_image, attachment_presence: true
+  validates_attachment_content_type :artboard_image, content_type: /\Aimage\/.*\z/
 
   accepts_nested_attributes_for :notes
 

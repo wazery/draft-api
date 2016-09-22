@@ -79,7 +79,7 @@ class ProjectsController < BaseController
                                       :color_format,
                                       artboards_attributes: [
                                         :page_name, :page_object_id, :name, :slug, :object_id,
-                                        :width, :height, :image_path,
+                                        :width, :height, :image_path, :artboard_image,
                                         layers: [
                                           :object_id, :type, :name, :rotation, :radius, :opacity,
                                           :style_name, :font_size, :font_face, :text_align, :letter_spacing,

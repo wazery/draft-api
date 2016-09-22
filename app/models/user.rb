@@ -30,13 +30,4 @@ class User < ActiveRecord::Base
 
   # :email
   validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
-
-  # def self.from_omniauth(auth)
-  #   where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-  #     user.provider = auth.provider
-  #     user.uid      = auth.uid
-  #     user.email    = auth.info.email
-  #     user.password = Devise.friendly_token[0, 20]
-  #   end
-  # end
 end

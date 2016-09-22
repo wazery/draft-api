@@ -27,12 +27,15 @@ ActiveRecord::Schema.define(version: 20160919172313) do
     t.integer  "height"
     t.datetime "due_date"
     t.string   "token"
-    t.string   "image_path"
     t.json     "layers"
     t.json     "slices"
     t.json     "exportables"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.string   "artboard_image_file_name"
+    t.string   "artboard_image_content_type"
+    t.integer  "artboard_image_file_size"
+    t.datetime "artboard_image_updated_at"
     t.index ["project_id"], name: "index_artboards_on_project_id", using: :btree
   end
 
@@ -79,6 +82,7 @@ ActiveRecord::Schema.define(version: 20160919172313) do
     t.json     "colors"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+    t.index ["user_id", "slug"], name: "index_projects_on_user_id_and_slug", using: :btree
     t.index ["user_id"], name: "index_projects_on_user_id", using: :btree
   end
 
