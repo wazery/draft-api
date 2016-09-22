@@ -61,7 +61,10 @@ class ProjectsController < BaseController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_project
-      @project = Project.find_by(slug: project_params[:slug], user_id: current_user.id)
+      @project = Project.find_by(slug: project_params[:slug])
+      # @project = Project.find_by(slug: project_params[:slug], user_id: current_user.id)
+
+      return render json: {errors: ['Project not found!']}, status: 404 unless @project
     end
 
     def project_settings
