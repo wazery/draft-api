@@ -38,6 +38,9 @@ module DraftAppApi
     # Skip before action for SessionsController
     config.to_prepare do
       DeviseTokenAuth::SessionsController.skip_before_action :authenticate_user!
+      DeviseTokenAuth::RegistrationsController.skip_before_action :authenticate_user!
+      DeviseTokenAuth::PasswordsController.skip_before_action :authenticate_user!
+      DeviseTokenAuth::OmniauthCallbacksController.skip_before_action :authenticate_user!
     end
 
     # Use selective stack middleware to enable the session middleware when
