@@ -25,7 +25,7 @@ gem 'redis', '~> 3.0'
 gem 'rack-cors', require: 'rack/cors'
 
 # Authenication
-gem 'devise_token_auth', github: 'lynndylanhurley/devise_token_auth'
+gem 'devise_token_auth', '~> 0.1.31.beta9'
 gem 'devise_invitable'
 gem 'omniauth-github'
 
@@ -37,6 +37,9 @@ gem 'draper', github: 'drapergem/draper', branch: 'support-rails-api'
 
 # Slugging
 gem 'friendly_id'
+
+# Image uploads
+gem 'paperclip'
 
 # Documentation
 gem 'yard'
