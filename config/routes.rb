@@ -8,7 +8,6 @@ Rails.application.routes.draw do
   resources :projects do
     get :project_names, on: :collection
 
-    resources :project_members
     resources :artboards do
       resources :notes
       resources :tags
