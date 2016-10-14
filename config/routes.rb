@@ -5,6 +5,8 @@ Rails.application.routes.draw do
 
   match 'pong', to: 'misc#pong', via: :post
 
+  resources :beta_requesters
+
   resources :invites
   resources :projects do
     get :project_names, on: :collection
