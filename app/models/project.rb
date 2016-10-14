@@ -6,8 +6,9 @@ class Project < ApplicationRecord
   SETTINGS = %i(slug scale unit color_format)
 
   # Relations
+  has_many :users
   has_many :artboards
-  has_many :project_members, dependent: :destroy
+  has_one :team, dependent: :destroy
 
   accepts_nested_attributes_for :artboards
 

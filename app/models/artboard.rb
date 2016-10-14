@@ -10,7 +10,8 @@ class Artboard < ApplicationRecord
   # has_many :notification_logs, as: :loggable
 
   # Attachments
-  has_attached_file :artboard_image, styles: { medium: '300x300>', thumb: '191x335>' }, default_url: '/images/:style/missing.png'
+  has_attached_file :artboard_image, styles: { thumb: '191x335>' },
+    processors: %i(thumbnail compression)
 
   # Validations
   validates :object_id, uniqueness: true

@@ -41,6 +41,7 @@ gem 'friendly_id'
 
 # Image uploads
 gem 'paperclip'
+gem 'paperclip-compression'
 
 # Documentation
 gem 'yard'

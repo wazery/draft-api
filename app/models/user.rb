@@ -1,12 +1,18 @@
 class User < ActiveRecord::Base
   devise :database_authenticatable, :recoverable,
-    :trackable, :validatable, :registerable, :invitable,
-    :omniauthable
+    :trackable, :validatable, :registerable,
+    :omniauthable # TODO: :confirmable, :invitable
 
   include DeviseTokenAuth::Concerns::User
 
-  has_many :projects
-  has_many :project_members, dependent: :destroy
+  has_many :invitations, class_name: 'Invite', foreign_key: 'recipient_id'
+  has_many :sent_invites, class_name: 'Invite', foreign_key: 'sender_id'
+
+  has_many :memberships
+  has_many :teams, through: :memberships
+  has_many :projects, through: :teams
+
+  # Delegations
 
   # # Use friendly_id on Users
   # extend FriendlyId
@@ -30,4 +36,5 @@ class User < ActiveRecord::Base
 
   # :email
   validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
+  validates :email, uniqueness: true
 end

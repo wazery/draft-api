@@ -35,6 +35,13 @@ module DraftAppApi
     # Setup Active Job Adapter
     config.active_job.queue_adapter = :sidekiq
 
+    # Filter long parameters like base64 images
+    config.filter_parameters << lambda do |k, v|
+      if v && v.class == String && v.length > 1024
+        v.replace('[FILTERED BASE64]')
+      end
+    end
+
     # Rack Cors configuration
     config.middleware.use Rack::Cors do
       allow do

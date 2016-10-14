@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160919172313) do
+ActiveRecord::Schema.define(version: 20160929183107) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,19 @@ ActiveRecord::Schema.define(version: 20160919172313) do
     t.index ["project_id"], name: "index_artboards_on_project_id", using: :btree
   end
 
+  create_table "invites", force: :cascade do |t|
+    t.string   "email"
+    t.integer  "team_id"
+    t.integer  "sender_id"
+    t.integer  "recipient_id"
+    t.string   "token"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["recipient_id"], name: "index_invites_on_recipient_id", using: :btree
+    t.index ["sender_id"], name: "index_invites_on_sender_id", using: :btree
+    t.index ["team_id"], name: "index_invites_on_team_id", using: :btree
+  end
+
   create_table "links", force: :cascade do |t|
     t.integer  "artboard_id"
     t.string   "link"
@@ -56,16 +69,6 @@ ActiveRecord::Schema.define(version: 20160919172313) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.index ["artboard_id"], name: "index_notes_on_artboard_id", using: :btree
-  end
-
-  create_table "project_members", force: :cascade do |t|
-    t.integer  "project_id"
-    t.integer  "user_id"
-    t.boolean  "admin"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["project_id"], name: "index_project_members_on_project_id", using: :btree
-    t.index ["user_id"], name: "index_project_members_on_user_id", using: :btree
   end
 
   create_table "projects", force: :cascade do |t|
@@ -132,6 +135,4 @@ ActiveRecord::Schema.define(version: 20160919172313) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
   end
 
-  add_foreign_key "project_members", "projects"
-  add_foreign_key "project_members", "users"
 end

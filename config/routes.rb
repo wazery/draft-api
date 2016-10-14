@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   match 'pong', to: 'misc#pong', via: :post
 
+  resources :invites
   resources :projects do
     get :project_names, on: :collection
 
@@ -19,6 +20,7 @@ Rails.application.routes.draw do
   end
 
   mount_devise_token_auth_for 'User', at: 'auth'
+
   scope :api do
     # resources :users, only: %i(show update)
     # resource :sessions, only: %i(create show destroy)

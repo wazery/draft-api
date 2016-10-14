@@ -13,7 +13,7 @@ class ProjectsController < BaseController
   def project_names
     @projects = current_user.projects
 
-    render json: @projects.map { |project| { name: project.name, slug: project.slug } }
+    render json: @projects.map { |project| { name: project.name, slug: project.slug } }, status: 200
   end
 
   # GET /projects/1
@@ -40,6 +40,7 @@ class ProjectsController < BaseController
       render json: @project.errors, status: :unprocessable_entity && return unless @project.save
     end
 
+    # TODO: Return the location of the project sharing link
     render json: @project, status: :created, location: @project
   end
 
@@ -61,10 +62,12 @@ class ProjectsController < BaseController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_project
-      @project = Project.find_by(slug: project_params[:slug])
-      # @project = Project.find_by(slug: project_params[:slug], user_id: current_user.id)
+      # @project = Project.find_by(slug: project_params[:slug]) # TODO: Remove this
+      return render json: { errors: ['Please open Draft and create a project!'] }, status: 422 if project_params[:slug] == 'empty'
 
-      return render json: {errors: ['Project not found!']}, status: 404 unless @project
+      @project = Project.find_by(slug: project_params[:slug], user_id: current_user.id)
+
+      return render json:  { errors: ['Project not found!'] }, status: 404 unless @project
     end
 
     def project_settings
