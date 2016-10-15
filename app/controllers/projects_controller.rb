@@ -60,81 +60,81 @@ class ProjectsController < BaseController
 
   private
 
-    # Use callbacks to share common setup or constraints between actions.
-    def set_project
-      # @project = Project.find_by(slug: project_params[:slug]) # TODO: Remove this
-      return render json: { errors: ['Please open Draft and create a project!'] }, status: 422 if project_params[:slug] == 'empty'
+  # Use callbacks to share common setup or constraints between actions.
+  def set_project
+    # @project = Project.find_by(slug: project_params[:slug]) # TODO: Remove this
+    return render json: { errors: ['Please open Draft and create a project!'] }, status: 422 if project_params[:slug] == 'empty'
 
-      @project = Project.find_by(slug: project_params[:slug], user_id: current_user.id)
+    @project = Project.find_by(slug: project_params[:slug], user_id: current_user.id)
 
-      return render json:  { errors: ['Project not found!'] }, status: 404 unless @project
-    end
+    return render json:  { errors: ['Project not found!'] }, status: 404 unless @project
+  end
 
-    def project_settings
-      project_params.select { |key| key.to_sym.in? Project::SETTINGS }
-    end
+  def project_settings
+    project_params.select { |key| key.to_sym.in? Project::SETTINGS }
+  end
 
-    # Only allow a trusted parameter 'white list' through.
-    def project_params
-      params.require(:project).permit(:slug,
-                                      :scale,
-                                      :unit,
-                                      :color_format,
-                                      artboards_attributes: [
-                                        :page_name, :page_object_id, :name, :slug, :object_id,
-                                        :width, :height, :image_path, :artboard_image,
-                                        layers: [
-                                          :object_id, :type, :name, :rotation, :radius, :opacity,
-                                          :style_name, :font_size, :font_face, :text_align, :letter_spacing,
-                                          :line_height, :content, rect: [
-                                            :x, :y, :width, :height
-                                          ], css: [], borders: [
-                                            :fill_type, :position, :thickness,
-                                            color: [
-                                              :r, :g, :b, :a, :color_hex, :argb_hex, :css_rgba, :ui_color
+  # Only allow a trusted parameter 'white list' through.
+  def project_params
+    params.require(:project).permit(:slug,
+                                    :scale,
+                                    :unit,
+                                    :color_format,
+                                    artboards_attributes: [
+                                      :page_name, :page_object_id, :name, :slug, :object_id,
+                                      :width, :height, :image_path, :artboard_image,
+                                      layers: [
+                                        :object_id, :type, :name, :rotation, :radius, :opacity,
+                                        :style_name, :font_size, :font_face, :text_align, :letter_spacing,
+                                        :line_height, :content, rect: [
+                                          :x, :y, :width, :height
+                                        ], css: [], borders: [
+                                          :fill_type, :position, :thickness,
+                                          color: [
+                                            :r, :g, :b, :a, :color_hex, :argb_hex, :css_rgba, :ui_color
+                                          ]
+                                        ],
+                                        fills: [
+                                          :fill_type, gradient: [
+                                            :type, from: [:x, :y], to: [:x, :y],
+                                            color_stops: [
+                                              :position,
+                                              color: [
+                                                :r, :g, :b, :a, :color_hex, :argb_hex, :css_rgba, :ui_color
+                                              ]
                                             ]
                                           ],
-                                          fills: [
-                                            :fill_type, gradient: [
-                                              :type, from: [:x, :y], to: [:x, :y],
-                                              color_stops: [
-                                                :position,
-                                                color: [
-                                                :r, :g, :b, :a, :color_hex, :argb_hex, :css_rgba, :ui_color
-                                                ]
-                                              ]
-                                            ],
-                                            color: [
-                                              :r, :g, :b, :a, :color_hex, :argb_hex, :css_rgba, :ui_color
-                                            ],
-                                          ], shadows: [], color: [
+                                          color: [
                                             :r, :g, :b, :a, :color_hex, :argb_hex, :css_rgba, :ui_color
+                                          ],
+                                        ], shadows: [], color: [
+                                          :r, :g, :b, :a, :color_hex, :argb_hex, :css_rgba, :ui_color
                                           ], exportable: [
                                             :name, :density, :format, :path
                                           ]
-                                        ],
-                                        notes_attributes: [
-                                          :object_id,
-                                          :note,
-                                          rect: [
-                                            :x, :y, :width, :height
-                                          ]
-                                        ]
                                       ],
-                                      slices: [
-                                        :name, :object_id,
+                                      notes_attributes: [
+                                        :object_id,
+                                        :note,
                                         rect: [
                                           :x, :y, :width, :height
-                                        ],
-                                        exportable: [
-                                          :name, :density, :format, :path
-                                        ]
-                                      ],
-                                      colors: [
-                                        :name, color: [
-                                          :r, :g, :b, :a, :color_hex, :argb_hex, :css_rgba, :ui_color
                                         ]
                                       ]
-                                     )
-    end
+                                    ],
+                                    slices: [
+                                      :name, :object_id,
+                                      rect: [
+                                        :x, :y, :width, :height
+                                      ],
+                                      exportable: [
+                                        :name, :density, :format, :path
+                                      ]
+                                    ],
+                                    colors: [
+                                      :name, color: [
+                                        :r, :g, :b, :a, :color_hex, :argb_hex, :css_rgba, :ui_color
+                                      ]
+                                    ]
+                                   )
+  end
 end

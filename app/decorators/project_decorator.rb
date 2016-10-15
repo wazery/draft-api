@@ -7,6 +7,8 @@ class ProjectDecorator < Draper::Decorator
     ret[:slices]    = slices # FIXME: Needs to be moved to artboards
     ret[:colors]    = colors
 
+    ret[:team_id]   = team.id
+
     ret
   end
 

@@ -1,5 +1,5 @@
 class InvitesController < ApplicationController
-  before_action :set_invite, only: [:show, :update, :destroy]
+  before_action :set_invite, only: %i(show update destroy)
 
   # GET /invites
   def index
@@ -58,6 +58,6 @@ class InvitesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def invite_params
-      params.require(:invite).permit(:email, :user_group, :sender, :recipient, :token)
+      params.require(:invite).permit(:email, :team_id, :sender_id, :recipient_idt, :token)
     end
 end
