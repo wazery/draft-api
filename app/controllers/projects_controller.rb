@@ -2,7 +2,7 @@ class ProjectsController < BaseController
   before_action :set_project, only: %i(show create update destroy)
 
   def_param_group :project do
-    param :project, Hash do
+    param :project, Hash, required: true do
       param :slug, String, desc: 'Project slug', required: true
     end
   end
@@ -128,16 +128,45 @@ class ProjectsController < BaseController
     render json: @project.decorate.to_json.deep_transform_keys { |k| k.to_s.camelize(:lower) }, status: :created, location: @project
   end
 
-  # PATCH/PUT /projects/1
+  ################# Documentation ##############################################
+  api :PUT, '/projects/:id', 'Returns the updated project'
+  example <<-EOS
+    {
+      id:
+      name:
+      slug:
+      platform:
+      thumb:
+      scale:
+      unit:
+      colorFormat:
+      artboardsCount:
+      slices:
+      colors:
+      artboards:
+      teamId:
+    }
+  EOS
+  param_group :project
+  error code: 401, desc: 'Authentication failed'
+  error code: 422, desc: 'Please open Draft and create a project!'
+  error code: 404, desc: 'Project not found'
+  ################# /Documentation #############################################
   def update
     if @project.update(project_params)
-      render json: @project
+      render json: @project.decorate.to_json.deep_transform_keys { |k| k.to_s.camelize(:lower) }
     else
       render json: @project.errors, status: :unprocessable_entity
     end
   end
 
-  # DELETE /projects/1
+  ################# Documentation ##############################################
+  api :DELETE, '/projects/:id', 'Does not return anything'
+  param_group :project
+  error code: 401, desc: 'Authentication failed'
+  error code: 422, desc: 'Please open Draft and create a project!'
+  error code: 404, desc: 'Project not found'
+  ################# /Documentation #############################################
   def destroy
     @project.destroy
   end
