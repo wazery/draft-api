@@ -1,13 +1,6 @@
 class BetaRequestersController < ApplicationController
   before_action :set_beta_requester, only: %i(confirm_request destroy)
 
-  # GET /beta_requesters
-  def index
-    @beta_requesters = BetaRequester.all
-
-    render json: @beta_requesters
-  end
-
   # POST /beta_requesters
   def create
     @beta_requester = BetaRequester.new(full_name: params[:full_name],
