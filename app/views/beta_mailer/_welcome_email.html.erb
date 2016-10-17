@@ -177,6 +177,82 @@
 			<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable" style="table-layout: fixed;max-width:100% !important;width: 100% !important;min-width: 100% !important;">
 				<tr>
 					<td align="center" valign="top" id="bodyCell">
+
+            <% unless from_browser %>
+						<!-- EMAIL HEADER // -->
+						<!--
+							The table "emailBody" is the email's container.
+							Its width can be set to 100% for a color band
+							that spans the width of the page.
+						-->
+						<table bgcolor="#E1E1E1" border="0" cellpadding="0" cellspacing="0" width="700" id="emailHeader">
+
+							<!-- HEADER ROW // -->
+							<tr>
+								<td align="center" valign="top">
+									<!-- CENTERING TABLE // -->
+									<table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tr>
+											<td align="center" valign="top">
+												<!-- FLEXIBLE CONTAINER // -->
+												<table border="0" cellpadding="10" cellspacing="0" width="700" class="flexibleContainer">
+													<tr>
+														<td valign="top" width="700" class="flexibleContainerCell">
+
+															<!-- CONTENT TABLE // -->
+															<table align="left" border="0" cellpadding="0" cellspacing="0" width="100%">
+																<tr>
+																	<!--
+																		The "invisibleIntroduction" is the text used for short preview
+																		of the email before the user opens it (50 characters max). Sometimes,
+																		you do not want to show this message depending on your design but this
+																		text is highly recommended.
+
+																		You do not have to worry if it is hidden, the next <td> will automatically
+																		center and apply to the width 100% and also shrink to 50% if the first <td>
+																		is visible.
+																	-->
+																	<td align="left" valign="middle" id="invisibleIntroduction" class="flexibleContainerBox" style="display:none !important; mso-hide:all;">
+																		<table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:100%;">
+																			<tr>
+																				<td align="left" class="textContent">
+																					<div style="font-family:'Poppins',Arial,sans-serif;font-size:13px;color:#828282;text-align:center;line-height:120%;">
+																						Thank you for subscribing to Draft's private beta.
+																					</div>
+																				</td>
+																			</tr>
+																		</table>
+																	</td>
+																	<td align="right" valign="middle" class="flexibleContainerBox">
+																		<table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:100%;">
+																			<tr>
+																				<td align="left" class="textContent">
+																					<!-- CONTENT // -->
+																					<div style="font-family:'Poppins',Arial,sans-serif;font-size:13px;color:#828282;text-align:center;line-height:120%;">
+                                            If you can't see this message, <%= link_to 'view it in your browser', beta_welcome_email_url(email: beta_requester.email), target: "_blank", style: "text-decoration:none;border-bottom:1px solid #828282;color:#828282;" %>.
+																					</div>
+																				</td>
+																			</tr>
+																		</table>
+																	</td>
+																</tr>
+															</table>
+														</td>
+													</tr>
+												</table>
+												<!-- // FLEXIBLE CONTAINER -->
+											</td>
+										</tr>
+									</table>
+									<!-- // CENTERING TABLE -->
+								</td>
+							</tr>
+							<!-- // END -->
+              <% end %>
+
+						</table>
+						<!-- // END -->
+
 						<!-- EMAIL BODY // -->
 						<!--
 							The table "emailBody" is the email's container.
@@ -266,13 +342,11 @@
 																		<table border="0" cellpadding="0" cellspacing="0" width="100%">
 																			<tr>
 																				<td valign="top" class="textContent">
-                                          <% if confirmed %>
-                                          <div style="text-align:center;font-family:'Poppins',Arial,sans-serif;font-size:15px;margin-bottom:0;margin-top:3px;color:#5F5F5F;line-height:135%;">Thank you for subscribing, we really appreciate it. <br> Your subscritpion now is <strong>confirmed</strong>, and we will let you know once the beta is ready!</div>
-                                          <% else %>
-                                          <div style="text-align:center;font-family:'Poppins',Arial,sans-serif;font-size:15px;margin-bottom:0;margin-top:3px;color:#5F5F5F;line-height:135%;">We are sorry, but the token is expired, please re-subscribe!</div>
-                                          <% end %>
+																					<div style="text-align:center;font-family:'Poppins',Arial,sans-serif;font-size:15px;margin-bottom:0;margin-top:3px;color:#5F5F5F;line-height:135%;">Thank you for subscribing, we really appreciate it. <br> When Draft is ready we will notify you so you're one of the first to <br> get your hands on Draft.</div>
                                           <br>
-                              <div style="text-align:center;font-family:'Poppins',Arial,sans-serif;font-size:15px;margin-bottom:0;margin-top:3px;color:#5F5F5F;line-height:135%;">Best Regards, <br> Draft Team - Happy Collaboration!</div>
+																					<div style="text-align:center;font-family:'Poppins',Arial,sans-serif;font-size:15px;margin-bottom:0;margin-top:3px;color:#5F5F5F;line-height:135%;">At this moment, we're working on releasing a private beta version of Draft.</div>
+                                          <br>
+                                          <div style="text-align:center;font-family:'Poppins',Arial,sans-serif;font-size:15px;margin-bottom:0;margin-top:3px;color:#5F5F5F;line-height:135%;">Do you love our idea and want to help us perfect Draft? <br> Don't hesitate to <a href="http://draftapp.io/contact" style="color:#4e8ef7;">let us know</a>
 </div>																				</td>
 																			</tr>
 																		</table>
@@ -281,6 +355,43 @@
 																	</td>
 																</tr>
 															</table>
+														</td>
+													</tr>
+												</table>
+												<!-- // FLEXIBLE CONTAINER -->
+											</td>
+										</tr>
+									</table>
+									<!-- // CENTERING TABLE -->
+								</td>
+							</tr>
+							<!-- // MODULE ROW -->
+
+
+							<!-- MODULE ROW // -->
+							<tr>
+								<td align="center" valign="top">
+									<!-- CENTERING TABLE // -->
+									<table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tr style="padding-top:0;">
+											<td align="center" valign="top">
+												<!-- FLEXIBLE CONTAINER // -->
+												<table border="0" cellpadding="30" cellspacing="0" width="700" class="flexibleContainer">
+													<tr>
+														<td style="padding-top:0;" align="center" valign="top" width="700" class="flexibleContainerCell">
+
+															<!-- CONTENT TABLE // -->
+															<table border="0" cellpadding="0" cellspacing="0" width="50%" class="emailButton" style="background-color: #4e8ef7;border-radius: 4px;">
+																<tr>
+																	<td align="center" valign="middle" class="buttonContent" style="padding-top:15px;padding-bottom:15px;padding-right:15px;padding-left:15px;">
+																		<%= link_to 'Confirm Your Subscription', confirm_request_beta_requester_url(beta_requester, confirmation_token: beta_requester.confirmation_token), style: "color:#FFFFFF;border-radius:4px;text-decoration:none;font-family:'Poppins',Arial,sans-serif;font-size:20px;line-height:135%;", target: "_blank" %>
+																	</td>
+																</tr>
+															</table>
+                              <br>
+                              <div style="text-align:center;font-family:'Poppins',Arial,sans-serif;font-size:15px;margin-bottom:0;margin-top:3px;color:#5F5F5F;line-height:135%;">Best Regards, <br> Draft Team - Happy Collaboration!</div>
+															<!-- // CONTENT TABLE -->
+
 														</td>
 													</tr>
 												</table>
@@ -326,7 +437,7 @@
 
 																		<div style="font-family:'Poppins',Arial,sans-serif;font-size:13px;color:#828282;text-align:center;line-height:120%;">
 																			<div>Copyright &#169; 2016 <a href="http://draftapp.io" target="_blank" style="text-decoration:none;color:#828282;"><span style="color:#828282;">Draft</span></a>. All&nbsp;rights&nbsp;reserved.</div>
-																			<div>If you do not want to recieve emails from us, you can <%= link_to 'unsubscribe', beta_requester_path(beta_requester), method: :delete, remote: true, target: '_blank', style: 'text-decoration:none;color:#828282;' %>.</div>
+																			<div>If you do not want to recieve emails from us, you can <%= link_to 'unsubscribe', beta_requester_url(beta_requester, confirmation_token: beta_requester.confirmation_token), method: :delete, remote: true, target: '_blank', style: 'text-decoration:none;color:#828282;' %>.</div>
 																		</div>
 
 																	</td>

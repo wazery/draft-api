@@ -30,9 +30,9 @@ class BetaRequestersController < ApplicationController
     @beta_requester.confirmed_at = Time.now
 
     if @beta_requester.save
-      render template: 'beta_mailer/confirmed.html.erb', locals: { confirmed: true, beta_requester: @beta_requester }
+      render template: 'beta_mailer/confirmed', locals: { confirmed: true, beta_requester: @beta_requester }
     else
-      render template: 'beta_mailer/confirmed.html.erb', locals: { confirmed: false, beta_requester: @beta_requester }
+      render template: 'beta_mailer/confirmed', locals: { confirmed: false, beta_requester: @beta_requester }
     end
   end
 
