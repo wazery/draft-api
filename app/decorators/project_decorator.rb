@@ -15,7 +15,7 @@ class ProjectDecorator < Draper::Decorator
   def to_index_json
     ret = as_json(except: %i(updated_at slices colors))
 
-    ret[:members] = members.decorate.to_json
+    ret[:team] = team.decorate.to_json
 
     ret
   end

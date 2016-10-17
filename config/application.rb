@@ -18,6 +18,9 @@ Bundler.require(*Rails.groups)
 
 module DraftAppApi
   class Application < Rails::Application
+    HTTP_AUTH_USERNAME = 'draft_docs_admin'
+    HTTP_AUTH_PASSWORD = 'dr@ft$app%io'
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

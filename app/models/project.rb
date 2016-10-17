@@ -13,7 +13,7 @@ class Project < ApplicationRecord
   accepts_nested_attributes_for :artboards
 
   # Validations
-  validates_uniqueness_of :name, scope: :user_id
+  # validates_uniqueness_of :name
 
   def update_settings(project_settings)
     return if settings_match?(project_settings)

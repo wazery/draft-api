@@ -1,7 +1,39 @@
 class ProjectsController < BaseController
   before_action :set_project, only: %i(show create update destroy)
 
-  # GET /projects
+  ################# Documentation ##############################################
+  api :GET, '/projects', 'Returns all projects for user'
+  description <<-EOS
+    returns: [
+      {
+        id:
+        name:
+        slug:
+        platform:
+        thumb:
+        scale:
+        unit:
+        color_format:
+        artboards_count:
+        created_at:
+        team: {
+          id:
+          project_id:
+          users: [
+            {
+              "name": null,
+              "image": null,
+              "email": "wazery@ubuntu.com"
+            }
+          ]
+        }
+      }
+    ]
+  EOS
+  error code: 401, desc: 'Authentication failed'
+  error code: 422, desc: 'Please open Draft and create a project!'
+  error code: 404, desc: 'Project not found'
+  ################# /Documentation #############################################
   def index
     @projects = current_user.projects
 
@@ -16,12 +48,55 @@ class ProjectsController < BaseController
     render json: @projects.map { |project| { name: project.name, slug: project.slug } }, status: 200
   end
 
-  # GET /projects/1
+  ################# Documentation ##############################################
+  api :GET, '/projects/:id', 'Returns the specified project'
+  description <<-EOS
+    returns: {
+      id:
+      name:
+      slug:
+      platform:
+      thumb:
+      scale:
+      unit:
+      colorFormat:
+      artboardsCount:
+      slices:
+      colors:
+      artboards:
+      teamId:
+    }
+  EOS
+  error code: 401, desc: 'Authentication failed'
+  error code: 422, desc: 'Please open Draft and create a project!'
+  error code: 404, desc: 'Project not found'
+  ################# /Documentation #############################################
   def show
     render json: @project.decorate.to_json.deep_transform_keys { |k| k.to_s.camelize(:lower) }
   end
 
-  # POST /projects
+  ################# Documentation ##############################################
+  api :POST, '/projects', 'Returns the created project or the errors'
+  description <<-EOS
+    returns: {
+      id:
+      name:
+      slug:
+      platform:
+      thumb:
+      scale:
+      unit:
+      colorFormat:
+      artboardsCount:
+      slices:
+      colors:
+      artboards:
+      teamId:
+    }
+  EOS
+  error code: 401, desc: 'Authentication failed'
+  error code: 404, desc: 'Project not found'
+  ################# /Documentation #############################################
   def create
     if @project
       @project.update_settings(project_settings)
@@ -35,13 +110,14 @@ class ProjectsController < BaseController
       @project.save
     else
       @project = Project.new(project_params)
-      @project.user_id = current_user.id
+      team = Team.create(project_id: @project.id)
+      Membership.create(project_id: @project.id, team_id: team.id)
 
       render json: @project.errors, status: :unprocessable_entity && return unless @project.save
     end
 
     # TODO: Return the location of the project sharing link
-    render json: @project, status: :created, location: @project
+    render json: @project.decorate.to_json.deep_transform_keys { |k| k.to_s.camelize(:lower) }, status: :created, location: @project
   end
 
   # PATCH/PUT /projects/1

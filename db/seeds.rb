@@ -1,15 +1,13 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+user1 = User.create(email: 'wazery@ubuntu.com', password: '123456789')
 
-p 'Seeding Draft...'
+project1 = Project.create(name: 'TopCoder', scale: '1', unit: 'pt', color_format: 'Hex')
 
-User.create(email: 'wazery@ubuntu.com', password: '123456789')
-# Project.create(name: 'TopCoder', scale: '1', unit: 'pt', color_format: 'Hex', user_id: 1)
-# Project.create(name: 'Apple Pay', scale: '2', unit: 'px', color_format: 'HRGBA', user_id: 1)
+team1 = Team.create(project_id: project1.id)
+Membership.create(user_id: user1.id, team_id: team1.id)
+
+project2 = Project.create(name: 'Apple Pay', scale: '2', unit: 'px', color_format: 'HRGBA')
+
+team2 = Team.create(project_id: project2.id)
+Membership.create(user_id: user1.id, team_id: team2.id)
 
 p 'Seeding Finished!'
