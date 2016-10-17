@@ -25,7 +25,6 @@ class ProjectsController < BaseController
         created_at:
         team: {
           id:
-          project_id:
           users: [
             {
               name:
