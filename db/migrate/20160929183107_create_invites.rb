@@ -11,8 +11,8 @@ class CreateInvites < ActiveRecord::Migration[5.0]
 
       t.index :email
       t.index :token
-      t.index :sender_id
-      t.index :recipient_id
+      # t.index :sender_id
+      # t.index :recipient_id
     end
   end
 end

@@ -4,8 +4,11 @@ Rails.application.routes.draw do
   root to: 'misc#ping'
 
   match 'pong', to: 'misc#pong', via: :post
+  match 'beta_welcome_email', to: 'mails_viewer#welcome_email', via: :get
 
-  resources :beta_requesters
+  resources :beta_requesters do
+    get :confirm_request, on: :member, param: :confirmation_token
+  end
 
   resources :invites
   resources :projects do

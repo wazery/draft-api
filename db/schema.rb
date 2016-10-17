@@ -42,8 +42,10 @@ ActiveRecord::Schema.define(version: 20161015000520) do
   create_table "beta_requesters", force: :cascade do |t|
     t.string   "full_name"
     t.string   "email"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
   end
 
   create_table "invites", force: :cascade do |t|
@@ -54,9 +56,11 @@ ActiveRecord::Schema.define(version: 20161015000520) do
     t.string   "token"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.index ["email"], name: "index_invites_on_email", using: :btree
     t.index ["recipient_id"], name: "index_invites_on_recipient_id", using: :btree
     t.index ["sender_id"], name: "index_invites_on_sender_id", using: :btree
     t.index ["team_id"], name: "index_invites_on_team_id", using: :btree
+    t.index ["token"], name: "index_invites_on_token", using: :btree
   end
 
   create_table "links", force: :cascade do |t|
@@ -86,7 +90,6 @@ ActiveRecord::Schema.define(version: 20161015000520) do
   end
 
   create_table "projects", force: :cascade do |t|
-    t.integer  "user_id"
     t.string   "name"
     t.string   "slug"
     t.string   "platform"
@@ -99,8 +102,7 @@ ActiveRecord::Schema.define(version: 20161015000520) do
     t.json     "colors"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
-    t.index ["user_id", "slug"], name: "index_projects_on_user_id_and_slug", using: :btree
-    t.index ["user_id"], name: "index_projects_on_user_id", using: :btree
+    t.index ["slug"], name: "index_projects_on_slug", using: :btree
   end
 
   create_table "tags", force: :cascade do |t|

@@ -3,4 +3,10 @@ class BetaRequester < ApplicationRecord
   validates :email, uniqueness: true
   validates :email, presence: true
   validates :full_name, presence: true
+
+  before_create :generate_token
+
+  def generate_token
+    self.confirmation_token = Digest::SHA1.hexdigest([id, Time.now, rand].join)
+  end
 end

@@ -15,6 +15,6 @@ class CreateProjects < ActiveRecord::Migration[5.0]
       t.timestamps
     end
 
-    add_index :projects, %i(user_id slug)
+    add_index :projects, %i(slug)
   end
 end

@@ -1,5 +1,5 @@
 class BetaRequestersController < ApplicationController
-  before_action :set_beta_requester, only: [:show, :update, :destroy]
+  before_action :set_beta_requester, only: %i(confirm_request destroy)
 
   # GET /beta_requesters
   def index
@@ -8,30 +8,31 @@ class BetaRequestersController < ApplicationController
     render json: @beta_requesters
   end
 
-  # GET /beta_requesters/1
-  def show
-    render json: @beta_requester
-  end
-
   # POST /beta_requesters
   def create
-    @beta_requester = BetaRequester.new(beta_requester_params)
+    @beta_requester = BetaRequester.new(full_name: params[:full_name],
+                                        email: params[:email])
 
     if @beta_requester.save
       BetaMailer.welcome_email(@beta_requester).deliver
 
-      render json: @beta_requester, status: :created, location: @beta_requester
+      redirect_to 'http://draftapp.io'
+      # render json: @beta_requester, status: :created, location: @beta_requester
     else
       render json: @beta_requester.errors, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /beta_requesters/1
-  def update
-    if @beta_requester.update(beta_requester_params)
-      render json: @beta_requester
+  def confirm_request
+    return unless @beta_requester
+    return if @beta_requester.confirmed_at || @beta_requester.confirmation_token != params[:confirmation_token]
+
+    @beta_requester.confirmed_at = Time.now
+
+    if @beta_requester.save
+      render template: 'beta_mailer/confirmed.html.erb', locals: { confirmed: true, beta_requester: @beta_requester }
     else
-      render json: @beta_requester.errors, status: :unprocessable_entity
+      render template: 'beta_mailer/confirmed.html.erb', locals: { confirmed: false, beta_requester: @beta_requester }
     end
   end
 
@@ -41,13 +42,9 @@ class BetaRequestersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_beta_requester
-      @beta_requester = BetaRequester.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def beta_requester_params
-      params.require(:beta_requester).permit(:full_name, :email)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_beta_requester
+    @beta_requester = BetaRequester.find_by(confirmation_token: params[:confirmation_token])
+  end
 end
