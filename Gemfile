@@ -46,6 +46,7 @@ gem 'paperclip-compression'
 # Documentation
 gem 'yard'
 gem 'apipie-rails'
+gem 'maruku'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

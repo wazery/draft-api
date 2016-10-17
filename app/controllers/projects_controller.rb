@@ -1,10 +1,17 @@
 class ProjectsController < BaseController
   before_action :set_project, only: %i(show create update destroy)
 
+  def_param_group :project do
+    param :project, Hash do
+      param :slug, String, desc: 'Project slug', required: true
+    end
+  end
+
   ################# Documentation ##############################################
   api :GET, '/projects', 'Returns all projects for user'
-  description <<-EOS
-    returns: [
+  param_group :project
+  example <<-EOS
+    [
       {
         id:
         name:
@@ -21,9 +28,9 @@ class ProjectsController < BaseController
           project_id:
           users: [
             {
-              "name": null,
-              "image": null,
-              "email": "wazery@ubuntu.com"
+              name:
+              image:
+              email:
             }
           ]
         }
@@ -50,8 +57,8 @@ class ProjectsController < BaseController
 
   ################# Documentation ##############################################
   api :GET, '/projects/:id', 'Returns the specified project'
-  description <<-EOS
-    returns: {
+  example <<-EOS
+    {
       id:
       name:
       slug:
@@ -67,6 +74,7 @@ class ProjectsController < BaseController
       teamId:
     }
   EOS
+  param_group :project
   error code: 401, desc: 'Authentication failed'
   error code: 422, desc: 'Please open Draft and create a project!'
   error code: 404, desc: 'Project not found'
@@ -77,8 +85,8 @@ class ProjectsController < BaseController
 
   ################# Documentation ##############################################
   api :POST, '/projects', 'Returns the created project or the errors'
-  description <<-EOS
-    returns: {
+  example <<-EOS
+    {
       id:
       name:
       slug:
@@ -94,6 +102,7 @@ class ProjectsController < BaseController
       teamId:
     }
   EOS
+  param_group :project
   error code: 401, desc: 'Authentication failed'
   error code: 404, desc: 'Project not found'
   ################# /Documentation #############################################
