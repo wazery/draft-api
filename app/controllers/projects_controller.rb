@@ -74,12 +74,14 @@ class ProjectsController < BaseController
     }
   EOS
   param_group :project
+  param :page, Integer, desc: 'Artboards page', required: false
   error code: 401, desc: 'Authentication failed'
   error code: 422, desc: 'Please open Draft and create a project!'
   error code: 404, desc: 'Project not found'
   ################# /Documentation #############################################
   def show
-    render json: @project.decorate.to_json.deep_transform_keys { |k| k.to_s.camelize(:lower) }
+    render json: @project.decorate.to_json(page: params[:page])
+      .deep_transform_keys { |k| k.to_s.camelize(:lower) }
   end
 
   ################# Documentation ##############################################
