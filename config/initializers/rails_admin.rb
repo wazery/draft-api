@@ -17,7 +17,7 @@ RailsAdmin.config do |config|
   ## == PaperTrail ==
   # config.audit_with :paper_trail, 'User', 'PaperTrail::Version' # PaperTrail >= 3.0.0
 
-  config.authenticate_with do |controller|
+  config.authenticate_with do
     authenticate_or_request_with_http_basic do |username, password|
       [username, password] == [DraftAppApi::Application::HTTP_AUTH_USERNAME, DraftAppApi::Application::HTTP_AUTH_PASSWORD]
     end
