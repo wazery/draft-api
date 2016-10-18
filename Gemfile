@@ -43,6 +43,9 @@ gem 'friendly_id'
 gem 'paperclip'
 gem 'paperclip-compression'
 
+# Adminstration
+gem 'rails_admin', '~> 1.0'
+
 # Documentation
 gem 'yard'
 gem 'apipie-rails'
