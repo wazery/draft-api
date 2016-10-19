@@ -43,6 +43,9 @@ gem 'friendly_id'
 gem 'paperclip'
 gem 'paperclip-compression'
 
+# Pagination
+gem 'will_paginate', '~> 3.1.0'
+
 # Adminstration
 gem 'rails_admin_rollincode', '~> 1.0'
 gem 'rails_admin', '~> 1.0'

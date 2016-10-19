@@ -308,6 +308,7 @@ GEM
     websocket-driver (0.6.4)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
+    will_paginate (3.1.5)
     yard (0.9.5)
 
 PLATFORMS
@@ -345,6 +346,7 @@ DEPENDENCIES
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data
   webmock
+  will_paginate (~> 3.1.0)
   yard
 
 BUNDLED WITH
