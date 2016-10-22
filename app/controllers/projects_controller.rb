@@ -1,5 +1,5 @@
 class ProjectsController < BaseController
-  before_action :set_project, only: %i(show create update destroy)
+  before_action :set_project, only: %i(show update destroy)
 
   def_param_group :project do
     param :project, Hash, required: true do
@@ -103,11 +103,18 @@ class ProjectsController < BaseController
       teamId:
     }
   EOS
-  param_group :project
+  param :project, Hash, required: true do
+    param :name, String, desc: 'Project name', required: true
+    param :platform, String, desc: 'Project platform (iOS, Android, Web)', required: true
+    param :scale, String, desc: 'Project scale', required: false
+    param :colorFormat, String, desc: 'Project color format', required: false
+    param :unit, String, desc: 'Project unit (px, pt)', required: true
+  end
   error code: 401, desc: 'Authentication failed'
   error code: 404, desc: 'Project not found'
   ################# /Documentation #############################################
   def create
+    @project = Project.find_by(slug: project_params[:slug], user_id: current_user.id)
     if @project
       @project.update_settings(project_settings)
 
@@ -119,11 +126,11 @@ class ProjectsController < BaseController
 
       @project.save
     else
-      @project = Project.new(project_params)
+      @project = Project.create(project_params)
       team = Team.create(project_id: @project.id)
-      Membership.create(project_id: @project.id, team_id: team.id)
+      Membership.create(user_id: current_user.id, team_id: team.id)
 
-      render json: @project.errors, status: :unprocessable_entity && return unless @project.save
+      render json: @project.errors, status: :unprocessable_entity && return unless @project
     end
 
     # TODO: Return the location of the project sharing link
@@ -191,7 +198,9 @@ class ProjectsController < BaseController
 
   # Only allow a trusted parameter 'white list' through.
   def project_params
-    params.require(:project).permit(:slug,
+    params.require(:project).permit(:name,
+                                    :slug,
+                                    :platform,
                                     :scale,
                                     :unit,
                                     :color_format,
