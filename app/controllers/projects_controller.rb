@@ -110,11 +110,12 @@ class ProjectsController < BaseController
     param :colorFormat, String, desc: 'Project color format', required: false
     param :unit, String, desc: 'Project unit (px, pt)', required: true
   end
+  error code: 400, desc: 'Bad request, when empty project hash is passed'
   error code: 401, desc: 'Authentication failed'
   error code: 404, desc: 'Project not found'
   ################# /Documentation #############################################
   def create
-    @project = Project.find_by(slug: project_params[:slug], user_id: current_user.id)
+    @project = Project.find_by(slug: project_params[:slug]) if project_params[:slug].present?
     if @project
       @project.update_settings(project_settings)
 
@@ -187,7 +188,8 @@ class ProjectsController < BaseController
     # @project = Project.find_by(slug: project_params[:slug]) # TODO: Remove this
     return render json: { errors: ['Please open Draft and create a project!'] }, status: 422 if project_params[:slug] == 'empty'
 
-    @project = Project.find_by(slug: project_params[:slug], user_id: current_user.id)
+    # TODO: Add team_id
+    @project = Project.find_by(slug: project_params[:slug])
 
     return render json:  { errors: ['Project not found!'] }, status: 404 unless @project
   end

@@ -1,6 +1,6 @@
 class Project < ApplicationRecord
   extend FriendlyId
-  friendly_id :name, use: :slugged
+  friendly_id :slug_candidates, use: :slugged
 
   # Constants
   SETTINGS = %i(slug scale unit color_format)
@@ -14,6 +14,16 @@ class Project < ApplicationRecord
 
   # Validations
   # validates_uniqueness_of :name
+
+  def slug_candidates
+    [
+      :name,
+      [:name, :platform],
+      [:name, :platform, :scale],
+      [:name, :platform, :scale, :unit],
+      [:name, :platform, :scale, :unit, :color_format],
+    ]
+  end
 
   def update_settings(project_settings)
     return if settings_match?(project_settings)
