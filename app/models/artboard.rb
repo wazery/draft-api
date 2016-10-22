@@ -1,7 +1,4 @@
 class Artboard < ApplicationRecord
-  # extend FriendlyId
-  # friendly_id :slug, use: :slugged
-
   # Relations
   has_many :notes
   has_many :tags
@@ -22,6 +19,8 @@ class Artboard < ApplicationRecord
 
   # Callbacks
   before_create :add_token
+
+  self.per_page = 4
 
   private
 
