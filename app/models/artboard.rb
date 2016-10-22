@@ -20,7 +20,7 @@ class Artboard < ApplicationRecord
   # Callbacks
   before_create :add_token
 
-  self.per_page = 4
+  # self.per_page = 4
 
   private
 
