@@ -22,7 +22,7 @@ class TagsController < BaseController
   end
 
   ################# Documentation ##############################################
-  api :GET, '/projects/:project_id/artboards/:artboard_id/tags/:id', 'Returns the created tags or the errors'
+  api :GET, '/projects/:project_id/artboards/:artboard_id/tags/:id', 'Returns the requested tags or the errors'
   example <<-EOS
     {
       id:
@@ -62,7 +62,7 @@ class TagsController < BaseController
   end
 
   ################# Documentation ##############################################
-  api :POST, '/projects/:project_id/artboards/:artboard_id/tags', 'Returns the updated tags or the errors'
+  api :PUT, '/projects/:project_id/artboards/:artboard_id/tags', 'Returns the updated tags or the errors'
   example <<-EOS
     {
       id:
