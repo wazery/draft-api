@@ -1,19 +1,71 @@
 class NotesController < BaseController
   before_action :set_note, only: [:show, :update, :destroy]
 
-  # GET /notes
+  ################# Documentation ##############################################
+  api :GET, '/projects/:project_id/artboards/:artboard_id/notes', 'Returns all notes for the artboard'
+  example <<-EOS
+    [
+      {
+        id:
+        name:
+      }
+    ]
+  EOS
+  param :artboard_id, Integer, desc: 'Artboard ID', required: true
+  error code: 401, desc: 'Authentication failed'
+  error code: 404, desc: 'Artboard not found'
+  ################# /Documentation #############################################
   def index
     @notes = Note.all
 
     render json: @notes
   end
 
-  # GET /notes/1
+  ################# Documentation ##############################################
+  api :GET, '/projects/:project_id/artboards/:artboard_id/notes/:id', 'Returns the requested notes or the errors'
+  example <<-EOS
+    {
+      id:
+      note:
+      rect: {
+        x:
+        y:
+      }
+    }
+  EOS
+  param :artboard_id, Integer, desc: 'Artboard ID', required: true
+  error code: 400, desc: 'Bad request, when empty project hash is passed'
+  error code: 401, desc: 'Authentication failed'
+  error code: 404, desc: 'Project not found'
+  ################# /Documentation #############################################
   def show
     render json: @note
   end
 
-  # POST /notes
+  ################# Documentation ##############################################
+  api :POST, '/projects/:project_id/artboards/:artboard_id/notes', 'Returns the created notes or the errors'
+  example <<-EOS
+    {
+      id:
+      note:
+      rect: {
+        x:
+        y:
+      }
+    }
+  EOS
+  param :artboard_id, Integer, desc: 'Artboard ID', required: true
+  param :note, Hash, required: true do
+    param :note, String, desc: 'Tag name', required: true
+    param :rect, Hash, desc: 'Tag name', required: true do
+      param :x, Integer, desc: 'X position', required: true
+      param :y, Integer, desc: 'X position', required: true
+    end
+  end
+  error code: 400, desc: 'Bad request, when empty project hash is passed'
+  error code: 401, desc: 'Authentication failed'
+  error code: 404, desc: 'Project not found'
+  ################# /Documentation #############################################
   def create
     @note = Note.new(note_params)
 
@@ -24,7 +76,30 @@ class NotesController < BaseController
     end
   end
 
-  # PATCH/PUT /notes/1
+  ################# Documentation ##############################################
+  api :PUT, '/projects/:project_id/artboards/:artboard_id/notes', 'Returns the updated notes or the errors'
+  example <<-EOS
+    {
+      id:
+      note:
+      rect: {
+        x:
+        y:
+      }
+    }
+  EOS
+  param :artboard_id, Integer, desc: 'Artboard ID', required: true
+  param :note, Hash, required: true do
+    param :note, String, desc: 'Tag name', required: true
+    param :rect, Hash, desc: 'Tag name', required: true do
+      param :x, Integer, desc: 'X position', required: true
+      param :y, Integer, desc: 'X position', required: true
+    end
+  end
+  error code: 400, desc: 'Bad request, when empty project hash is passed'
+  error code: 401, desc: 'Authentication failed'
+  error code: 404, desc: 'Project not found'
+  ################# /Documentation #############################################
   def update
     if @note.update(note_params)
       render json: @note
@@ -33,7 +108,11 @@ class NotesController < BaseController
     end
   end
 
-  # DELETE /notes/1
+  ################# Documentation ##############################################
+  api :DELETE, '/projects/:project_id/artboards/:artboard_id/notes/:id', 'Does not return anything'
+  error code: 401, desc: 'Authentication failed'
+  error code: 404, desc: 'Tag not found'
+  ################# /Documentation #############################################
   def destroy
     @note.destroy
   end
@@ -46,6 +125,6 @@ class NotesController < BaseController
 
     # Only allow a trusted parameter "white list" through.
     def note_params
-      params.require(:note).permit(:text, :x, :y)
+      params.require(:note).permit(:note, rect: [:x, :y])
     end
 end
