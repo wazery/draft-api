@@ -1,5 +1,5 @@
 class NotesController < BaseController
-  before_action :set_note, only: [:show, :update, :destroy]
+  before_action :set_note, only: %i(show update destroy)
 
   ################# Documentation ##############################################
   api :GET, '/projects/:project_id/artboards/:artboard_id/notes', 'Returns all notes for the artboard'
@@ -7,7 +7,11 @@ class NotesController < BaseController
     [
       {
         id:
-        name:
+        note:
+        rect: {
+          x:
+          y:
+        }
       }
     ]
   EOS
@@ -16,7 +20,7 @@ class NotesController < BaseController
   error code: 404, desc: 'Artboard not found'
   ################# /Documentation #############################################
   def index
-    @notes = Note.all
+    @notes = Artboard.find(params[:artboard_id]).notes
 
     render json: @notes
   end
@@ -62,9 +66,8 @@ class NotesController < BaseController
       param :y, Integer, desc: 'X position', required: true
     end
   end
-  error code: 400, desc: 'Bad request, when empty project hash is passed'
+  error code: 400, desc: 'Bad request, when empty note hash is passed'
   error code: 401, desc: 'Authentication failed'
-  error code: 404, desc: 'Project not found'
   ################# /Documentation #############################################
   def create
     @note = Note.new(note_params)
@@ -96,9 +99,8 @@ class NotesController < BaseController
       param :y, Integer, desc: 'X position', required: true
     end
   end
-  error code: 400, desc: 'Bad request, when empty project hash is passed'
+  error code: 400, desc: 'Bad request, when empty note hash is passed'
   error code: 401, desc: 'Authentication failed'
-  error code: 404, desc: 'Project not found'
   ################# /Documentation #############################################
   def update
     if @note.update(note_params)
@@ -111,7 +113,6 @@ class NotesController < BaseController
   ################# Documentation ##############################################
   api :DELETE, '/projects/:project_id/artboards/:artboard_id/notes/:id', 'Does not return anything'
   error code: 401, desc: 'Authentication failed'
-  error code: 404, desc: 'Tag not found'
   ################# /Documentation #############################################
   def destroy
     @note.destroy
