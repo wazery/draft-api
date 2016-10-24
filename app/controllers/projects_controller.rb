@@ -16,6 +16,7 @@ class ProjectsController < BaseController
         id:
         name:
         slug:
+        status:
         platform:
         thumb:
         scale:
@@ -61,6 +62,7 @@ class ProjectsController < BaseController
       id:
       name:
       slug:
+      status:
       platform:
       thumb:
       scale:
@@ -91,6 +93,7 @@ class ProjectsController < BaseController
       id:
       name:
       slug:
+      status:
       platform:
       thumb:
       scale:
@@ -145,6 +148,7 @@ class ProjectsController < BaseController
       id:
       name:
       slug:
+      status:
       platform:
       thumb:
       scale:
@@ -191,6 +195,7 @@ class ProjectsController < BaseController
         id:
         name:
         slug:
+        status:
         platform:
         thumb:
         scale:
