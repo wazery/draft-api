@@ -2,7 +2,7 @@ class ArtboardDecorator < Draper::Decorator
   delegate_all
 
   def to_json
-    ret = as_json(except: %i(created_at updated_at artboardImageContentType
+    ret = as_json(except: %i(artboardImageContentType
                              artboardImageFileName artboardImageFileSize artboardImageUpdatedAt))
 
     ret[:full_image] = attachment_url(artboard_image)

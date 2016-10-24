@@ -2,6 +2,6 @@ class TagDecorator < Draper::Decorator
   delegate_all
 
   def to_json
-    as_json(except: %i(created_at updated_at))
+    as_json
   end
 end
