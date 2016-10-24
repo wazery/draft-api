@@ -7,8 +7,10 @@ class Project < ApplicationRecord
 
   # Relations
   has_many :users
-  has_many :artboards
   has_one :team, dependent: :destroy
+  has_many :artboards
+  has_many :taggings, as: :taggable
+  has_many :tags, through: :taggings
 
   accepts_nested_attributes_for :artboards
 

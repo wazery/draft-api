@@ -1,7 +1,8 @@
 class Artboard < ApplicationRecord
   # Relations
   has_many :notes
-  has_many :tags
+  has_many :taggings, as: :taggable
+  has_many :tags, through: :taggings
   has_one :link
   belongs_to :project, counter_cache: true
   # has_many :notification_logs, as: :loggable

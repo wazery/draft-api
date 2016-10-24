@@ -1,7 +1,9 @@
 class Tag < ApplicationRecord
   # Relations
-  belongs_to :artboard
+  has_many :taggings
 
-  # Scopes
-  # default_scope -> { order('id ASC') }
+  with_options through: :taggings, source: :taggable do |tag|
+    tag.has_many :projects, source_type: 'Project'
+    tag.has_many :artboards, source_type: 'Artboard'
+  end
 end
