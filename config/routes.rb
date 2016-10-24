@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   resources :invites
   resources :projects do
     get :project_names, on: :collection
+    post :set_status, on: :member
 
     resources :artboards do
       resources :notes

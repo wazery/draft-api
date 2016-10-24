@@ -1,5 +1,5 @@
 class ProjectsController < BaseController
-  before_action :set_project, only: %i(show update destroy)
+  before_action :set_project, only: %i(show update destroy set_status)
 
   def_param_group :project do
     param :project, Hash, required: true do
@@ -183,11 +183,47 @@ class ProjectsController < BaseController
     render json: {}, status: :ok
   end
 
+  ################# Documentation ##############################################
+  api :GET, '/projects/:id/set_status', 'Sets the status for the project'
+  example <<-EOS
+    [
+      {
+        id:
+        name:
+        slug:
+        platform:
+        thumb:
+        scale:
+        unit:
+        colorFormat:
+        artboardsCount:
+        slices:
+        colors:
+        artboards:
+        teamId:
+      }
+    ]
+  EOS
+  param :project, Hash, required: true do
+    param :status, Integer, desc: 'Project new status', required: true
+  end
+  error code: 401, desc: 'Authentication failed'
+  error code: 404, desc: 'Artboard not found'
+  ################# /Documentation #############################################
+  def set_status
+    return unless project_params[:status].present?
+
+    if @project.update(status: project_params[:status])
+      render json: @project.decorate.to_json
+    else
+      render json: @project.errors, status: :unprocessable_entity
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
   def set_project
-    # @project = Project.find_by(slug: project_params[:slug]) # TODO: Remove this
     return render json: { errors: ['Please open Draft and create a project!'] }, status: 422 if project_params[:slug] == 'empty'
 
     # TODO: Add team_id
@@ -204,6 +240,7 @@ class ProjectsController < BaseController
   def project_params
     params.require(:project).permit(:name,
                                     :slug,
+                                    :status,
                                     :platform,
                                     :scale,
                                     :unit,
