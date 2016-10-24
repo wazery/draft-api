@@ -39,7 +39,7 @@ class ArtboardsController < BaseController
   end
 
   ################# Documentation ##############################################
-  api :GET, '/projects/:project_id/artboards/:id/set_due_date', 'Sets the due date for the artboard'
+  api :POST, '/projects/:project_id/artboards/:id/set_due_date', 'Sets the due date for the artboard'
   example <<-EOS
     [
       {
@@ -71,7 +71,7 @@ class ArtboardsController < BaseController
   end
 
   ################# Documentation ##############################################
-  api :GET, '/projects/:project_id/artboards/:id/set_status', 'Sets the status for the artboard'
+  api :POST, '/projects/:project_id/artboards/:id/set_status', 'Sets the status for the artboard'
   example <<-EOS
     [
       {

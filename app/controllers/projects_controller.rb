@@ -188,7 +188,7 @@ class ProjectsController < BaseController
   end
 
   ################# Documentation ##############################################
-  api :GET, '/projects/:id/set_status', 'Sets the status for the project'
+  api :POST, '/projects/:id/set_status', 'Sets the status for the project'
   example <<-EOS
     [
       {
