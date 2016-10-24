@@ -179,6 +179,8 @@ class ProjectsController < BaseController
   ################# /Documentation #############################################
   def destroy
     @project.destroy
+
+    render json: {}, status: :ok
   end
 
   private
