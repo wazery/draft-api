@@ -24,6 +24,7 @@ class ProjectsController < BaseController
         color_format:
         artboards_count:
         created_at:
+        updated_at:
         team: {
           id:
           users: [
@@ -72,7 +73,18 @@ class ProjectsController < BaseController
       slices:
       colors:
       artboards:
-      teamId:
+      created_at:
+      updated_at:
+      team: {
+        id:
+        users: [
+          {
+            name:
+            image:
+            email:
+          }
+        ]
+      }
     }
   EOS
   param_group :project
@@ -103,7 +115,18 @@ class ProjectsController < BaseController
       slices:
       colors:
       artboards:
-      teamId:
+      created_at:
+      updated_at:
+      team: {
+        id:
+        users: [
+          {
+            name:
+            image:
+            email:
+          }
+        ]
+      }
     }
   EOS
   param :project, Hash, required: true do
@@ -158,7 +181,18 @@ class ProjectsController < BaseController
       slices:
       colors:
       artboards:
-      teamId:
+      created_at:
+      updated_at:
+      team: {
+        id:
+        users: [
+          {
+            name:
+            image:
+            email:
+          }
+        ]
+      }
     }
   EOS
   param_group :project
@@ -205,7 +239,18 @@ class ProjectsController < BaseController
         slices:
         colors:
         artboards:
-        teamId:
+        created_at:
+        updated_at:
+        team: {
+          id:
+          users: [
+            {
+              name:
+              image:
+              email:
+            }
+          ]
+        }
       }
     ]
   EOS
