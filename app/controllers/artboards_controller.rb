@@ -38,23 +38,61 @@ class ArtboardsController < BaseController
     @artboard.destroy
   end
 
-  # POST /artboards/1/set_due_date
+  ################# Documentation ##############################################
+  api :GET, '/projects/:project_id/artboards/:id/set_due_date', 'Sets the due date for the artboard'
+  example <<-EOS
+    [
+      {
+        full_image:
+        thumb_image:
+        layers: [
+        ]
+        notes:
+        slices:
+        exportables:
+      }
+    ]
+  EOS
+  param :artboard_id, Integer, desc: 'Artboard ID', required: true
+  param :due_date, Date, desc: 'Artboard new due date', required: true
+  error code: 401, desc: 'Authentication failed'
+  error code: 404, desc: 'Artboard not found'
+  ################# /Documentation #############################################
   def set_due_date
     return unless params[:due_date].present?
 
     if @artboard.update(due_date: params[:due_date])
-      render json: @artboard
+      render json: @artboard.decorate.to_json
     else
       render json: @artboard.errors, status: :unprocessable_entity
     end
   end
 
-  # POST /artboards/1/set_status
+  ################# Documentation ##############################################
+  api :GET, '/projects/:project_id/artboards/:id/set_status', 'Sets the status for the artboard'
+  example <<-EOS
+    [
+      {
+        full_image:
+        thumb_image:
+        layers: [
+        ]
+        notes:
+        slices:
+        exportables:
+      }
+    ]
+  EOS
+  param :artboard_id, Integer, desc: 'Artboard ID', required: true
+  param :status, String, desc: 'Artboard new status', required: true
+  error code: 401, desc: 'Authentication failed'
+  error code: 404, desc: 'Artboard not found'
+  ################# /Documentation #############################################
   def set_status
     return unless params[:status].present?
 
     if @artboard.update(status: params[:status])
-      render json: @artboard
+      render json: @artboard.decorate.to_json
     else
       render json: @artboard.errors, status: :unprocessable_entity
     end
