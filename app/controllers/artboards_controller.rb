@@ -45,6 +45,8 @@ class ArtboardsController < BaseController
       {
         full_image:
         thumb_image:
+        due_date:
+        status:
         layers: [
         ]
         notes:
@@ -75,6 +77,8 @@ class ArtboardsController < BaseController
       {
         full_image:
         thumb_image:
+        due_date:
+        status:
         layers: [
         ]
         notes:
