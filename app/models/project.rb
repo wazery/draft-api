@@ -14,6 +14,9 @@ class Project < ApplicationRecord
 
   accepts_nested_attributes_for :artboards
 
+  # Callbacks
+  before_save :set_project_thumb
+
   # Validations
   # validates_uniqueness_of :name
 
@@ -85,5 +88,11 @@ class Project < ApplicationRecord
 
   def oid_array(data)
     data.map { |artboard| artboard[:object_id] }
+  end
+
+  def set_project_thumb
+    return if thumb
+
+    thumb = ApplicationController.helpers.asset_url(artboards.first.artboard_image.url(:thumb))
   end
 end

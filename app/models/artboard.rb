@@ -8,7 +8,8 @@ class Artboard < ApplicationRecord
   # has_many :notification_logs, as: :loggable
 
   # Attachments
-  has_attached_file :artboard_image, styles: { thumb: '191x335>' },
+  has_attached_file :artboard_image, styles: { large: '50%', thumb: ''},
+    convert_options: { thumb: '-gravity north -thumbnail 270x179^ -extent 270x179' },
     processors: %i(thumbnail compression)
 
   # Validations

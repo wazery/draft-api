@@ -4,6 +4,8 @@ require_relative 'application'
 # Initialize the Rails application.
 Rails.application.initialize!
 
+config.action_controller.asset_host = 'http://api.draftapp.io'
+
 ActionMailer::Base.smtp_settings = {
   address: 'smtp.sendgrid.net',
   port: '587',

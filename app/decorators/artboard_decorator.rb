@@ -5,11 +5,11 @@ class ArtboardDecorator < Draper::Decorator
     ret = as_json(except: %i(artboardImageContentType
                              artboardImageFileName artboardImageFileSize artboardImageUpdatedAt))
 
-    ret[:full_image] = attachment_url(artboard_image)
+    ret[:full_image]  = attachment_url(artboard_image, :large)
     ret[:thumb_image] = attachment_url(artboard_image, :thumb)
-    ret[:layers] = layers
-    ret[:notes] = notes.decorate.to_json
-    ret[:slices] = slices
+    ret[:layers]      = layers
+    ret[:notes]       = notes.decorate.to_json
+    ret[:slices]      = slices
     ret[:exportables] = exportables
 
     ret
