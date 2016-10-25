@@ -7,7 +7,8 @@ class ProjectDecorator < Draper::Decorator
     ret[:slices]    = slices # FIXME: Needs to be moved to artboards
     ret[:colors]    = colors
 
-    ret[:team]      = team.decorate.to_json
+    ret[:tags]      = tags.decorate.to_json
+    ret[:team]      = team.decorate.to_json if team.present?
 
     ret
   end
@@ -15,7 +16,7 @@ class ProjectDecorator < Draper::Decorator
   def to_index_json
     ret = as_json(except: %i(slices colors))
 
-    ret[:team] = team.decorate.to_json
+    ret[:team]  = team.decorate.to_json if team.present?
 
     ret
   end

@@ -2,7 +2,7 @@ class TagsController < BaseController
   before_action :set_tag, only: %i(show update destroy)
 
   ################# Documentation ##############################################
-  api :GET, '/projects/:project_id/artboards/:artboard_id/tags', 'Returns all tags for artboards'
+  api :GET, '/tags', 'Returns all tags for the taggable'
   example <<-EOS
     [
       {
@@ -11,25 +11,28 @@ class TagsController < BaseController
       }
     ]
   EOS
-  param :artboard_id, Integer, desc: 'Artboard ID', required: true
+  param :taggable_id, Integer, desc: 'Taggable ID (artboard, project)', required: true
+  param :taggable_type, String, desc: 'Taggable type (artboard, project)', required: true
   error code: 401, desc: 'Authentication failed'
   error code: 404, desc: 'Artboard not found'
   ################# /Documentation #############################################
   def index
-    @tags = Artboard.find(params[:artboard_id]).tags
+    taggings_ids = Tagging.where(taggable_id: params[:taggable_id],
+                                 taggable_type: params[:taggable_type]).map(&:tag_id)
+    @tags = Tag.where(id: taggings_ids)
 
     render json: @tags.decorate.to_json
   end
 
   ################# Documentation ##############################################
-  api :GET, '/projects/:project_id/artboards/:artboard_id/tags/:id', 'Returns the requested tags or the errors'
+  api :GET, '/tags/:id', 'Returns the requested tag or the errors'
   example <<-EOS
     {
       id:
       name:
     }
   EOS
-  param :artboard_id, Integer, desc: 'Artboard ID', required: true
+  param :id, Integer, desc: 'Tag ID', required: true
   error code: 400, desc: 'Bad request, when empty project hash is passed'
   error code: 401, desc: 'Authentication failed'
   error code: 404, desc: 'Project not found'
@@ -39,14 +42,15 @@ class TagsController < BaseController
   end
 
   ################# Documentation ##############################################
-  api :POST, '/projects/:project_id/artboards/:artboard_id/tags', 'Returns the created tags or the errors'
+  api :POST, '/tags', 'Returns the created tag or the errors'
   example <<-EOS
     {
       id:
       name:
     }
   EOS
-  param :artboard_id, Integer, desc: 'Artboard ID', required: true
+  param :taggable_id, Integer, desc: 'Taggable ID (artboard, project)', required: true
+  param :taggable_type, String, desc: 'Taggable type (artboard, project)', required: true
   param :tag, Hash, required: true do
     param :name, String, desc: 'Tag name', required: true
   end
@@ -55,21 +59,24 @@ class TagsController < BaseController
   error code: 404, desc: 'Project not found'
   ################# /Documentation #############################################
   def create
-    @tag = Tag.find_or_create_by(name: tag_params[:name],
-                                 artboard_id: params[:artboard_id])
+    @tag = Tag.find_or_create_by(name: tag_params[:name])
+    @tagging = Tagging.find_or_create_by(tag_id: @tag.id,
+                                         taggable_id: params[:taggable_id],
+                                         taggable_type: params[:taggable_type])
 
-    render json: @tag.decorate.to_json, status: :ok
+    render json: @tag, status: :ok
   end
 
   ################# Documentation ##############################################
-  api :PUT, '/projects/:project_id/artboards/:artboard_id/tags', 'Returns the updated tags or the errors'
+  api :PUT, '/tags', 'Returns the updated tag or the errors'
   example <<-EOS
     {
       id:
       name:
     }
   EOS
-  param :artboard_id, Integer, desc: 'Artboard ID', required: true
+  param :taggable_id, Integer, desc: 'Taggable ID (artboard, project)', required: false
+  param :taggable_type, String, desc: 'Taggable type (artboard, project)', required: false
   param :tag, Hash, required: true do
     param :name, String, desc: 'Tag name', required: true
   end
@@ -78,6 +85,11 @@ class TagsController < BaseController
   error code: 404, desc: 'Tag not found'
   ################# /Documentation #############################################
   def update
+    if params[:taggable_id] && params[:taggable_type]
+      @tag = Tagging.find_by(taggable_id: params[:taggable_id],
+                             taggable_type: params[:taggable_type]).tag
+    end
+
     if @tag.update(tag_params)
       render json: @tag
     else
@@ -86,12 +98,12 @@ class TagsController < BaseController
   end
 
   ################# Documentation ##############################################
-  api :DELETE, '/projects/:project_id/artboards/:artboard_id/tags/:id', 'Does not return anything'
+  api :DELETE, '/tags/:id', 'Does not return anything'
   error code: 401, desc: 'Authentication failed'
   error code: 404, desc: 'Tag not found'
   ################# /Documentation #############################################
   def destroy
-    @tag.destroy
+    render json: {}, status: :ok if @tag.destroy
   end
 
   private
