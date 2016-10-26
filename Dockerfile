@@ -1,26 +1,19 @@
 FROM ubuntu:16.04
 MAINTAINER Islam Wazery <wazery@ubuntu.com>
 
-# Update the repository
-RUN apt-get update && \
-    apt-get install -y wget sudo dialog net-tools git build-essential rails ruby nginx && \
-    apt-get clean &&  rm -rf /var/lib/apt/lists/*
+ENV HOME /home/rails/api
 
-RUN gem install sass && mkdir -p /home/draft-api
+# Install PGsql dependencies and js engine
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
 
-COPY Gemfile /home/draft-api
-COPY Gemfile.lock /home/draft-api
+WORKDIR $HOME
 
-WORKDIR /home/draft-api
-
-# Install Prerequisites
+# Install gems
+ADD Gemfile* $HOME/
 RUN bundle install
-RUN rake db:migrate
 
-ADD . /home/draft-api
+# Add the app code
+ADD . $HOME
 
-COPY nginx.conf /etc/nginx/nginx.conf
-
-EXPOSE 3000
-
-CMD service nginx start
+# Default command
+CMD ["rails", "server", "--binding", "0.0.0.0"]
