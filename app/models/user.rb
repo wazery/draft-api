@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   devise :database_authenticatable, :recoverable,
-    :trackable, :validatable, :registerable,
+    :trackable, :validatable, :registerable, :rememberable
     :omniauthable # TODO: :confirmable, :invitable
 
   include DeviseTokenAuth::Concerns::User
