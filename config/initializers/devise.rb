@@ -8,5 +8,7 @@ Devise.setup do |config|
   # See: http://stackoverflow.com/q/19600905/806956
   config.navigational_formats = %i(json)
 
+  config.remember_for = 2.weeks
+
   config.omniauth :github, ENV['github_key'], ENV['github_secret'], { scope: 'email,profile' }
 end
