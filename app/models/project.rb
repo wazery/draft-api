@@ -27,6 +27,7 @@ class Project < ApplicationRecord
       [:name, :platform, :scale],
       [:name, :platform, :scale, :unit],
       [:name, :platform, :scale, :unit, :color_format],
+      [:name, :platform, :scale, :unit, :color_format, :id],
     ]
   end
 
