@@ -24,6 +24,10 @@ class Artboard < ApplicationRecord
 
   # self.per_page = 4
 
+  def artboard_thumb
+    artboard_image.url(:thumb)
+  end
+
   private
 
   def add_token

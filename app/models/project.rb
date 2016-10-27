@@ -17,6 +17,9 @@ class Project < ApplicationRecord
   # Validations
   # validates_uniqueness_of :name
 
+  # Callbacks
+  before_save :set_thumb
+
   def slug_candidates
     [
       :name,
@@ -85,5 +88,11 @@ class Project < ApplicationRecord
 
   def oid_array(data)
     data.map { |artboard| artboard[:object_id] }
+  end
+
+  def set_thumb
+    return unless artboards_count == 1
+
+    self.thumb = artboards.first.artboard_thumb
   end
 end
