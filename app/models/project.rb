@@ -92,7 +92,7 @@ class Project < ApplicationRecord
   end
 
   def set_thumb
-    return unless artboards_count == 1
+    return if thumb
 
     self.thumb = artboards.first.artboard_thumb
   end
