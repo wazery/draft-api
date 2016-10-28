@@ -42,6 +42,7 @@ gem 'friendly_id'
 # Image uploads
 gem 'paperclip'
 gem 'paperclip-compression'
+gem 'delayed_paperclip'
 
 # Assets hosting
 gem 'aws-sdk'

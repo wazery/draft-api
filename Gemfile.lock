@@ -86,6 +86,9 @@ GEM
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     database_cleaner (1.4.1)
+    delayed_paperclip (3.0.1)
+      activejob (>= 4.2)
+      paperclip (>= 3.3)
     devise (4.2.0)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -327,6 +330,7 @@ DEPENDENCIES
   aws-sdk
   byebug
   database_cleaner (~> 1.4.1)
+  delayed_paperclip
   devise_invitable
   devise_token_auth
   draper!
