@@ -1,10 +1,11 @@
 class User < ActiveRecord::Base
-  devise :database_authenticatable, :recoverable,
+  devise :omniauthable, :database_authenticatable, :recoverable,
     :trackable, :validatable, :registerable, :rememberable
     :omniauthable # TODO: :confirmable, :invitable
 
   include DeviseTokenAuth::Concerns::User
 
+  has_many :authentications, class_name: 'UserAuthentication', dependent: :destroy
   has_many :invitations, class_name: 'Invite', foreign_key: 'recipient_id'
   has_many :sent_invites, class_name: 'Invite', foreign_key: 'sender_id'
 
@@ -37,4 +38,13 @@ class User < ActiveRecord::Base
   # :email
   validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
   validates :email, uniqueness: true
+
+  def self.create_from_omniauth(params)
+    attributes = {
+      email: params['info']['email'],
+      password: Devise.friendly_token
+    }
+
+    create(attributes)
+  end
 end

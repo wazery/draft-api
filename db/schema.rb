@@ -39,6 +39,13 @@ ActiveRecord::Schema.define(version: 20161024224451) do
     t.index ["project_id"], name: "index_artboards_on_project_id", using: :btree
   end
 
+  create_table "authentication_providers", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_name_on_authentication_providers", using: :btree
+  end
+
   create_table "beta_requesters", force: :cascade do |t|
     t.string   "full_name"
     t.string   "email"
@@ -123,6 +130,19 @@ ActiveRecord::Schema.define(version: 20161024224451) do
   create_table "teams", force: :cascade do |t|
     t.integer "project_id"
     t.index ["project_id"], name: "index_teams_on_project_id", using: :btree
+  end
+
+  create_table "user_authentications", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "authentication_provider_id"
+    t.string   "uid"
+    t.string   "token"
+    t.datetime "token_expires_at"
+    t.text     "params"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.index ["authentication_provider_id"], name: "index_user_authentications_on_authentication_provider_id", using: :btree
+    t.index ["user_id"], name: "index_user_authentications_on_user_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
