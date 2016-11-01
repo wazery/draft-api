@@ -1,5 +1,5 @@
 class ProjectsController < BaseController
-  before_action :set_project, only: %i(show update destroy set_status)
+  before_action :set_project, only: %i(show update destroy set_status add_team_member remove_team_member)
 
   def_param_group :project do
     param :project, Hash, required: true do
@@ -255,6 +255,7 @@ class ProjectsController < BaseController
     ]
   EOS
   param :project, Hash, required: true do
+    param :slug, String, desc: 'Project slug', required: true
     param :status, Integer, desc: 'Project new status', required: true
   end
   error code: 401, desc: 'Authentication failed'
@@ -268,6 +269,48 @@ class ProjectsController < BaseController
     else
       render json: @project.errors, status: :unprocessable_entity
     end
+  end
+
+  ################# Documentation ##############################################
+  api :POST, '/projects/:id/add_team_member', 'Add a team member to the project'
+  example <<-EOS
+    team: {
+      id:
+      users: [
+        {
+          name:
+          image:
+          email:
+        }
+      ]
+    }
+    OR
+    message: 'User is already a team member of this project!'
+  EOS
+  param :project, Hash, required: true do
+    param :slug, String, desc: 'Project slug', required: true
+  end
+  param :email, String, desc: 'User email', required: true
+  param :first_name, String, desc: 'User first name', required: false
+  param :last_name, String, desc: 'User last name', required: false
+  error code: 401, desc: 'Authentication failed'
+  error code: 404, desc: 'Project not found'
+  ################# /Documentation #############################################
+  def add_team_member
+    user = User.create_with(first_name: params[:first_name],
+                            last_name: params[:last_name])
+      .find_or_create_by(email: params[:email])
+
+    membership = Membership.find_or_initialize_by(user_id: user.id, team_id: @project.team.id)
+    if membership.new_record?
+      membership.save
+      render json: { team: @project.team.decorate.to_json }, status: :ok
+    else
+      render json: { message: 'User is already a team member of this project!' }, status: 302
+    end
+  end
+
+  def remove_team_member
   end
 
   private
