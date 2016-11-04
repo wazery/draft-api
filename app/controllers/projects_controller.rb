@@ -153,7 +153,8 @@ class ProjectsController < BaseController
       Membership.create(user_id: current_user[:id], team_id: team.id)
     end
 
-    # render json: project.errors, status: :unprocessable_entity && return unless project
+    render json: @project.errors, status: :unprocessable_entity && return if @project.errors.present?
+
     # TODO: Return the location of the project sharing link
     render json: @project.decorate.to_json
       .deep_transform_keys { |k| k.to_s.camelize(:lower) }

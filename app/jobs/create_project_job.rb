@@ -9,7 +9,6 @@ class CreateProjectJob < ApplicationJob
 
     project.update_settings(project_settings)
 
-    byebug
     if project_params[:artboards_attributes].present?
       project.add_or_update_artboards(project_params[:artboards_attributes])
     end
