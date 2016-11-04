@@ -19,6 +19,8 @@ Rails.application.routes.draw do
   resources :projects do
     get :project_names, on: :collection
     post :set_status, on: :member
+    post :add_team_member, on: :member
+    post :remove_team_member, on: :member
 
     resources :artboards do
       resources :notes

@@ -142,26 +142,21 @@ class ProjectsController < BaseController
   ################# /Documentation #############################################
   def create
     @project = Project.find_by(slug: project_params[:slug]) if project_params[:slug].present?
+
     if @project
-      @project.update_settings(project_settings)
-
-      @project.add_or_update_artboards(project_params[:artboards_attributes]) if project_params[:artboards_attributes].present?
-
-      # TODO: Move slices to be inside artboards
-      @project.slices = project_params[:slices] if project_params[:slices].present?
-      @project.colors = project_params[:colors] if project_params[:colors].present?
-
-      @project.save
+      # Offload the processing and creation to a BG job
+      CreateProjectJob.perform_later(project_id: @project.id, project_settings: project_settings.to_h,
+                                     project_params: project_params.to_h, current_user: current_user)
     else
       @project = Project.create(project_params)
       team = Team.create(project_id: @project.id)
-      Membership.create(user_id: current_user.id, team_id: team.id)
-
-      render json: @project.errors, status: :unprocessable_entity && return unless @project
+      Membership.create(user_id: current_user[:id], team_id: team.id)
     end
 
+    # render json: project.errors, status: :unprocessable_entity && return unless project
     # TODO: Return the location of the project sharing link
-    render json: @project.decorate.to_json.deep_transform_keys { |k| k.to_s.camelize(:lower) }, status: :created, location: @project
+    render json: @project.decorate.to_json
+      .deep_transform_keys { |k| k.to_s.camelize(:lower) }
   end
 
   ################# Documentation ##############################################
@@ -345,7 +340,7 @@ class ProjectsController < BaseController
                                         :object_id, :type, :name, :rotation, :radius, :opacity,
                                         :style_name, :font_size, :font_face, :text_align, :letter_spacing,
                                         :line_height, :content, rect: [
-                                          :x, :y, :width, :height
+                                          :max_x, :max_y, :x, :y, :width, :height
                                         ], css: [], borders: [
                                           :fill_type, :position, :thickness,
                                           color: [

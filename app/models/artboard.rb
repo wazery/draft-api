@@ -13,7 +13,7 @@ class Artboard < ApplicationRecord
     processors: %i(thumbnail compression)
 
   # Validations
-  validates :object_id, uniqueness: true
+  # validates_uniqueness_of :object_id, scope: :project_id
   validates :artboard_image, attachment_presence: true
   validates_attachment_content_type :artboard_image, content_type: /\Aimage\/.*\z/
 
