@@ -10,7 +10,7 @@ gem 'puma', '~> 3.0'
 
 # Background workers
 gem 'sidekiq'
-# gem 'sinatra' # For the Sidekiq panel
+gem 'sinatra', require: false # For the Sidekiq panel
 
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 3.0'

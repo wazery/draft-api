@@ -292,6 +292,8 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.0)
+    sinatra (1.0)
+      rack (>= 1.0)
     spring (1.7.2)
     spring-watcher-listen (2.0.0)
       listen (>= 2.7, < 4.0)
@@ -354,6 +356,7 @@ DEPENDENCIES
   rubocop
   sidekiq
   simplecov
+  sinatra
   spring
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data
