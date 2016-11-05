@@ -1,4 +1,5 @@
 class ProjectsController < BaseController
+  before_action :add_user_to_notes, only: %i(create update)
   before_action :set_project, only: %i(show update destroy set_status add_team_member remove_team_member)
 
   def_param_group :project do
@@ -325,8 +326,22 @@ class ProjectsController < BaseController
     project_params.select { |key| key.to_sym.in? Project::SETTINGS }
   end
 
+  def add_user_to_notes
+    project_params
+    return unless @project_params[:artboards_attributes].present?
+
+    @project_params[:artboards_attributes].each do |artboard|
+      return unless artboard[:notes_attributes].present?
+
+      artboard[:notes_attributes].each do |note|
+        note[:user_id] = current_user.id
+      end
+    end
+  end
+
   # Only allow a trusted parameter 'white list' through.
   def project_params
+    @project_params ||=
     params.require(:project).permit(:name,
                                     :slug,
                                     :status,

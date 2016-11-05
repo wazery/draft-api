@@ -22,6 +22,8 @@ Rails.application.routes.draw do
     post :add_team_member, on: :member
     post :remove_team_member, on: :member
 
+    resources :activities, only: :index
+
     resources :artboards do
       resources :notes
       resources :links

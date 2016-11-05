@@ -40,7 +40,7 @@ gem 'draper', github: 'drapergem/draper', branch: 'support-rails-api'
 gem 'friendly_id'
 
 # Image uploads
-gem 'paperclip'
+gem 'paperclip', '~> 5.1.0'
 gem 'paperclip-compression'
 gem 'delayed_paperclip'
 
@@ -49,6 +49,9 @@ gem 'aws-sdk'
 
 # Pagination
 gem 'will_paginate', '~> 3.1.0'
+
+# Activities
+gem 'public_activity'
 
 # Adminstration
 gem 'rails_admin_rollincode', '~> 1.0'
