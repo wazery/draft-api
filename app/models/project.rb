@@ -1,4 +1,5 @@
 class Project < ApplicationRecord
+  include PublicActivity::Common
   extend FriendlyId
   friendly_id :slug_candidates, use: :slugged
 
@@ -11,6 +12,7 @@ class Project < ApplicationRecord
   has_many :artboards
   has_many :taggings, as: :taggable
   has_many :tags, through: :taggings
+  # has_many :activities
 
   accepts_nested_attributes_for :artboards
 

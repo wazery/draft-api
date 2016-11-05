@@ -146,12 +146,19 @@ class ProjectsController < BaseController
 
     if @project
       # Offload the processing and creation to a BG job
-      CreateProjectJob.perform_later(project_id: @project.id, project_settings: project_settings.to_h,
-                                     project_params: project_params.to_h, current_user: current_user)
+      UpdateProjectJob.perform_later(project_id: @project.id,
+                                     project_settings: project_settings.to_h,
+                                     project_params: project_params.to_h,
+                                     current_user: current_user)
     else
       @project = Project.create(project_params)
+      @project.create_activity(action: 'create_project',
+                               project_id: @project.id,
+                               parameters: { type: 0, what: @project.name },
+                               owner: current_user)
+
       team = Team.create(project_id: @project.id)
-      Membership.create(user_id: current_user[:id], team_id: team.id)
+      Membership.create(user_id: current_user.id, team_id: team.id)
     end
 
     render json: @project.errors, status: :unprocessable_entity && return if @project.errors.present?

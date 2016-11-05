@@ -1,6 +1,7 @@
-class CreateProjectJob < ApplicationJob
+class UpdateProjectJob < ApplicationJob
   queue_as :default
 
+  # FIXME: This needs to be idempotent
   def perform(args = {})
     project          = Project.find(args[:project_id])
     project_settings = args[:project_settings]
