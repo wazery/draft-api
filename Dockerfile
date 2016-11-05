@@ -16,4 +16,5 @@ RUN bundle install
 ADD . $HOME
 
 # Default command
+ENTRYPOINT ["bundle", "exec"]
 CMD ["rails", "server", "--binding", "0.0.0.0", "-e", "production"]
