@@ -22,4 +22,8 @@ test:
 
 production:
   <<: *default
-  database: draft_app_production
+  database: <%= ENV['DATABASE_NAME'] %>
+  user: <%= ENV['DATABASE_USER'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  port: <%= ENV['POSTGRES_SERVICE_PORT'] %>
+  host: <%= ENV['POSTGRES_SERVICE_HOST'] %> 
