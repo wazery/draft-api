@@ -7,7 +7,7 @@ class CreateArtboards < ActiveRecord::Migration[5.0]
       t.string :page_name
       t.string :name
       t.string :slug
-      t.integer :status
+      t.integer :status, default: 0
       t.integer :width
       t.integer :height
       t.datetime :due_date
