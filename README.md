@@ -1,4 +1,4 @@
-<!--- [![Build Status](http://104.131.207.101/api/badge/github.com/wazery/api/status.svg?branch=master)](http://104.131.207.101/github.com/wazery/api) --->
+[![Docker Repository on Quay](https://quay.io/repository/wazery/draft-api/status?token=ccad28c7-a2df-4e5e-9ebd-fa2f1eeb5059 "Docker Repository on Quay")](https://quay.io/repository/wazery/draft-api)
 
 ![Draft Logo](https://dl.dropboxusercontent.com/u/71605080/logo.png)
 
