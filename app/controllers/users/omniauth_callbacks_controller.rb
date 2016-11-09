@@ -59,7 +59,8 @@ class Users::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksCon
   end
 
   def set_user_and_create_authentication(auth_params, user, provider)
-    UserAuthentication.create_from_omniauth(auth_params, user, provider)
+    auth_provider = provider || AuthenticationProvider.create(name: auth_params.provider)
+    UserAuthentication.create_from_omniauth(auth_params, user, auth_provider)
     @resource = user
   end
 
