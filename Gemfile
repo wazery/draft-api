@@ -28,6 +28,7 @@ gem 'rack-cors', require: 'rack/cors'
 gem 'devise_token_auth'
 gem 'omniauth-oauth2'
 gem 'omniauth-github'
+gem 'omniauth-dropbox'
 gem 'devise_invitable'
 
 # Environment variables managmenet

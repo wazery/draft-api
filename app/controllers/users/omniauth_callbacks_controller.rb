@@ -28,7 +28,7 @@ class Users::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksCon
 
   def get_resource_from_auth_hash
     provider = AuthenticationProvider.where(name: auth_hash.provider).first
-    authentication = provider.user_authentications.where(uid: auth_hash.uid).first
+    authentication = provider.user_authentications.where(uid: auth_hash.uid).first if provider
     existing_user = current_user || User.where('email = ?', auth_hash['info']['email']).first
 
     if authentication
