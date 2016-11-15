@@ -39,7 +39,7 @@ class ProjectsController < BaseController
       }
     ]
   EOS
-  error code: 401, desc: 'Authentication failed'
+  error code: 401, desc: 'You have no access to this project!'
   error code: 422, desc: 'Please open Draft and create a project!'
   error code: 404, desc: 'Project not found'
   ################# /Documentation #############################################
@@ -90,7 +90,7 @@ class ProjectsController < BaseController
   EOS
   param_group :project
   param :page, Integer, desc: 'Artboards page', required: false
-  error code: 401, desc: 'Authentication failed'
+  error code: 401, desc: 'You have no access to this project!'
   error code: 422, desc: 'Please open Draft and create a project!'
   error code: 404, desc: 'Project not found'
   ################# /Documentation #############################################
@@ -138,7 +138,7 @@ class ProjectsController < BaseController
     param :unit, String, desc: 'Project unit (px, pt)', required: true
   end
   error code: 400, desc: 'Bad request, when empty project hash is passed'
-  error code: 401, desc: 'Authentication failed'
+  error code: 401, desc: 'You have no access to this project!'
   error code: 404, desc: 'Project not found'
   ################# /Documentation #############################################
   def create
@@ -200,7 +200,7 @@ class ProjectsController < BaseController
     }
   EOS
   param_group :project
-  error code: 401, desc: 'Authentication failed'
+  error code: 401, desc: 'You have no access to this project!'
   error code: 422, desc: 'Please open Draft and create a project!'
   error code: 404, desc: 'Project not found'
   ################# /Documentation #############################################
@@ -215,7 +215,7 @@ class ProjectsController < BaseController
   ################# Documentation ##############################################
   api :DELETE, '/projects/:id', 'Does not return anything'
   param_group :project
-  error code: 401, desc: 'Authentication failed'
+  error code: 401, desc: 'You have no access to this project!'
   error code: 422, desc: 'Please open Draft and create a project!'
   error code: 404, desc: 'Project not found'
   ################# /Documentation #############################################
@@ -262,7 +262,7 @@ class ProjectsController < BaseController
     param :slug, String, desc: 'Project slug', required: true
     param :status, Integer, desc: 'Project new status', required: true
   end
-  error code: 401, desc: 'Authentication failed'
+  error code: 401, desc: 'You have no access to this project!'
   error code: 404, desc: 'Artboard not found'
   ################# /Documentation #############################################
   def set_status
@@ -283,6 +283,8 @@ class ProjectsController < BaseController
       users: [
         {
           name:
+          firstname:
+          lastname:
           image:
           email:
         }
@@ -295,17 +297,20 @@ class ProjectsController < BaseController
     param :slug, String, desc: 'Project slug', required: true
   end
   param :email, String, desc: 'User email', required: true
-  param :first_name, String, desc: 'User first name', required: false
-  param :last_name, String, desc: 'User last name', required: false
-  error code: 401, desc: 'Authentication failed'
+  param :firstname, String, desc: 'User first name', required: false
+  param :lastname, String, desc: 'User last name', required: false
+  error code: 401, desc: 'You have no access to this project!'
   error code: 404, desc: 'Project not found'
+  meta message: 'User is already a team member of this project!'
   ################# /Documentation #############################################
   def add_team_member
-    user = User.create_with(first_name: params[:first_name],
-                            last_name: params[:last_name])
-      .find_or_create_by(email: params[:email])
+    user = User.find_by(email: params[:email])
+    unless user
+      user = User.invite!({email: params[:email], firstname: params[:firstname],
+                          lastname: params[:lastname]}, current_user)
+    end
 
-    membership = Membership.find_or_initialize_by(user_id: user.id, team_id: @project.team.id)
+    membership = Membership.find_or_initialize_by(user_id: user.id, team_id: @project.team_id)
     if membership.new_record?
       membership.save
       render json: { team: @project.team.decorate.to_json }, status: :ok
@@ -314,7 +319,39 @@ class ProjectsController < BaseController
     end
   end
 
+  ################# Documentation ##############################################
+  api :POST, '/projects/:id/remove_team_member', 'Remove a team member to the project'
+  example <<-EOS
+    team: {
+      id:
+      users: [
+        {
+          name:
+          firstname:
+          lastname:
+          image:
+          email:
+        }
+      ]
+    }
+  EOS
+  param :project, Hash, required: true do
+    param :slug, String, desc: 'Project slug', required: true
+  end
+  param :email, String, desc: 'User email', required: true
+  error code: 401, desc: 'You have no access to this project!'
+  error code: 404, desc: 'Project not found'
+  error code: 404, desc: 'This user is not found!'
+  ################# /Documentation #############################################
   def remove_team_member
+    user = User.find_by(email: params[:email])
+    return render json: { errors: ['This user is not found!'] }, status: 404 unless user
+
+    membership = Membership.find_by(user_id: user.id, team_id: @project.team_id)
+    return render json: { errors: ['This user is not a member of this project!'] }, status: 422 unless membership
+
+    membership.destroy
+    render json: { team: @project.team.decorate.to_json }, status: :ok 
   end
 
   private
@@ -325,6 +362,9 @@ class ProjectsController < BaseController
 
     # TODO: Add team_id
     @project = Project.find_by(slug: project_params[:slug])
+
+    membership = Membership.find_by(user_id: current_user.id, team_id: @project.team_id)
+    return render json: { errors: ['You have no access to this project!'] }, status: 401 unless membership
 
     return render json:  { errors: ['Project not found!'] }, status: 404 unless @project
   end

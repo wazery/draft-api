@@ -52,6 +52,10 @@ class Project < ApplicationRecord
     Artboard.update(existing_artboards.keys, existing_artboards.values) if existing_artboards.present?
   end
 
+  def team_id
+    team.id
+  end
+
   private
 
   def settings_match?(project_settings)
