@@ -18,6 +18,7 @@ class Project < ApplicationRecord
 
   # Validations
   # validates_uniqueness_of :name
+  validates :name, presence: true
 
   # Callbacks
   before_save :set_thumb
