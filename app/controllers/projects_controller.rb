@@ -406,6 +406,14 @@ class ProjectsController < BaseController
                                           :max_x, :max_y, :x, :y, :width, :height
                                         ], css: [], borders: [
                                           :fill_type, :position, :thickness,
+                                          gradient: [
+                                            :type, from: [:x, :y], to: [:x, :y], color_stops: [
+                                              :position,
+                                              color: [
+                                                :r, :g, :b, :a, :color_hex, :argb_hex, :css_rgba, :ui_color
+                                              ]
+                                            ]
+                                          ],
                                           color: [
                                             :r, :g, :b, :a, :color_hex, :argb_hex, :css_rgba, :ui_color
                                           ]
@@ -423,7 +431,9 @@ class ProjectsController < BaseController
                                           color: [
                                             :r, :g, :b, :a, :color_hex, :argb_hex, :css_rgba, :ui_color
                                           ],
-                                        ], shadows: [], color: [
+                                        ], shadows: [:type, :offset_x, :offset_y, :blur_radius, :spread, color: [
+                                          :r, :g, :b, :a, :color_hex, :argb_hex, :css_rgba, :ui_color
+                                          ]], color: [
                                           :r, :g, :b, :a, :color_hex, :argb_hex, :css_rgba, :ui_color
                                           ], exportable: [
                                             :name, :density, :format, :path
