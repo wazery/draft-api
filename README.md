@@ -1,4 +1,5 @@
-[![Docker Repository on Quay](https://quay.io/repository/wazery/draft-api/status?token=ccad28c7-a2df-4e5e-9ebd-fa2f1eeb5059 "Docker Repository on Quay")](https://quay.io/repository/wazery/draft-api)
+[![Build Status](http://drone.draftapp.io/api/badges/draftappio/api/status.svg)](http://drone.draftapp.io/draftappio/api)
+[![Docker Repository on Quay](https://quay.io/repository/draftappio/api/status?token=37b0870e-46fb-4f40-b98f-76aafaf28cf1 "Docker Repository on Quay")](https://quay.io/repository/draftappio/api)
 
 ![Draft Logo](https://dl.dropboxusercontent.com/u/71605080/logo.png)
 
