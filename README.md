@@ -1,7 +1,7 @@
 [![Build Status](http://drone.draftapp.io/api/badges/draftappio/api/status.svg)](http://drone.draftapp.io/draftappio/api)
 [![Docker Repository on Quay](https://quay.io/repository/draftappio/api/status?token=37b0870e-46fb-4f40-b98f-76aafaf28cf1 "Docker Repository on Quay")](https://quay.io/repository/draftappio/api)
 
-![Draft Logo](https://dl.dropboxusercontent.com/u/71605080/logo.png)
+![Draft Logo](https://dl.dropboxusercontent.com/u/71605080/draftdarklogo.png)
 
 # Draft Agnostic Rails API
 The agnostic Rails API that powers the Draft Chrome extension, Angular web and mobile applications.
