@@ -19,7 +19,7 @@ Rails.application.configure do
   # config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
   config.assets.enabled = true
-  config.assets.precompile += ['rails_admin/rails_admin.css', 'rails_admin/rails_admin.js']
+  config.assets.precompile += %w( *.js )
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = 'http://assets.example.com'
