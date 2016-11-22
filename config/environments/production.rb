@@ -16,8 +16,10 @@ Rails.application.configure do
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
-  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
+  # config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
+  config.assets.enabled = true
+  config.assets.precompile += ['rails_admin/rails_admin.css', 'rails_admin/rails_admin.js']
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = 'http://assets.example.com'
@@ -80,8 +82,8 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_deliveries = true
 
-  config.action_controller.asset_host = 'http://api.draftapp.io'
-  config.action_mailer.default_url_options = { host: 'api.draftapp.io' }
+  config.action_controller.asset_host = 'http://api2.draftapp.io'
+  config.action_mailer.default_url_options = { host: 'api2.draftapp.io' }
 
   config.action_mailer.delivery_method = :smtp
 
