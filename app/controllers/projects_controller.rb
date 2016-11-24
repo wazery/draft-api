@@ -315,7 +315,7 @@ class ProjectsController < BaseController
       membership.save
       render json: { team: @project.team.decorate.to_json }, status: :ok
     else
-      render json: { message: 'User is already a team member of this project!' }, status: 302
+      render json: { message: 'User is already a team member of this project!' }, status: 304
     end
   end
 
