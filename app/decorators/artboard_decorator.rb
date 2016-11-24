@@ -9,6 +9,7 @@ class ArtboardDecorator < Draper::Decorator
     ret[:thumb_image] = artboard_image.url(:thumb)
     ret[:layers]      = layers
     ret[:notes]       = notes.decorate.to_json
+    ret[:tags]        = tags.decorate.to_json
     ret[:slices]      = slices
     ret[:exportables] = exportables
 
