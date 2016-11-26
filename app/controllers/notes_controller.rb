@@ -73,6 +73,10 @@ class NotesController < BaseController
     @note = Note.new(note_params)
 
     if @note.save
+      @note.create_activity(action: 'create_note',
+                            note_id: @note.id,
+                            parameters: { type: 0, what: @note.name },
+                            owner: current_user)
       render json: @note, status: :created, location: @note
     else
       render json: @note.errors, status: :unprocessable_entity
