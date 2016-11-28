@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161124174735) do
+ActiveRecord::Schema.define(version: 20161128174702) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -132,6 +132,13 @@ ActiveRecord::Schema.define(version: 20161124174735) do
     t.datetime "updated_at",                  null: false
     t.integer  "status",          default: 0
     t.index ["slug"], name: "index_projects_on_slug", using: :btree
+  end
+
+  create_table "styleguides", force: :cascade do |t|
+    t.json     "colors"
+    t.json     "fonts"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "taggings", force: :cascade do |t|
