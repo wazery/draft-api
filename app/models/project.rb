@@ -9,6 +9,7 @@ class Project < ApplicationRecord
   # Relations
   has_many :users
   has_one :team, dependent: :destroy
+  has_one :styleguide, dependent: :destroy
   has_many :artboards
   has_many :taggings, as: :taggable
   has_many :tags, through: :taggings

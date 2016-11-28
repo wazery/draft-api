@@ -24,7 +24,12 @@ Rails.application.routes.draw do
 
     resources :activities, only: :index
 
-    resources :artboards do
+    resources :styleguides, only: %i(destroy) do
+      post :add_color, on: :member
+      post :add_font, on: :member
+    end
+
+    resources :artboards, except: %i(index show create update) do
       resources :notes
       resources :links
 

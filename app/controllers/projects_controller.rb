@@ -24,6 +24,7 @@ class ProjectsController < BaseController
         unit:
         color_format:
         artboards_count:
+        styleguide_id:
         created_at:
         updated_at:
         team: {
@@ -74,6 +75,7 @@ class ProjectsController < BaseController
       slices:
       colors:
       artboards:
+      styleguide_id:
       created_at:
       updated_at:
       team: {
@@ -116,6 +118,7 @@ class ProjectsController < BaseController
       slices:
       colors:
       artboards:
+      styleguide_id:
       created_at:
       updated_at:
       team: {
@@ -185,6 +188,7 @@ class ProjectsController < BaseController
       slices:
       colors:
       artboards:
+      styleguide_id:
       created_at:
       updated_at:
       team: {
