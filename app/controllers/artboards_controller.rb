@@ -1,39 +1,13 @@
 class ArtboardsController < BaseController
-  before_action :set_artboard, only: %i(show update destroy set_due_date set_status)
+  before_action :set_artboard, only: %i(destroy set_due_date set_status)
 
-  # GET /artboards
-  def index
-    @artboards = Artboard.all
-
-    render json: @artboards
-  end
-
-  # GET /artboards/1
-  def show
-    render json: @artboard
-  end
-
-  # POST /artboards
-  def create
-    @artboard = Artboard.new(artboard_params)
-
-    if @artboard.save
-      render json: @artboard, status: :created, location: @artboard
-    else
-      render json: @artboard.errors, status: :unprocessable_entity
-    end
-  end
-
-  # PATCH/PUT /artboards/1
-  def update
-    if @artboard.update(artboard_params)
-      render json: @artboard
-    else
-      render json: @artboard.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /artboards/1
+  ################# Documentation ##############################################
+  api :DELETE, '/projects/:project_id/artboards/:id', 'Does not return anything'
+  param :artboard_id, Integer, desc: 'Artboard ID', required: true
+  error code: 401, desc: 'You have no access to this project!'
+  error code: 422, desc: 'Please open Draft and create a project!'
+  error code: 404, desc: 'Project not found'
+  ################# /Documentation #############################################
   def destroy
     @artboard.destroy
   end
