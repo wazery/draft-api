@@ -23,6 +23,7 @@ class Project < ApplicationRecord
 
   # Callbacks
   before_save :set_thumb
+  after_create :create_styleguide
 
   def slug_candidates
     [
@@ -103,5 +104,9 @@ class Project < ApplicationRecord
     return if thumb || artboards_count == 0
 
     self.thumb = artboards.first.artboard_thumb
+  end
+
+  def create_styleguide
+    Styleguide.create(project_id: id)
   end
 end
