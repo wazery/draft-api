@@ -1,5 +1,5 @@
 class StyleguidesController < ApplicationController
-  before_action :set_styleguide, only: %i(show update destroy add_color add_font)
+  before_action :set_styleguide, only: %i(show destroy add_color add_font)
 
   ################# Documentation ##############################################
   api :GET, 'projects/:project_id/styleguides/:id', 'Returns the specified styleguide'
