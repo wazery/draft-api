@@ -51,8 +51,7 @@ class StyleguidesController < ApplicationController
   error code: 404, desc: 'Project not found'
   ################# /Documentation #############################################
   def add_color
-      @styleguide.colors = styleguide_params[:colors]
-      @styleguide.colors = new_colors_arr.uniq { |p| p['name'] }
+      @styleguide.colors = styleguide_params[:colors].uniq { |p| p['name'] }
 
     if @styleguide.save
       render json: @styleguide.decorate.to_json, status: :ok
