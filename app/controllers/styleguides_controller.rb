@@ -43,14 +43,17 @@ class StyleguidesController < ApplicationController
   EOS
   param :project_id, Integer, desc: 'Styleguide ID', required: true
   param :id, Integer, desc: 'Styleguide ID', required: true
-  param :colors, Array, desc: 'Colors to be added', required: true
+  param :styleguide, Hash, desc: 'Styleguide object', required: true do
+    param :colors, Array, desc: 'Colors to be added', required: true
+  end
   error code: 401, desc: 'You have no access to this project!'
   error code: 422, desc: 'Please open Draft and create a project!'
   error code: 404, desc: 'Project not found'
   ################# /Documentation #############################################
   def add_color
     if @styleguide.colors.present?
-      @styleguide.colors = @styleguide.colors | params[:colors]
+      new_colors_arr = @styleguide.colors.push(*styleguide_params[:colors])
+      @styleguide.colors = new_colors_arr.uniq { |p| p['name'] }
     else
       @styleguide.colors = params[:colors]
     end
@@ -79,14 +82,16 @@ class StyleguidesController < ApplicationController
   EOS
   param :project_id, Integer, desc: 'Project ID', required: true
   param :id, Integer, desc: 'Styleguide ID', required: true
-  param :fonts, Array, desc: 'Fonts to be added', required: true
+  param :styleguide, Hash, desc: 'Styleguide object', required: true do
+    param :fonts, Array, desc: 'Fonts to be added', required: true
+  end
   error code: 401, desc: 'You have no access to this project!'
   error code: 422, desc: 'Please open Draft and create a project!'
   error code: 404, desc: 'Project not found'
   ################# /Documentation #############################################
   def add_font
     if @styleguide.fonts.present?
-      @styleguide.fonts = @styleguide.fonts | params[:fonts]
+      @styleguide.fonts = @styleguide.fonts | styleguide_params[:fonts]
     else
       @styleguide.fonts = params[:fonts]
     end
@@ -113,6 +118,8 @@ class StyleguidesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def styleguide_params
-      params.require(:styleguide).permit(:colors, :fonts)
+      params.permit(:id, :project_id,
+                    colors: [:name, color: [:r, :g, :b, :a, :color_hex, :argb_hex, :css_rgba, :ui_color]],
+                    fonts: [])
     end
 end
