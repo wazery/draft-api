@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161128174702) do
+ActiveRecord::Schema.define(version: 20161129211949) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -135,10 +135,12 @@ ActiveRecord::Schema.define(version: 20161128174702) do
   end
 
   create_table "styleguides", force: :cascade do |t|
+    t.integer  "project_id"
     t.json     "colors"
     t.json     "fonts"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_styleguides_on_project_id", using: :btree
   end
 
   create_table "taggings", force: :cascade do |t|
@@ -204,6 +206,7 @@ ActiveRecord::Schema.define(version: 20161128174702) do
     t.json     "tokens"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "role"
     t.index ["email"], name: "index_users_on_email", using: :btree
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree

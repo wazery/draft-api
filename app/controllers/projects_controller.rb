@@ -309,10 +309,10 @@ class ProjectsController < BaseController
   meta message: 'User is already a team member of this project!'
   ################# /Documentation #############################################
   def add_team_member
-    user = User.find_by(email: params[:email])
+    user = User.find_by(email: params[:project]['email'])
     unless user
-      user = User.invite!({email: params[:email], firstname: params[:firstname],
-                          lastname: params[:lastname]}, current_user)
+      user = User.invite!({email: params[:project]['email'], firstname: params[:project]['firstname'],
+                          lastname: params[:project]['lastname']}, current_user)
     end
 
     membership = Membership.find_or_initialize_by(user_id: user.id, team_id: @project.team_id)
@@ -349,7 +349,7 @@ class ProjectsController < BaseController
   error code: 404, desc: 'This user is not found!'
   ################# /Documentation #############################################
   def remove_team_member
-    user = User.find_by(email: params[:email])
+    user = User.find_by(email: params[:project]['email'])
     return render json: { errors: ['This user is not found!'] }, status: 404 unless user
 
     membership = Membership.find_by(user_id: user.id, team_id: @project.team_id)
