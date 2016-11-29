@@ -1,5 +1,5 @@
 class StyleguidesController < ApplicationController
-  before_action :set_styleguide, only: %i(show update destroy)
+  before_action :set_styleguide, only: %i(show update destroy add_color add_font)
 
   ################# Documentation ##############################################
   api :GET, 'projects/:project_id/styleguides/:id', 'Returns the specified styleguide'
@@ -99,6 +99,8 @@ class StyleguidesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_styleguide
       @styleguide = Styleguide.find(params[:id])
+
+      return render json: {errors: ['Something went wrong!']}, status: :unprocessable_entity unless @styleguide
     end
 
     # Only allow a trusted parameter "white list" through.
