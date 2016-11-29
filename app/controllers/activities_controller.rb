@@ -1,4 +1,4 @@
-class ActivitiesController < ApplicationController
+class ActivitiesController < BaseController
   ################# Documentation ##############################################
   api :GET, '/projects/:project_id/activities', "Returns the specified project's activities"
   example <<-EOS
