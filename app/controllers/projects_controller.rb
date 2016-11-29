@@ -305,6 +305,7 @@ class ProjectsController < BaseController
     param :email, String, desc: 'User email', required: true
     param :firstname, String, desc: 'User first name', required: false
     param :lastname, String, desc: 'User last name', required: false
+    param :role, Integer, desc: 'User role, 0 is member, 1 is admin', required: false
   end
   error code: 401, desc: 'You have no access to this project!'
   error code: 404, desc: 'Project not found'
@@ -315,7 +316,7 @@ class ProjectsController < BaseController
       user = User.find_by(email: user_data['email'])
       unless user
         user = User.invite!({email: user_data['email'], firstname: user_data['firstname'],
-                            lastname: user_data['lastname']}, current_user)
+                            lastname: user_data['lastname'], role: user_data['role']}, current_user)
       end
 
       membership = Membership.find_or_initialize_by(user_id: user.id, team_id: @project.team_id)
