@@ -301,26 +301,30 @@ class ProjectsController < BaseController
   param :project, Hash, required: true do
     param :slug, String, desc: 'Project slug', required: true
   end
-  param :email, String, desc: 'User email', required: true
-  param :firstname, String, desc: 'User first name', required: false
-  param :lastname, String, desc: 'User last name', required: false
+  param :users, Array, desc: 'Users data to be invited', required: true do
+    param :email, String, desc: 'User email', required: true
+    param :firstname, String, desc: 'User first name', required: false
+    param :lastname, String, desc: 'User last name', required: false
+  end
   error code: 401, desc: 'You have no access to this project!'
   error code: 404, desc: 'Project not found'
   meta message: 'User is already a team member of this project!'
   ################# /Documentation #############################################
   def add_team_member
-    user = User.find_by(email: params[:project]['email'])
-    unless user
-      user = User.invite!({email: params[:project]['email'], firstname: params[:project]['firstname'],
-                          lastname: params[:project]['lastname']}, current_user)
-    end
+    params[:project][:users].each do |user_data|
+      user = User.find_by(email: user_data['email'])
+      unless user
+        user = User.invite!({email: user_data['email'], firstname: user_data['firstname'],
+                            lastname: user_data['lastname']}, current_user)
+      end
 
-    membership = Membership.find_or_initialize_by(user_id: user.id, team_id: @project.team_id)
-    if membership.new_record?
-      membership.save
-      render json: { team: @project.team.decorate.to_json }, status: :ok
-    else
-      render json: { message: 'User is already a team member of this project!' }, status: 304
+      membership = Membership.find_or_initialize_by(user_id: user.id, team_id: @project.team_id)
+      if membership.new_record?
+        membership.save
+        render json: { team: @project.team.decorate.to_json }, status: :ok
+      else
+        render json: { message: 'User is already a team member of this project!' }, status: 304
+      end
     end
   end
 
