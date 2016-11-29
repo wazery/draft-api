@@ -274,6 +274,7 @@ class ProjectsController < BaseController
 
     if @project.update(status: project_params[:status])
       render json: @project.decorate.to_json
+        .deep_transform_keys { |k| k.to_s.camelize(:lower) }
     else
       render json: @project.errors, status: :unprocessable_entity
     end
