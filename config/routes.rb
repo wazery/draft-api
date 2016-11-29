@@ -24,7 +24,7 @@ Rails.application.routes.draw do
 
     resources :activities, only: :index
 
-    resources :styleguides, only: %i(destroy) do
+    resources :styleguides, only: %i(show destroy) do
       post :add_color, on: :member
       post :add_font, on: :member
     end

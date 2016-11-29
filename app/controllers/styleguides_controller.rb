@@ -1,5 +1,30 @@
 class StyleguidesController < ApplicationController
-  before_action :set_styleguide, only: %i(update destroy)
+  before_action :set_styleguide, only: %i(show update destroy)
+
+  ################# Documentation ##############################################
+  api :POST, 'projects/:project_id/styleguides/:id', 'Returns the specified styleguide'
+  example <<-EOS
+    {
+      id:
+      colors: [
+        {
+        }
+      ]
+      fonts: [
+        {
+        }
+      ]
+    }
+  EOS
+  param :project_id, Integer, desc: 'Styleguide ID', required: true
+  param :id, Integer, desc: 'Styleguide ID', required: true
+  error code: 401, desc: 'You have no access to this project!'
+  error code: 422, desc: 'Please open Draft and create a project!'
+  error code: 404, desc: 'Project not found'
+  ################# /Documentation #############################################
+  def show
+    render json: @styleguide.decorate.to_json
+  end
 
   ################# Documentation ##############################################
   api :POST, 'projects/:project_id/styleguides/:id/add_color', 'Returns the updated styleguide'
