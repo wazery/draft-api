@@ -2,7 +2,7 @@ class StyleguidesController < ApplicationController
   before_action :set_styleguide, only: %i(show update destroy)
 
   ################# Documentation ##############################################
-  api :POST, 'projects/:project_id/styleguides/:id', 'Returns the specified styleguide'
+  api :GET, 'projects/:project_id/styleguides/:id', 'Returns the specified styleguide'
   example <<-EOS
     {
       id:
