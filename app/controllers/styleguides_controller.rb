@@ -50,7 +50,7 @@ class StyleguidesController < ApplicationController
   ################# /Documentation #############################################
   def add_color
     if @styleguide.colors.present?
-      @styleguide.colors.push(*params[:colors])
+      @styleguide.colors = @styleguide.colors | params[:colors]
     else
       @styleguide.colors = params[:colors]
     end
@@ -86,7 +86,7 @@ class StyleguidesController < ApplicationController
   ################# /Documentation #############################################
   def add_font
     if @styleguide.fonts.present?
-      @styleguide.fonts.push(*params[:fonts])
+      @styleguide.fonts = @styleguide.fonts | params[:fonts]
     else
       @styleguide.fonts = params[:fonts]
     end
