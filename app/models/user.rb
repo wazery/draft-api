@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
   has_many :teams, through: :memberships
   has_many :projects, through: :teams
   has_many :notes
+  has_one :notification_setting
 
   # Delegations
 
