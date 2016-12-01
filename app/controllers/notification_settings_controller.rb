@@ -34,12 +34,12 @@ class NotificationSettingsController < ApplicationController
   EOS
   param :user_id, Integer, desc: 'User ID', required: true
   param :notification_setting, Hash, desc: 'NotificationSetting data', required: true do
-    param :summary, Boolean, desc: 'Email summary', required: false
-    param :mention_me, Boolean, desc: 'Mention the user', required: false
-    param :create_project, Boolean, desc: 'Create project email', required: false
-    param :weekly_summary, Boolean, desc: 'Weekly email', required: false
-    param :project_comment, Boolean, desc: 'Project email', required: false
-    param :new_features, Boolean, desc: 'New features email', required: false
+    param :summary, [true, false], desc: 'Email summary', required: false
+    param :mention_me, [true, false], desc: 'Mention the user', required: false
+    param :create_project, [true, false], desc: 'Create project email', required: false
+    param :weekly_summary, [true, false], desc: 'Weekly email', required: false
+    param :project_comment, [true, false], desc: 'Project email', required: false
+    param :new_features, [true, false], desc: 'New features email', required: false
   end
   error code: 404, desc: 'Notification setting not found'
   ################# /Documentation #############################################
