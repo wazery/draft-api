@@ -320,13 +320,9 @@ class ProjectsController < BaseController
       end
 
       membership = Membership.find_or_initialize_by(user_id: user.id, team_id: @project.team_id)
-      if membership.new_record?
-        membership.save
-        render json: { team: @project.team.decorate.to_json }, status: :ok
-      else
-        render json: { message: 'User is already a team member of this project!' }, status: 304
-      end
+      membership.save if membership.new_record?
     end
+    render json: { team: @project.team.decorate.to_json }, status: :ok
   end
 
   ################# Documentation ##############################################
