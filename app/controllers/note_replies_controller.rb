@@ -2,25 +2,17 @@ class NoteRepliesController < ApplicationController
   before_action :set_note_reply, only: %i(update destroy)
 
   ################# Documentation ##############################################
-  api :POST, '/projects/:project_id/artboards/:artboard_id/notes', 'Returns the created notes or the errors'
+  api :POST, '/projects/:project_id/artboards/:artboard_id/notes/:note_id/note_replies', 'Returns the created notes or the errors'
   example <<-EOS
     {
       id:
-      note:
-      rect: {
-        x:
-        y:
-      }
+      note_id:
+      text:
     }
   EOS
   param :artboard_id, Integer, desc: 'Artboard ID', required: true
-  param :note, Hash, required: true do
-    param :note, String, desc: 'Tag name', required: true
-    param :rect, Hash, desc: 'Tag name', required: true do
-      param :x, Integer, desc: 'X position', required: true
-      param :y, Integer, desc: 'X position', required: true
-    end
-  end
+  param :note_id, Integer, desc: 'The parent note ID', required: true
+  param :text, String, desc: 'The reply content', required: true
   error code: 400, desc: 'Bad request, when empty note hash is passed'
   error code: 401, desc: 'Authentication failed'
   ################# /Documentation #############################################
@@ -34,7 +26,21 @@ class NoteRepliesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /note_replies/1
+  ################# Documentation ##############################################
+  api :PUT, '/projects/:project_id/artboards/:artboard_id/notes/:note_id/note_replies', 'Returns the created notes or the errors'
+  example <<-EOS
+    {
+      id:
+      note_id:
+      text:
+    }
+  EOS
+  param :artboard_id, Integer, desc: 'Artboard ID', required: true
+  param :note_id, Integer, desc: 'The parent note ID', required: true
+  param :text, String, desc: 'The reply content', required: true
+  error code: 400, desc: 'Bad request, when empty note hash is passed'
+  error code: 401, desc: 'Authentication failed'
+  ################# /Documentation #############################################
   def update
     if @note_reply.update(note_reply_params)
       render json: @note_reply
@@ -43,7 +49,21 @@ class NoteRepliesController < ApplicationController
     end
   end
 
-  # DELETE /note_replies/1
+  ################# Documentation ##############################################
+  api :DELETE, '/projects/:project_id/artboards/:artboard_id/notes/:note_id/note_replies', 'Returns the created notes or the errors'
+  example <<-EOS
+    {
+      id:
+      note_id:
+      text:
+    }
+  EOS
+  param :artboard_id, Integer, desc: 'Artboard ID', required: true
+  param :note_id, Integer, desc: 'The parent note ID', required: true
+  param :text, String, desc: 'The reply content', required: true
+  error code: 400, desc: 'Bad request, when empty note hash is passed'
+  error code: 401, desc: 'Authentication failed'
+  ################# /Documentation #############################################
   def destroy
     @note_reply.destroy
   end
