@@ -22,7 +22,7 @@ class NotesController < BaseController
   def index
     @notes = Artboard.find(params[:artboard_id]).notes
 
-    render json: @notes
+    render json: @notes.decorate.to_json
   end
 
   ################# Documentation ##############################################
@@ -43,7 +43,7 @@ class NotesController < BaseController
   error code: 404, desc: 'Project not found'
   ################# /Documentation #############################################
   def show
-    render json: @note
+    render json: @note.decorate.to_json
   end
 
   ################# Documentation ##############################################
@@ -78,7 +78,7 @@ class NotesController < BaseController
                             note_id: @note.id,
                             parameters: { type: 0, what: @note.name },
                             owner: current_user)
-      render json: @note, status: :created, location: @note
+      render json: @note.decorate.to_json, status: :created, location: @note
     else
       render json: @note.errors, status: :unprocessable_entity
     end
@@ -109,7 +109,7 @@ class NotesController < BaseController
   ################# /Documentation #############################################
   def update
     if @note.update(note_params)
-      render json: @note
+      render json: @note.decorate.to_json
     else
       render json: @note.errors, status: :unprocessable_entity
     end
