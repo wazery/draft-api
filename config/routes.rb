@@ -29,8 +29,10 @@ Rails.application.routes.draw do
       post :add_font, on: :member
     end
 
-    resources :artboards, except: %i(index show create update) do
-      resources :notes
+    resources :artboards, only: %i(destroy) do
+      resources :notes do
+        resources :note_replies, except: %i(index show)
+      end
       resources :links
 
       post :set_due_date, on: :member

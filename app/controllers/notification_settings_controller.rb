@@ -21,7 +21,7 @@ class NotificationSettingsController < ApplicationController
   end
 
   ################# Documentation ##############################################
-  api :PUT, '/users/:user_id/notification_settings/:id', 'Returns the specified notification setting'
+  api :PUT, '/users/:user_id/notification_settings/:id', 'Returns the updated notification setting'
   example <<-EOS
     {
       summary:

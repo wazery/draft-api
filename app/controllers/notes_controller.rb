@@ -73,6 +73,7 @@ class NotesController < BaseController
     @note = Note.new(note_params)
 
     if @note.save
+      # TODO: Remove this, because there is a callback in the model
       @note.create_activity(action: 'create_note',
                             note_id: @note.id,
                             parameters: { type: 0, what: @note.name },

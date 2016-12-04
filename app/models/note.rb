@@ -2,6 +2,7 @@ class Note < ApplicationRecord
   include PublicActivity::Common
   after_create :create_note_activity
 
+  has_many :note_replies
   belongs_to :artboard
   belongs_to :user
 
