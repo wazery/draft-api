@@ -12,6 +12,7 @@ class NoteRepliesController < ApplicationController
   EOS
   param :artboard_id, Integer, desc: 'Artboard ID', required: true
   param :note_id, Integer, desc: 'The parent note ID', required: true
+  param :user_id, Integer, desc: 'The ID of the user that created the reply', required: true
   param :text, String, desc: 'The reply content', required: true
   error code: 400, desc: 'Bad request, when empty note hash is passed'
   error code: 401, desc: 'Authentication failed'
@@ -76,6 +77,6 @@ class NoteRepliesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def note_reply_params
-      params.require(:note_reply).permit(:text, :note_id)
+      params.require(:note_reply).permit(:text, :note_id, :user_id)
     end
 end
