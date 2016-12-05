@@ -12,5 +12,7 @@ class NoteReplyDecorator < Draper::Decorator
       ret[:user_email] = user.email
       ret[:user_image] = user.image
     end
+
+    ret
   end
 end
