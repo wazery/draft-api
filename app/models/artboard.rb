@@ -3,9 +3,10 @@ class Artboard < ApplicationRecord
   has_many :notes
   has_many :taggings, as: :taggable
   has_many :tags, through: :taggings
+  has_many :assignments
+  has_many :assignees, through: :assignments
   has_one :link
   belongs_to :project, counter_cache: true
-  # has_many :notification_logs, as: :loggable
 
   # Attachments
   has_attached_file :artboard_image, styles: { large: '50%', thumb: ''},

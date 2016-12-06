@@ -1,5 +1,5 @@
 class ArtboardsController < BaseController
-  before_action :set_artboard, only: %i(destroy set_due_date set_status)
+  before_action :set_artboard, only: %i(destroy set_due_date set_status add_assignees)
 
   ################# Documentation ##############################################
   api :DELETE, '/projects/:project_id/artboards/:id', 'Does not return anything'
@@ -73,6 +73,39 @@ class ArtboardsController < BaseController
       render json: @artboard.decorate.to_json
     else
       render json: @artboard.errors, status: :unprocessable_entity
+    end
+  end
+
+  ################# Documentation ##############################################
+  api :POST, '/projects/:project_id/artboards/:id/add_assignees', 'Sets the status for the artboard'
+  example <<-EOS
+    [
+      {
+        full_image:
+        thumb_image:
+        due_date:
+        status:
+        layers: [
+        ]
+        notes:
+        slices:
+        exportables:
+      }
+    ]
+  EOS
+  param :artboard_id, Integer, desc: 'Artboard ID', required: true
+  param :user_id, Array, desc: 'User ID to be added', required: true
+  error code: 401, desc: 'Authentication failed'
+  error code: 402, desc: 'There was a problem assigning the users, please try again'
+  error code: 404, desc: 'Artboard not found'
+  ################# /Documentation #############################################
+  def add_assignee
+    @artboard.assignees.push(User.find(params[:user_id]))
+
+    if @artboard.save
+      render json: @artboard.decorate.to_json, status: :ok
+    else
+      render json: { errors: ['There was a problem assigning the users, please try again'] }, status: :unprocessable_entity
     end
   end
 
