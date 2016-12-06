@@ -19,6 +19,7 @@ class ProjectDecorator < Draper::Decorator
     ret = as_json(except: %i(slices colors))
 
     ret[:team]  = team.decorate.to_json if team.present?
+    ret[:tags]  = tags.decorate.to_json
 
     ret
   end
