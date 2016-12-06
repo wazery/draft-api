@@ -1,5 +1,5 @@
 class ArtboardsController < BaseController
-  before_action :set_artboard, only: %i(destroy set_due_date set_status add_assignees)
+  before_action :set_artboard, only: %i(destroy set_due_date set_status add_assignee)
 
   ################# Documentation ##############################################
   api :DELETE, '/projects/:project_id/artboards/:id', 'Does not return anything'
@@ -94,7 +94,7 @@ class ArtboardsController < BaseController
     ]
   EOS
   param :artboard_id, Integer, desc: 'Artboard ID', required: true
-  param :user_id, Array, desc: 'User ID to be added', required: true
+  param :user_id, Integer, desc: 'User ID to be added', required: true
   error code: 401, desc: 'Authentication failed'
   error code: 402, desc: 'There was a problem assigning the users, please try again'
   error code: 404, desc: 'Artboard not found'

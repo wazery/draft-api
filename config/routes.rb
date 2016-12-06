@@ -37,6 +37,7 @@ Rails.application.routes.draw do
 
       post :set_due_date, on: :member
       post :set_status, on: :member
+      post :add_assignee, on: :member
     end
   end
 
