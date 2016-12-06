@@ -131,6 +131,6 @@ class NotesController < BaseController
 
     # Only allow a trusted parameter "white list" through.
     def note_params
-      params.require(:note).permit(:note, rect: [:x, :y])
+      params.require(:note).permit(:note, :artboard_id, rect: [:x, :y])
     end
 end
