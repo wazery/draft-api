@@ -350,6 +350,8 @@ class ProjectsController < BaseController
   error code: 404, desc: 'This user is not found!'
   ################# /Documentation #############################################
   def remove_team_member
+    return render json: { errors: ['You are not an admin for this project!'] }, status: :unprocessable_entity if current_user.role != 1
+
     user = User.find_by(email: params[:project]['email'])
     return render json: { errors: ['This user is not found!'] }, status: :unprocessable_entity unless user
 
