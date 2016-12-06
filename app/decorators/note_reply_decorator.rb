@@ -6,9 +6,9 @@ class NoteReplyDecorator < Draper::Decorator
 
     reply_user = user
     if reply_user
-      ret[:user_name]  = user.name
-      ret[:user_email] = user.email
-      ret[:user_image] = user.image
+      ret[:user_name]  = reply_user.name
+      ret[:user_email] = reply_user.email
+      ret[:user_image] = reply_user.image
     end
 
     ret

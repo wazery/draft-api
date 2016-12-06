@@ -9,7 +9,7 @@ class ActivityDecorator < Draper::Decorator
     ret[:message] = parameters[:message] if parameters.key? :message
     ret[:to]      = parameters[:to]      if parameters.key? :to
     ret[:what]    = trackable_type
-    ret[:user]    = owner.name
+    ret[:user]    = owner.name if owner
 
     ret
   end

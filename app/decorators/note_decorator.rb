@@ -10,7 +10,7 @@ class NoteDecorator < Draper::Decorator
     ret[:object_id]   = note.object_id
     ret[:text]        = note.note
     ret[:rect]        = rect
-    ret[:replies]     = note_replies.decorate.to_json
+    ret[:replies]     = note_replies.decorate.to_json if note_replies.present?
     ret[:date]        = created_at
 
     if note_user

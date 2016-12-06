@@ -21,7 +21,7 @@ class NoteRepliesController < ApplicationController
     @note_reply = NoteReply.new(note_reply_params)
 
     if @note_reply.save
-      render json: @note_reply, status: :created, location: @note_reply
+      render json: @note_reply.decorate.to_json, status: :created
     else
       render json: @note_reply.errors, status: :unprocessable_entity
     end
@@ -44,7 +44,7 @@ class NoteRepliesController < ApplicationController
   ################# /Documentation #############################################
   def update
     if @note_reply.update(note_reply_params)
-      render json: @note_reply
+      render json: @note_reply.decorate.to_json
     else
       render json: @note_reply.errors, status: :unprocessable_entity
     end
@@ -77,6 +77,6 @@ class NoteRepliesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def note_reply_params
-      params.require(:note_reply).permit(:text, :note_id, :user_id)
+      params.permit(:text, :note_id, :user_id)
     end
 end

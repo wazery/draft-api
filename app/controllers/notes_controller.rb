@@ -73,12 +73,7 @@ class NotesController < BaseController
     @note = Note.new(note_params)
 
     if @note.save
-      # TODO: Remove this, because there is a callback in the model
-      @note.create_activity(action: 'create_note',
-                            note_id: @note.id,
-                            parameters: { type: 0, what: @note.name },
-                            owner: current_user)
-      render json: @note.decorate.to_json, status: :created, location: @note
+      render json: @note.decorate.to_json, status: :created
     else
       render json: @note.errors, status: :unprocessable_entity
     end
@@ -131,6 +126,6 @@ class NotesController < BaseController
 
     # Only allow a trusted parameter "white list" through.
     def note_params
-      params.require(:note).permit(:note, :artboard_id, rect: [:x, :y])
+      params.require(:note).permit(:note, :artboard_id, :user_id, rect: [:x, :y, :width, :height])
     end
 end
