@@ -168,7 +168,7 @@ class ProjectsController < BaseController
 
     # TODO: Return the location of the project sharing link
     render json: @project.decorate.to_json
-      .deep_transform_keys { |k| k.to_s.camelize(:lower) }
+      .deep_transform_keys { |k| k.to_s.camelize(:lower) }, status: :created
   end
 
   ################# Documentation ##############################################
@@ -351,13 +351,15 @@ class ProjectsController < BaseController
   ################# /Documentation #############################################
   def remove_team_member
     user = User.find_by(email: params[:project]['email'])
-    return render json: { errors: ['This user is not found!'] }, status: 404 unless user
+    return render json: { errors: ['This user is not found!'] }, status: :unprocessable_entity unless user
+
+    return render json: { errors: ["You can't remove yourself!"]}, status: :unprocessable_entity if user == current_user
 
     membership = Membership.find_by(user_id: user.id, team_id: @project.team_id)
     return render json: { errors: ['This user is not a member of this project!'] }, status: 422 unless membership
 
     membership.destroy
-    render json: { team: @project.team.decorate.to_json }, status: :ok 
+    render json: { team: @project.team.decorate.to_json }, status: :ok
   end
 
   private
