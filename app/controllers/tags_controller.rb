@@ -38,7 +38,7 @@ class TagsController < BaseController
   error code: 404, desc: 'Project not found'
   ################# /Documentation #############################################
   def show
-    render json: @tag
+    render json: @tag.decorate.to_json
   end
 
   ################# Documentation ##############################################
@@ -47,24 +47,26 @@ class TagsController < BaseController
     {
       id:
       name:
+      color
     }
   EOS
   param :taggable_id, Integer, desc: 'Taggable ID (artboard, project)', required: true
   param :taggable_type, String, desc: 'Taggable type (artboard, project)', required: true
   param :tag, Hash, required: true do
     param :name, String, desc: 'Tag name', required: true
+    param :color, String, desc: 'Tag color', required: true
   end
   error code: 400, desc: 'Bad request, when empty project hash is passed'
   error code: 401, desc: 'Authentication failed'
   error code: 404, desc: 'Project not found'
   ################# /Documentation #############################################
   def create
-    @tag = Tag.find_or_create_by(name: tag_params[:name])
+    @tag = Tag.find_or_create_by(name: tag_params[:name], color: tag_params[:color])
     @tagging = Tagging.find_or_create_by(tag_id: @tag.id,
                                          taggable_id: params[:taggable_id],
                                          taggable_type: params[:taggable_type])
 
-    render json: @tag, status: :ok
+    render json: @tag.decorate.to_json, status: :created
   end
 
   ################# Documentation ##############################################
@@ -91,7 +93,7 @@ class TagsController < BaseController
     end
 
     if @tag.update(tag_params)
-      render json: @tag
+      render json: @tag.decorate.to_json
     else
       render json: @tag.errors, status: :unprocessable_entity
     end
@@ -114,6 +116,6 @@ class TagsController < BaseController
 
     # Only allow a trusted parameter "white list" through.
     def tag_params
-      params.require(:tag).permit(:name)
+      params.require(:tag).permit(:name, :color)
     end
 end
