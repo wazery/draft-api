@@ -2,7 +2,7 @@ class NotificationSettingsController < ApplicationController
   before_action :set_notification_setting, only: %i(show update)
 
   ################# Documentation ##############################################
-  api :GET, '/users/:user_id/notification_settings/:id', 'Returns the specified notification setting'
+  api :GET, '/users/:user_id/notification_settings', 'Returns the specified notification setting'
   example <<-EOS
     {
       summary:

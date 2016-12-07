@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161206183523) do
+ActiveRecord::Schema.define(version: 20161207001331) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -142,6 +142,8 @@ ActiveRecord::Schema.define(version: 20161206183523) do
     t.boolean  "new_features"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.integer  "users_id"
+    t.index ["users_id"], name: "index_notification_settings_on_users_id", using: :btree
   end
 
   create_table "projects", force: :cascade do |t|
@@ -243,5 +245,6 @@ ActiveRecord::Schema.define(version: 20161206183523) do
   add_foreign_key "memberships", "teams"
   add_foreign_key "memberships", "users"
   add_foreign_key "note_replies", "users"
+  add_foreign_key "notification_settings", "users", column: "users_id"
   add_foreign_key "teams", "projects"
 end
