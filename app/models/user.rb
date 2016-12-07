@@ -21,6 +21,10 @@ class User < ActiveRecord::Base
   has_many :note_replies, through: :users
   has_one :notification_setting
 
+  has_attached_file :image, styles: { large: '50%', thumb: ''},
+    convert_options: { thumb: '-gravity north -thumbnail 270x179^ -extent 270x179' },
+    processors: %i(thumbnail compression)
+
   # Delegations
 
   # # Use friendly_id on Users
