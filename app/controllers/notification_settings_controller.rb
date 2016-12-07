@@ -55,7 +55,8 @@ class NotificationSettingsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_notification_setting
       user = User.find(params[:user_id])
-      @notification_setting = user.notification_setting
+      @notification_setting = NotificationSetting.create(user_id: user.id) unless user.notification_setting
+      @notification_setting = user.notification_setting unless @notification_setting
 
       return render json: {errors: ['Notification setting is not found!']}, status: 404 unless @notification_setting
     end

@@ -142,8 +142,8 @@ ActiveRecord::Schema.define(version: 20161207002500) do
     t.boolean  "new_features"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.integer  "users_id"
-    t.index ["users_id"], name: "index_notification_settings_on_users_id", using: :btree
+    t.integer  "user_id"
+    t.index ["user_id"], name: "index_notification_settings_on_user_id", using: :btree
   end
 
   create_table "projects", force: :cascade do |t|
@@ -249,6 +249,6 @@ ActiveRecord::Schema.define(version: 20161207002500) do
   add_foreign_key "memberships", "teams"
   add_foreign_key "memberships", "users"
   add_foreign_key "note_replies", "users"
-  add_foreign_key "notification_settings", "users", column: "users_id"
+  add_foreign_key "notification_settings", "users"
   add_foreign_key "teams", "projects"
 end

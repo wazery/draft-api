@@ -27,20 +27,6 @@ class User < ActiveRecord::Base
 
   # Delegations
 
-  # # Use friendly_id on Users
-  # extend FriendlyId
-  # friendly_id :friendify, use: :slugged
-
-  # # necessary to override friendly_id reserved words
-  # def friendify
-  #   if username.downcase == 'admin'
-  #     "user-#{username}"
-  #   else
-  #     "#{username}"
-  #   end
-  # end
-  #
-
   # # Validations
   # # :username
   # validates :username, uniqueness: { case_sensitive: false }
