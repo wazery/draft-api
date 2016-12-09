@@ -17,6 +17,7 @@ class User < ActiveRecord::Base
   has_many :memberships, dependent: :destroy
   has_many :teams, through: :memberships
   has_many :projects, through: :teams
+  has_many :artboards
   has_many :notes
   has_many :note_replies, through: :users
   has_one :notification_setting

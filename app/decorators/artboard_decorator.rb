@@ -10,7 +10,7 @@ class ArtboardDecorator < Draper::Decorator
     ret[:layers]      = layers
     ret[:notes]       = notes.decorate.to_json
     ret[:tags]        = tags.decorate.to_json
-    ret[:assignees]   = assignees
+    ret[:assignee]    = assignee.decorate.to_json
     ret[:slices]      = slices
     ret[:exportables] = exportables
 

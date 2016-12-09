@@ -77,7 +77,7 @@ class ArtboardsController < BaseController
   end
 
   ################# Documentation ##############################################
-  api :POST, '/projects/:project_id/artboards/:id/add_assignees', 'Sets the status for the artboard'
+  api :POST, '/projects/:project_id/artboards/:id/add_assignee', 'Sets the status for the artboard'
   example <<-EOS
     [
       {
@@ -100,7 +100,7 @@ class ArtboardsController < BaseController
   error code: 404, desc: 'Artboard not found'
   ################# /Documentation #############################################
   def add_assignee
-    @artboard.assignees.push(User.find(params[:user_id]))
+    @artboard.assignee = User.find(params[:user_id])
 
     if @artboard.save
       render json: @artboard.decorate.to_json, status: :ok

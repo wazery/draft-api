@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161207002500) do
+ActiveRecord::Schema.define(version: 20161209221727) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,12 +56,9 @@ ActiveRecord::Schema.define(version: 20161207002500) do
     t.datetime "artboard_image_updated_at"
     t.boolean  "artboard_image_processing"
     t.string   "style"
+    t.integer  "user_id"
     t.index ["project_id"], name: "index_artboards_on_project_id", using: :btree
-  end
-
-  create_table "assignments", force: :cascade do |t|
-    t.integer "artboard_id"
-    t.integer "assignee_id"
+    t.index ["user_id"], name: "index_artboards_on_user_id", using: :btree
   end
 
   create_table "authentication_providers", force: :cascade do |t|
@@ -246,6 +243,7 @@ ActiveRecord::Schema.define(version: 20161207002500) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
   end
 
+  add_foreign_key "artboards", "users"
   add_foreign_key "memberships", "teams"
   add_foreign_key "memberships", "users"
   add_foreign_key "note_replies", "users"
