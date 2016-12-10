@@ -10,9 +10,7 @@ class ArtboardDecorator < Draper::Decorator
     ret[:layers]      = layers
     ret[:notes]       = notes.decorate.to_json
     ret[:tags]        = tags.decorate.to_json
-    ret[:assignee]    = assignee.decorate.to_json if assignee
-    ret[:slices]      = slices
-    ret[:exportables] = exportables
+    ret[:assignee]    = UserDecorator.decorate(assignee).to_json if assignee
 
     ret
   end

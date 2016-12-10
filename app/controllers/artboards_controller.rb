@@ -24,8 +24,6 @@ class ArtboardsController < BaseController
         layers: [
         ]
         notes:
-        slices:
-        exportables:
       }
     ]
   EOS
@@ -39,6 +37,7 @@ class ArtboardsController < BaseController
 
     if @artboard.update(due_date: params[:due_date])
       render json: @artboard.decorate.to_json
+        .deep_transform_keys { |k| k.to_s.camelize(:lower) }
     else
       render json: @artboard.errors, status: :unprocessable_entity
     end
@@ -56,8 +55,6 @@ class ArtboardsController < BaseController
         layers: [
         ]
         notes:
-        slices:
-        exportables:
       }
     ]
   EOS
@@ -71,6 +68,7 @@ class ArtboardsController < BaseController
 
     if @artboard.update(status: params[:status])
       render json: @artboard.decorate.to_json
+        .deep_transform_keys { |k| k.to_s.camelize(:lower) }
     else
       render json: @artboard.errors, status: :unprocessable_entity
     end
@@ -88,8 +86,6 @@ class ArtboardsController < BaseController
         layers: [
         ]
         notes:
-        slices:
-        exportables:
       }
     ]
   EOS
@@ -103,7 +99,8 @@ class ArtboardsController < BaseController
     @artboard.assignee = User.find(params[:user_id])
 
     if @artboard.save
-      render json: @artboard.decorate.to_json, status: :ok
+      render json: @artboard.decorate.to_json
+        .deep_transform_keys { |k| k.to_s.camelize(:lower) }, status: :ok
     else
       render json: { errors: ['There was a problem assigning the users, please try again'] }, status: :unprocessable_entity
     end
