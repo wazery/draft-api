@@ -6,7 +6,7 @@ class ProjectDecorator < Draper::Decorator
     ret[:artboards]       = artboards.paginate(page: options[:page]).decorate.to_json
     ret[:artboards_count] = artboards_count
     ret[:styleguide]      = styleguide.decorate.to_json if styleguide
-    ret[:slices]          = slices # FIXME: Needs to be moved to artboards
+    ret[:slices]          = slices
     ret[:colors]          = colors
 
     ret[:tags]            = tags.decorate.to_json

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161209223057) do
+ActiveRecord::Schema.define(version: 20161210013528) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,7 +46,6 @@ ActiveRecord::Schema.define(version: 20161209223057) do
     t.datetime "due_date"
     t.string   "token"
     t.json     "layers"
-    t.json     "slices"
     t.json     "exportables"
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
@@ -152,11 +151,11 @@ ActiveRecord::Schema.define(version: 20161209223057) do
     t.string   "unit"
     t.string   "color_format"
     t.integer  "artboards_count", default: 0
-    t.json     "slices"
     t.json     "colors"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
     t.integer  "status",          default: 0
+    t.json     "slices"
     t.index ["slug"], name: "index_projects_on_slug", using: :btree
   end
 
