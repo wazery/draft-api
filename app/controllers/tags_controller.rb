@@ -8,6 +8,7 @@ class TagsController < BaseController
       {
         id:
         name:
+        color:
       }
     ]
   EOS
@@ -30,6 +31,7 @@ class TagsController < BaseController
     {
       id:
       name:
+      color:
     }
   EOS
   param :id, Integer, desc: 'Tag ID', required: true
@@ -75,6 +77,7 @@ class TagsController < BaseController
     {
       id:
       name:
+      color:
     }
   EOS
   param :taggable_id, Integer, desc: 'Taggable ID (artboard, project)', required: false

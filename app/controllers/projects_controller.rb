@@ -445,7 +445,7 @@ class ProjectsController < BaseController
                                           :r, :g, :b, :a, :color_hex, :argb_hex, :css_rgba, :ui_color
                                           ]], color: [
                                           :r, :g, :b, :a, :color_hex, :argb_hex, :css_rgba, :ui_color
-                                          ], exportable: [
+                                          ], exportables_attributes: [
                                             :name, :density, :format, :path
                                           ]
                                       ],
@@ -462,8 +462,8 @@ class ProjectsController < BaseController
                                       rect: [
                                         :x, :y, :width, :height
                                       ],
-                                      exportable: [
-                                        :name, :density, :format, :path
+                                      exportables_attributes: [
+                                        :name, :density, :format, :path, :file
                                       ]
                                     ],
                                     colors: [

@@ -10,10 +10,10 @@ class Project < ApplicationRecord
   has_many :users
   has_one :team, dependent: :destroy
   has_one :styleguide, dependent: :destroy
-  has_many :artboards
-  has_many :taggings, as: :taggable
+  has_many :artboards, dependent: :destroy
+  has_many :slices, dependent: :destroy
+  has_many :taggings, as: :taggable, dependent: :destroy
   has_many :tags, through: :taggings
-  # has_many :activities
 
   accepts_nested_attributes_for :artboards
 
@@ -24,6 +24,9 @@ class Project < ApplicationRecord
   # Callbacks
   before_save :set_thumb
   after_create :create_styleguide
+
+  # Scopes
+  default_scope { order(created_at: :desc) }
 
   def slug_candidates
     [

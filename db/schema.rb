@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161210013528) do
+ActiveRecord::Schema.define(version: 20161210183315) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,7 +46,6 @@ ActiveRecord::Schema.define(version: 20161210013528) do
     t.datetime "due_date"
     t.string   "token"
     t.json     "layers"
-    t.json     "exportables"
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
     t.string   "artboard_image_file_name"
@@ -74,6 +73,21 @@ ActiveRecord::Schema.define(version: 20161210013528) do
     t.datetime "confirmed_at"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+  end
+
+  create_table "exportables", force: :cascade do |t|
+    t.integer  "slice_id"
+    t.string   "name"
+    t.string   "density"
+    t.string   "format"
+    t.string   "path"
+    t.string   "file_file_name"
+    t.string   "file_content_type"
+    t.integer  "file_file_size"
+    t.datetime "file_updated_at"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.index ["slice_id"], name: "index_exportables_on_slice_id", using: :btree
   end
 
   create_table "invites", force: :cascade do |t|
@@ -155,8 +169,17 @@ ActiveRecord::Schema.define(version: 20161210013528) do
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
     t.integer  "status",          default: 0
-    t.json     "slices"
     t.index ["slug"], name: "index_projects_on_slug", using: :btree
+  end
+
+  create_table "slices", force: :cascade do |t|
+    t.integer  "project_id"
+    t.string   "name"
+    t.string   "object_id"
+    t.json     "rect"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_slices_on_project_id", using: :btree
   end
 
   create_table "styleguides", force: :cascade do |t|

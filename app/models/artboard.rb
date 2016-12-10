@@ -1,12 +1,13 @@
 class Artboard < ApplicationRecord
+  # Aliases
   alias_attribute :assignee, :user
 
   # Relations
-  has_many :notes
-  has_many :taggings, as: :taggable
+  has_many :notes, dependent: :destroy
+  has_many :taggings, as: :taggable, dependent: :destroy
   has_many :tags, through: :taggings
   belongs_to :user
-  has_one :link
+  has_one :link, dependent: :destroy
   belongs_to :project, counter_cache: true
 
   # Attachments
