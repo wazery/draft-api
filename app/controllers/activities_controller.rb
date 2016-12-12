@@ -56,7 +56,7 @@ class ActivitiesController < BaseController
                                                 project_id: params[:project_id],
                                                 trackable_id: params[:project_id],
                                                 trackable_type: 'Project',
-                                                parameters: { type: 5, what: 'Post'} )
+                                                parameters: { type: 5, what: 'Post', message: params[:message]} )
 
     if @activity.save
       render json: @activity.decorate.to_json, status: :created
