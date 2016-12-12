@@ -27,6 +27,8 @@ class Project < ApplicationRecord
 
   # Scopes
   default_scope { order(created_at: :desc) }
+  default_scope { where(archived: false) }
+  scope :archived, -> { where(archived: true) }
 
   def slug_candidates
     [
@@ -51,11 +53,19 @@ class Project < ApplicationRecord
   end
 
   def add_or_update_artboards(artboards_data)
-    existing_artboards = filter_existing_artboards!(artboards_data)
+    existing_records = filter_existing_records!(artboards_data, artboards)
 
     artboards.create(artboards_data) if artboards_data.present?
 
-    Artboard.update(existing_artboards.keys, existing_artboards.values) if existing_artboards.present?
+    Artboard.update(existing_records.keys, existing_records.values) if existing_records.present?
+  end
+
+  def add_or_update_slices(slices_data)
+    existing_records = filter_existing_records!(slices_data, slices)
+
+    slices.create(slices_data) if slices_data.present?
+
+    Slice.update(existing_records.keys, existing_records.values) if existing_records.present?
   end
 
   def team_id
@@ -75,32 +85,30 @@ class Project < ApplicationRecord
 
   # Filter artboards data to remove existing records,
   # and return them in a seperate array
-  def filter_existing_artboards!(artboards_data)
-    existing_artboards = Artboard.where(
-      object_id: oid_array(artboards_data),
-      project_id: id
-    )
+  def filter_existing_records!(records, rel)
+    existing_records = rel.where(object_id: object_id_array(records))
 
-    return nil unless existing_artboards.present?
+    return nil unless existing_records.present?
 
-    # Get artboard ids to map it with the resulting hash
-    artboards_ids = existing_artboards.map(&:id)
+    # Get record IDs to map it with the resulting hash
+    record_ids = existing_records.map(&:id)
+    object_ids = object_id_array(existing_records)
 
-    existing_artboards =
-      artboards_data.map { |artboard| artboards_data.delete(artboard) if artboard[:object_id].in?(oid_array(existing_artboards)) }.compact
+    existing_records =
+      records.map { |record| records.delete(record) if record[:object_id].in?(object_ids) }.compact
 
-    format_existing_artboards(existing_artboards, artboards_ids)
+    format_existing_records(existing_records, record_ids)
   end
 
-  # Returns a hash like { id: { artboard } }
-  def format_existing_artboards(existing_artboards, artboards_ids)
-    existing_artboards.each_with_index.with_object({}) do |(artboard, index), hash|
-      hash[artboards_ids[index]] = artboard
+  # Returns a hash like { id: { record } }
+  def format_existing_records(existing_records, record_ids)
+    existing_records.each_with_index.with_object({}) do |(record, index), hash|
+      hash[record_ids[index]] = record
     end
   end
 
-  def oid_array(data)
-    data.map { |artboard| artboard[:object_id] }
+  def object_id_array(data)
+    data.map { |record| record[:object_id] }
   end
 
   def set_thumb

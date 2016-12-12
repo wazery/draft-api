@@ -1,6 +1,7 @@
 class ProjectsController < BaseController
   before_action :add_user_to_notes, only: %i(create update)
-  before_action :set_project, only: %i(show update destroy set_status add_team_member remove_team_member)
+  before_action :set_project, only: %i(show update destroy set_status
+                                       add_team_member remove_team_member archive)
 
   def_param_group :project do
     param :project, Hash, required: true do
@@ -40,12 +41,17 @@ class ProjectsController < BaseController
       }
     ]
   EOS
+  param :archived, [true, false], desc: 'If true return only archived projects', required: false
   error code: 401, desc: 'You have no access to this project!'
   error code: 422, desc: 'Please open Draft and create a project!'
   error code: 404, desc: 'Project not found'
   ################# /Documentation #############################################
   def index
-    @projects = current_user.projects
+    if params[:archived]
+      @projects = current_user.projects.archived
+    else
+      @projects = current_user.projects
+    end
 
     render json: @projects.decorate.to_json, status: :ok
   end
@@ -362,6 +368,39 @@ class ProjectsController < BaseController
 
     membership.destroy
     render json: { team: @project.team.decorate.to_json }, status: :ok
+  end
+
+  ################# Documentation ##############################################
+  api :POST, '/projects/:id/archive', 'Archive the specified project'
+  example <<-EOS
+    team: {
+      id:
+      users: [
+        {
+          name:
+          firstname:
+          lastname:
+          image:
+          email:
+        }
+      ]
+    }
+  EOS
+  param :project, Hash, required: true do
+    param :slug, String, desc: 'Project slug', required: true
+  end
+  param :email, String, desc: 'User email', required: true
+  error code: 401, desc: 'You have no access to this project!'
+  error code: 404, desc: 'Project not found'
+  error code: 404, desc: 'This user is not found!'
+  ################# /Documentation #############################################
+  def archive
+    if @project.archive!
+      render json: @project.decorate.to_json
+        .deep_transform_keys { |k| k.to_s.camelize(:lower) }
+    else
+      render json: @project.errors, status: :unprocessable_entity
+    end
   end
 
   private

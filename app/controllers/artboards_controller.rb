@@ -35,7 +35,7 @@ class ArtboardsController < BaseController
   def set_due_date
     return unless params[:due_date].present?
 
-    if @artboard.update(due_date: params[:due_date])
+    if @artboard.set_due_date(params[:due_date])
       render json: @artboard.decorate.to_json
         .deep_transform_keys { |k| k.to_s.camelize(:lower) }
     else

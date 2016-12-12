@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     post :set_status, on: :member
     post :add_team_member, on: :member
     post :remove_team_member, on: :member
+    post :archive, on: :member
 
     resources :activities, only: :index
 
