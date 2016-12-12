@@ -52,7 +52,7 @@ class ActivitiesController < BaseController
   ################# /Documentation #############################################
   def create
     @activity = Activity.new(activity_params
-      .reverse_merge(user_id: current_user.id, type: 5 what: 'Post'))
+      .reverse_merge(user_id: current_user.id, type: 5, what: 'Post'))
 
     if @activity.save
       render json: @activity.decorate.to_json, status: :created
