@@ -51,20 +51,17 @@ class ActivitiesController < BaseController
   error code: 422, desc: 'Unprocessable entity'
   ################# /Documentation #############################################
   def create
-    @activity = PublicActivity::Activity.new(activity_params
-      .reverse_merge(user_id: current_user.id, type: 5, what: 'Post'))
+    @activity = PublicActivity::Activity.create(owner_id: params[:user_id],
+                                                owner_type: 'User',
+                                                project_id: params[:project_id],
+                                                trackable_id: params[:project_id],
+                                                trackable_type: 'Project',
+                                                parameters: { type: 5, what: 'Post'} )
 
     if @activity.save
       render json: @activity.decorate.to_json, status: :created
     else
       render json: @activity.errors, status: :unprocessable_entity
     end
-  end
-
-  private
-
-  # Only allow a trusted parameter "white list" through.
-  def activity_params
-    params.permit(:message)
   end
 end
