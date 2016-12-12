@@ -27,7 +27,6 @@ class Project < ApplicationRecord
 
   # Scopes
   default_scope { order(created_at: :desc) }
-  default_scope { where(archived: false) }
   scope :archived, -> { where(archived: true) }
 
   def slug_candidates
