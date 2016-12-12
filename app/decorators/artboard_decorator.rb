@@ -7,6 +7,7 @@ class ArtboardDecorator < Draper::Decorator
 
     ret[:full_image]  = artboard_image.url(:large)
     ret[:thumb_image] = artboard_image.url(:thumb)
+    ret[:object_id]   = object.object_id # To avoid returing Ruby#object_id
     ret[:layers]      = layers
     ret[:notes]       = notes.decorate.to_json
     ret[:tags]        = tags.decorate.to_json
