@@ -31,6 +31,19 @@ class Artboard < ApplicationRecord
     artboard_image.url(:thumb)
   end
 
+  # FIXME: This is not working yet!
+  def check_or_update_project_thumb
+    project.update_thumb! if project.thumb == artboard_thumb
+  end
+
+  def set_due_date(date)
+    self.due_date = date
+
+    project.set_due_date(date)
+
+    save
+  end
+
   private
 
   def add_token

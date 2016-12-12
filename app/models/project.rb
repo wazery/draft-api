@@ -72,6 +72,25 @@ class Project < ApplicationRecord
     team.id
   end
 
+  # FIXME: This is not working yet!
+  def update_thumb!
+    self.thumb = artboards.first.artboard_thumb
+
+    save
+  end
+
+  def set_due_date(date)
+    due_date ? (self.due_date = date if due_date > date) : self.due_date = date
+
+    save
+  end
+
+  def archive!
+    archived = true
+
+    save
+  end
+
   private
 
   def settings_match?(project_settings)

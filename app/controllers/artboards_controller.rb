@@ -9,6 +9,7 @@ class ArtboardsController < BaseController
   error code: 404, desc: 'Project not found'
   ################# /Documentation #############################################
   def destroy
+    # TODO: Make sure that this is not the artboard that is used as the project cover
     @artboard.destroy
   end
 
