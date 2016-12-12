@@ -23,7 +23,7 @@ Rails.application.routes.draw do
     post :remove_team_member, on: :member
     post :archive, on: :member
 
-    resources :activities, only: :index, :create
+    resources :activities, only: %i(index create)
 
     resources :styleguides, only: %i(show destroy) do
       post :add_color, on: :member
