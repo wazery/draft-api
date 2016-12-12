@@ -51,7 +51,7 @@ class ActivitiesController < BaseController
   error code: 422, desc: 'Unprocessable entity'
   ################# /Documentation #############################################
   def create
-    @activity = Activity.new(activity_params
+    @activity = PublicActivity::Activity.new(activity_params
       .reverse_merge(user_id: current_user.id, type: 5, what: 'Post'))
 
     if @activity.save
