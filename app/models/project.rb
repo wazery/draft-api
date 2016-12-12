@@ -86,7 +86,7 @@ class Project < ApplicationRecord
   end
 
   def archive!
-    archived = true
+    self.archived = true
 
     save
   end
