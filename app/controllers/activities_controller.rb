@@ -59,7 +59,7 @@ class ActivitiesController < BaseController
                                                 parameters: { type: 5, what: 'Post', message: params[:message]} )
 
     if @activity.save
-      render json: ActivityDecorator.decorate(@activity).to_json.decorate.to_json, status: :created
+      render json: ActivityDecorator.decorate(@activity).to_json, status: :created
     else
       render json: @activity.errors, status: :unprocessable_entity
     end
