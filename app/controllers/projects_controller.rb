@@ -41,7 +41,7 @@ class ProjectsController < BaseController
       }
     ]
   EOS
-  param :archived, [true, false], desc: 'If true return only archived projects', required: false
+  param :archived, [0, 1], desc: 'If true return only archived projects', required: false
   error code: 401, desc: 'You have no access to this project!'
   error code: 422, desc: 'Please open Draft and create a project!'
   error code: 404, desc: 'Project not found'
@@ -50,7 +50,7 @@ class ProjectsController < BaseController
     if params[:archived] == '1'
       @projects = current_user.projects.archived
     else
-      @projects = current_user.projects
+      @projects = current_user.projects.unarchived
     end
 
     render json: @projects.decorate.to_json, status: :ok
