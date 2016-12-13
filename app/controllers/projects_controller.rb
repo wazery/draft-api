@@ -47,7 +47,7 @@ class ProjectsController < BaseController
   error code: 404, desc: 'Project not found'
   ################# /Documentation #############################################
   def index
-    if params[:archived]
+    if params[:archived] == '1'
       @projects = current_user.projects.archived
     else
       @projects = current_user.projects
