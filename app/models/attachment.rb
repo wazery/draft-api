@@ -5,7 +5,7 @@ class Attachment < ApplicationRecord
   end
 
   PAPERCLIP_SLICE_IMAGE_STYLES = {
-    thumb: { geometry: '100x100^', convert_options: PAPERCLIP_CONVERT_PROC },
+    thumb: { geometry: '100x100^' },
     large: { geometry: '' },
   }
 
@@ -27,7 +27,7 @@ class Attachment < ApplicationRecord
   # },
   styles: PAPERCLIP_SLICE_IMAGE_STYLES,
   # convert_options: { thumb: '-gravity north -thumbnail 270x179^ -extent 270x179' },
-  # processors: %i(thumbnail compression)
+  processors: %i(thumbnail compression)
 
   # Validations
   validates :payload, attachment_presence: true
