@@ -2,12 +2,10 @@ class ArtboardDecorator < Draper::Decorator
   delegate_all
 
   def to_json
-    ret = as_json(except: %i(artboard_image_content_type artboard_image_file_name
-                             artboard_image_file_size artboard_image_updated_at
-                            artboard_image_processing))
+    ret = as_json
 
-    ret[:full_image]  = artboard_image.url(:large)
-    ret[:thumb_image] = artboard_image.url(:thumb)
+    ret[:full_image]  = attachment.payload(:large) if attachment
+    ret[:thumb_image] = attachment.payload(:thumb) if attachment
     ret[:object_id]   = object.object_id # To avoid returing Ruby#object_id
     ret[:layers]      = layers
     ret[:notes]       = notes.decorate.to_json

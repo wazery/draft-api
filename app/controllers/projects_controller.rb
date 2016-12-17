@@ -1,7 +1,8 @@
 class ProjectsController < BaseController
   before_action :add_user_to_notes, only: %i(create update)
   before_action :set_project, only: %i(show update destroy set_status
-                                       add_team_member remove_team_member archive)
+                                       add_team_member remove_team_member
+                                       archive)
 
   def_param_group :project do
     param :project, Hash, required: true do
@@ -61,7 +62,7 @@ class ProjectsController < BaseController
   def project_names
     @projects = current_user.projects
 
-    render json: @projects.map { |project| { name: project.name, slug: project.slug } }, status: 200
+    render json: @projects.map { |project| { id: project.id, name: project.name, slug: project.slug } }, status: 200
   end
 
   ################# Documentation ##############################################
@@ -403,6 +404,31 @@ class ProjectsController < BaseController
     end
   end
 
+  # TODO: The remaining issue to handle is when the artboard is deleted
+  # the slices should also be deleted
+  def upload_artboard_or_slice
+    if params[:object_id]
+      artboard = Artboard.find_or_create_by(object_id: params[:object_id],
+                                            project_id: params[:id])
+
+      if artboard
+        attachment = artboard.create_artboard_image_attachment(payload: params[:file])
+        render json: { url: attachment.payload.url(:large)}, status: :ok
+      else
+        render json: { errors: 'Cannot find that artboad!'}, status: :unprocessable_entity
+      end
+    else
+      project = Project.find(params[:id])
+
+      if project
+        attachment = project.attachments.create(payload: params[:file])
+        render json: { url: attachment.payload.url(:original)}, status: :ok
+      else
+        render json: { errors: ['Cannot find that project!']}, status: :unprocessable_entity
+      end
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -484,7 +510,7 @@ class ProjectsController < BaseController
                                           :r, :g, :b, :a, :color_hex, :argb_hex, :css_rgba, :ui_color
                                           ]], color: [
                                           :r, :g, :b, :a, :color_hex, :argb_hex, :css_rgba, :ui_color
-                                          ], exportables_attributes: [
+                                          ], exportables: [
                                             :name, :density, :format, :path
                                           ]
                                       ],
@@ -501,7 +527,7 @@ class ProjectsController < BaseController
                                       rect: [
                                         :x, :y, :width, :height
                                       ],
-                                      exportables_attributes: [
+                                      exportables: [
                                         :name, :density, :format, :path, :file
                                       ]
                                     ],

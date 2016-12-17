@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161212021232) do
+ActiveRecord::Schema.define(version: 20161214063942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20161212021232) do
     t.integer  "owner_id"
     t.integer  "project_id"
     t.string   "key"
-    t.text     "parameters"
+    t.json     "parameters",     default: {}, null: false
     t.string   "recipient_type"
     t.integer  "recipient_id"
     t.datetime "created_at"
@@ -40,23 +40,28 @@ ActiveRecord::Schema.define(version: 20161212021232) do
     t.string   "page_name"
     t.string   "name"
     t.string   "slug"
-    t.integer  "status",                      default: 0
+    t.integer  "status",                    default: 0
     t.integer  "width"
     t.integer  "height"
     t.datetime "due_date"
     t.string   "token"
     t.json     "layers"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
-    t.string   "artboard_image_file_name"
-    t.string   "artboard_image_content_type"
-    t.integer  "artboard_image_file_size"
-    t.datetime "artboard_image_updated_at"
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
     t.boolean  "artboard_image_processing"
     t.string   "style"
     t.integer  "user_id"
     t.index ["project_id"], name: "index_artboards_on_project_id", using: :btree
     t.index ["user_id"], name: "index_artboards_on_user_id", using: :btree
+  end
+
+  create_table "attachments", force: :cascade do |t|
+    t.string   "payload_file_name"
+    t.string   "payload_content_type"
+    t.integer  "payload_file_size"
+    t.datetime "payload_updated_at"
+    t.integer  "attachable_id"
+    t.string   "attachable_type"
   end
 
   create_table "authentication_providers", force: :cascade do |t|
@@ -73,21 +78,6 @@ ActiveRecord::Schema.define(version: 20161212021232) do
     t.datetime "confirmed_at"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
-  end
-
-  create_table "exportables", force: :cascade do |t|
-    t.integer  "slice_id"
-    t.string   "name"
-    t.string   "density"
-    t.string   "format"
-    t.string   "path"
-    t.string   "file_file_name"
-    t.string   "file_content_type"
-    t.integer  "file_file_size"
-    t.datetime "file_updated_at"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-    t.index ["slice_id"], name: "index_exportables_on_slice_id", using: :btree
   end
 
   create_table "invites", force: :cascade do |t|
@@ -135,6 +125,7 @@ ActiveRecord::Schema.define(version: 20161212021232) do
     t.integer  "artboard_id"
     t.integer  "user_id"
     t.string   "object_id"
+    t.boolean  "resolved"
     t.text     "note"
     t.json     "rect"
     t.datetime "created_at",  null: false
@@ -165,6 +156,7 @@ ActiveRecord::Schema.define(version: 20161212021232) do
     t.string   "unit"
     t.string   "color_format"
     t.integer  "artboards_count", default: 0
+    t.json     "slices"
     t.json     "colors"
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
@@ -172,16 +164,6 @@ ActiveRecord::Schema.define(version: 20161212021232) do
     t.datetime "due_date"
     t.boolean  "archived",        default: false, null: false
     t.index ["slug"], name: "index_projects_on_slug", using: :btree
-  end
-
-  create_table "slices", force: :cascade do |t|
-    t.integer  "project_id"
-    t.string   "name"
-    t.string   "object_id"
-    t.json     "rect"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["project_id"], name: "index_slices_on_project_id", using: :btree
   end
 
   create_table "styleguides", force: :cascade do |t|
@@ -256,7 +238,7 @@ ActiveRecord::Schema.define(version: 20161212021232) do
     t.json     "tokens"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "role"
+    t.integer  "role",                   default: 0
     t.string   "avatar_file_name"
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"

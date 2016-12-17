@@ -14,7 +14,7 @@ class UpdateProjectJob < ApplicationJob
       project.add_or_update_artboards(project_params[:artboards_attributes])
     end
 
-    project.add_or_update_slices(project_params[:slices]) if project_params[:slices].present?
+    project.slices = project_params[:slices] if project_params[:slices].present?
     project.colors = project_params[:colors] if project_params[:colors].present?
 
     project.save

@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     post :add_team_member, on: :member
     post :remove_team_member, on: :member
     post :archive, on: :member
+    post :upload_artboard_or_slice, on: :member
 
     resources :activities, only: %i(index create)
 

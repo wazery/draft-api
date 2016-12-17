@@ -11,7 +11,7 @@ class Project < ApplicationRecord
   has_one :team, dependent: :destroy
   has_one :styleguide, dependent: :destroy
   has_many :artboards, dependent: :destroy
-  has_many :slices, dependent: :destroy
+  has_many :attachments, as: :attachable, dependent: :destroy
   has_many :taggings, as: :taggable, dependent: :destroy
   has_many :tags, through: :taggings
 
@@ -22,7 +22,7 @@ class Project < ApplicationRecord
   validates :name, presence: true
 
   # Callbacks
-  before_save :set_thumb
+  # before_save :set_thumb
   after_create :create_styleguide
 
   # Scopes
@@ -58,14 +58,6 @@ class Project < ApplicationRecord
     artboards.create(artboards_data) if artboards_data.present?
 
     Artboard.update(existing_records.keys, existing_records.values) if existing_records.present?
-  end
-
-  def add_or_update_slices(slices_data)
-    existing_records = filter_existing_records!(slices_data, slices)
-
-    slices.create(slices_data) if slices_data.present?
-
-    Slice.update(existing_records.keys, existing_records.values) if existing_records.present?
   end
 
   def team_id
@@ -104,8 +96,9 @@ class Project < ApplicationRecord
 
   # Filter artboards data to remove existing records,
   # and return them in a seperate array
-  def filter_existing_records!(records, rel)
-    existing_records = rel.where(object_id: object_id_array(records))
+  # NOTE: it mutates the passed record to remove the existing ones
+  def filter_existing_records!(artboards_data, rel)
+    existing_records = rel.where(object_id: object_id_array(artboards_data))
 
     return nil unless existing_records.present?
 
@@ -114,7 +107,7 @@ class Project < ApplicationRecord
     object_ids = object_id_array(existing_records)
 
     existing_records =
-      records.map { |record| records.delete(record) if record[:object_id].in?(object_ids) }.compact
+      artboards_data.map { |record| artboards_data.delete(record) if record[:object_id].in?(object_ids) }.compact
 
     format_existing_records(existing_records, record_ids)
   end
@@ -130,6 +123,7 @@ class Project < ApplicationRecord
     data.map { |record| record[:object_id] }
   end
 
+  # FIXME: This is not working yet!
   def set_thumb
     return if thumb || artboards_count == 0
 
