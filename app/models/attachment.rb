@@ -34,6 +34,6 @@ class Attachment < ApplicationRecord
   # processors: %i(thumbnail compression)
 
   # Validations
-  validates :payload, attachment_presence: true
-  validates_attachment_content_type :payload, content_type: %w(image/jpg image/png image/svg+xml image/tif application/pdf)
+  # validates :payload, attachment_presence: true
+  # validates_attachment_content_type :payload, content_type: %w(image/jpg image/png image/svg+xml image/tif application/pdf)
 end
