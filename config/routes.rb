@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     post :upload_artboard_or_slice, on: :member
 
     resources :activities, only: %i(index create)
+    resources :implemented_screens
 
     resources :styleguides, only: %i(show destroy) do
       post :add_color, on: :member

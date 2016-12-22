@@ -14,6 +14,7 @@ class Project < ApplicationRecord
   has_many :attachments, as: :attachable, dependent: :destroy
   has_many :taggings, as: :taggable, dependent: :destroy
   has_many :tags, through: :taggings
+  has_many :implemented_screens
 
   accepts_nested_attributes_for :artboards
 
