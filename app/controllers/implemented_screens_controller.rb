@@ -7,6 +7,7 @@ class ImplementedScreensController < ApplicationController
     [
       {
         url:
+        thumb:
         project_id:
       }
     ]
@@ -18,7 +19,7 @@ class ImplementedScreensController < ApplicationController
     @project = Project.find(params[:project_id])
     @implemented_screens = @project.implemented_screens
 
-    render json: @implemented_screens
+    render json: ImplementedScreenDecorator.decorate_collection(@implemented_screens)
   end
 
   ################# Documentation ##############################################
@@ -26,6 +27,7 @@ class ImplementedScreensController < ApplicationController
   example <<-EOS
     {
       url:
+      thumb:
       project_id:
     }
   EOS
@@ -33,7 +35,7 @@ class ImplementedScreensController < ApplicationController
   error code: 401, desc: 'Authentication failed'
   ################# /Documentation #############################################
   def show
-    render json: @implemented_screen
+    render json: @implemented_screen.decorate.to_json
   end
 
   ################# Documentation ##############################################
@@ -41,6 +43,7 @@ class ImplementedScreensController < ApplicationController
   example <<-EOS
     {
       url:
+      thumb:
       project_id:
     }
   EOS
@@ -51,7 +54,7 @@ class ImplementedScreensController < ApplicationController
     @implemented_screen = ImplementedScreen.new(implemented_screen_params)
 
     if @implemented_screen.save
-      render json: @implemented_screen, status: :created, location: @implemented_screen
+      render json: @implemented_screen.decorate.to_json, status: :created, location: @implemented_screen
     else
       render json: @implemented_screen.errors, status: :unprocessable_entity
     end
@@ -62,6 +65,7 @@ class ImplementedScreensController < ApplicationController
   example <<-EOS
     {
       url:
+      thumb:
       project_id:
     }
   EOS
@@ -70,7 +74,7 @@ class ImplementedScreensController < ApplicationController
   ################# /Documentation #############################################
   def update
     if @implemented_screen.update(implemented_screen_params)
-      render json: @implemented_screen
+      render json: @implemented_screen.decorate.to_json
     else
       render json: @implemented_screen.errors, status: :unprocessable_entity
     end
@@ -82,6 +86,7 @@ class ImplementedScreensController < ApplicationController
   example <<-EOS
     {
       url:
+      thumb:
       project_id:
     }
   EOS

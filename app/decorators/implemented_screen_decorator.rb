@@ -1,13 +1,13 @@
 class ImplementedScreenDecorator < Draper::Decorator
   delegate_all
 
-  # Define presentation-specific methods here. Helpers are accessed through
-  # `helpers` (aka `h`). You can override attributes, for example:
-  #
-  #   def created_at
-  #     helpers.content_tag :span, class: 'time' do
-  #       object.created_at.strftime("%a %m/%d/%y")
-  #     end
-  #   end
+  def to_json
+    ret = {}
 
+    ret[:url]        = payload.url(:original)
+    ret[:thumb]      = payload.url(:thumb)
+    ret[:project_id] = project_id
+
+    ret
+  end
 end
