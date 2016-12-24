@@ -1,5 +1,8 @@
 class ImplementedScreen < ApplicationRecord
-  belongs_to :project
+  # Constants
+  PAPERCLIP_CONVERT_PROC = proc do |instance|
+    '-gravity north -thumbnail 270x179^ -extent 270x179'
+  end
 
   PAPERCLIP_STYLE = {
     thumb: { geometry: '270x179^', convert_options: PAPERCLIP_CONVERT_PROC },
@@ -11,6 +14,10 @@ class ImplementedScreen < ApplicationRecord
     styles: PAPERCLIP_STYLE,
     processors: %i(thumbnail compression)
 
+  # Relations
+  belongs_to :project
+
+  # Validations
   validates :payload, attachment_presence: true
   validates_attachment_content_type :payload, content_type: %w(image/jpg image/png)
 end
