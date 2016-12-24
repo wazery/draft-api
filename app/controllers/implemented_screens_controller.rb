@@ -19,7 +19,7 @@ class ImplementedScreensController < ApplicationController
     @project = Project.find(params[:project_id])
     @implemented_screens = @project.implemented_screens
 
-    render json: ImplementedScreenDecorator.decorate_collection(@implemented_screens)
+    render json: @implemented_screens.decorate.to_json
   end
 
   ################# Documentation ##############################################
