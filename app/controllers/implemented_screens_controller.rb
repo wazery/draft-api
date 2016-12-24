@@ -54,7 +54,7 @@ class ImplementedScreensController < ApplicationController
     @implemented_screen = ImplementedScreen.new(implemented_screen_params)
 
     if @implemented_screen.save
-      render json: @implemented_screen.decorate.to_json, status: :created, location: @implemented_screen
+      render json: @implemented_screen.decorate.to_json, status: :created
     else
       render json: @implemented_screen.errors, status: :unprocessable_entity
     end
@@ -105,6 +105,6 @@ class ImplementedScreensController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def implemented_screen_params
-      params.require(:implemented_screen).permit(:payload, :project_id)
+      params.permit(:payload, :project_id)
     end
 end

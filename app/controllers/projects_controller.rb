@@ -535,6 +535,9 @@ class ProjectsController < BaseController
                                       :name, color: [
                                         :r, :g, :b, :a, :color_hex, :argb_hex, :css_rgba, :ui_color
                                       ]
+                                    ],
+                                    fonts: [
+                                      :font_size, :font_face, :text_align, :letter_spacing, :line_height
                                     ]
                                    )
   end
