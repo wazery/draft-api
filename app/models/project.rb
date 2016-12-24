@@ -132,6 +132,6 @@ class Project < ApplicationRecord
   end
 
   def create_styleguide
-    Styleguide.create(project_id: id)
+    Styleguide.create(project_id: id, fonts: fonts)
   end
 end

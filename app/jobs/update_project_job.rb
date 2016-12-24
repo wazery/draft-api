@@ -16,6 +16,7 @@ class UpdateProjectJob < ApplicationJob
 
     project.slices = project_params[:slices] if project_params[:slices].present?
     project.colors = project_params[:colors] if project_params[:colors].present?
+    project.fonts  = project_params[:fonts]  if project_params[:fonts].present?
 
     project.save
   end

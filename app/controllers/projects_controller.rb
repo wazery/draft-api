@@ -160,6 +160,10 @@ class ProjectsController < BaseController
                                      project_settings: project_settings.to_h,
                                      project_params: project_params.to_h,
                                      current_user: current_user)
+
+      # TODO: Return the location of the project sharing link
+      return render json: @project.decorate.to_json
+        .deep_transform_keys { |k| k.to_s.camelize(:lower) }, status: :ok
     else
       @project = Project.create(project_params)
       @project.create_activity(action: 'create_project',
@@ -169,13 +173,14 @@ class ProjectsController < BaseController
 
       team = Team.create(project_id: @project.id)
       Membership.create(user_id: current_user.id, team_id: team.id)
+
+      # TODO: Return the location of the project sharing link
+      return render json: @project.decorate.to_json
+        .deep_transform_keys { |k| k.to_s.camelize(:lower) }, status: :created
     end
 
     render json: @project.errors, status: :unprocessable_entity && return if @project.errors.present?
 
-    # TODO: Return the location of the project sharing link
-    render json: @project.decorate.to_json
-      .deep_transform_keys { |k| k.to_s.camelize(:lower) }, status: :created
   end
 
   ################# Documentation ##############################################
