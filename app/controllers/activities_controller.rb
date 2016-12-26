@@ -27,7 +27,7 @@ class ActivitiesController < BaseController
       ActivityDecorator.decorate_collection(PublicActivity::Activity.where(
         project_id: current_user.projects.map(&:id)))
 
-      render json: @activities.reverse, status: :ok
+      render json: @activities.reverse.to_index_json, status: :ok
   end
 
   ################# Documentation ##############################################
