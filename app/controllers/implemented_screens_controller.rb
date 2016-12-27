@@ -6,6 +6,7 @@ class ImplementedScreensController < ApplicationController
   example <<-EOS
     [
       {
+        id:
         url:
         thumb:
         project_id:
@@ -26,6 +27,7 @@ class ImplementedScreensController < ApplicationController
   api :GET, '/projects/:project_id/implemented_screens/:id', 'Returns the specified implemented_screen'
   example <<-EOS
     {
+      id:
       url:
       thumb:
       project_id:
@@ -42,6 +44,7 @@ class ImplementedScreensController < ApplicationController
   api :POST, '/projects/:project_id/implemented_screens', 'Returns the created implemented_screen'
   example <<-EOS
     {
+      id:
       url:
       thumb:
       project_id:
@@ -64,6 +67,7 @@ class ImplementedScreensController < ApplicationController
   api :PUT, '/projects/:project_id/implemented_screens/:id', 'Returns the updated implemented_screen'
   example <<-EOS
     {
+      id:
       url:
       thumb:
       project_id:
@@ -84,11 +88,6 @@ class ImplementedScreensController < ApplicationController
   ################# Documentation ##############################################
   api :DELETE, '/projects/:project_id/implemented_screens/:id', 'Returns nothing'
   example <<-EOS
-    {
-      url:
-      thumb:
-      project_id:
-    }
   EOS
   param :project_id, Integer, desc: 'Project ID', required: true
   error code: 401, desc: 'Authentication failed'
