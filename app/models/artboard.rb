@@ -28,7 +28,7 @@ class Artboard < ApplicationRecord
   # self.per_page = 4
 
   def artboard_thumb
-    attachment.payload.url(:thumb) if attachment
+    artboard_image_attachment.payload.url(:thumb) if artboard_image_attachment
   end
 
   # FIXME: This is not working yet!

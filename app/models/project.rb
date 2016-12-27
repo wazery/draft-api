@@ -23,7 +23,7 @@ class Project < ApplicationRecord
   validates :name, presence: true
 
   # Callbacks
-  # before_save :set_thumb
+  before_save :set_thumb
   after_create :create_styleguide
 
   # Scopes
@@ -124,7 +124,6 @@ class Project < ApplicationRecord
     data.map { |record| record[:object_id] }
   end
 
-  # FIXME: This is not working yet!
   def set_thumb
     return if thumb || artboards_count == 0
 
