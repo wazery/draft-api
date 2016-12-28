@@ -31,7 +31,7 @@
       <tfoot>
         <tr>
           <td colspan="2">
-            <p style="text-align: center; color: #787d94; font-size: 12px; margin-top: 20px;">You are receiving this email because you subscribed for Draft App Private Beta. <br />If you did not, you can <%= link_to 'unsubscribe here', beta_requester_url(beta_requester, confirmation_token: beta_requester.confirmation_token), method: :delete, remote: true, target: '_blank', style: 'color: #4e8ef7; text-decoration: none;' %></p>
+            <p style="text-align: center; color: #787d94; font-size: 12px; margin-top: 20px;">You are receiving this email because you subscribed for Draft App Private Beta. <br />If you did not, you can <%= link_to 'unsubscribe here', beta_requester_url(@beta_requester, confirmation_token: @beta_requester.confirmation_token), method: :delete, remote: true, target: '_blank', style: 'color: #4e8ef7; text-decoration: none;' %></p>
           </td>
         </tr>
       </tfoot>
