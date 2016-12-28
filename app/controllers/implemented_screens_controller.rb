@@ -99,7 +99,7 @@ class ImplementedScreensController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_implemented_screen
-      @implemented_screen = ImplementedScreen.find(params[:id], project_id: params[:project_id])
+      @implemented_screen = ImplementedScreen.find_by(id: params[:id], project_id: params[:project_id])
     end
 
     # Only allow a trusted parameter "white list" through.
