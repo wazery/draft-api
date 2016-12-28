@@ -10,6 +10,6 @@ class BetaMailer < ApplicationMailer
     @beta_requester = beta_requester
     @from_browser = false
 
-    mail(to: @beta_requester.email, subject: 'Your invitation to Draft App beta test is here!')
+    mail(from: 'ramy@draftapp.io', to: @beta_requester.email, subject: 'Your invitation to Draft App beta test is here!')
   end
 end
