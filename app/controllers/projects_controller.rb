@@ -55,7 +55,8 @@ class ProjectsController < BaseController
     end
 
     render json: @projects.decorate.to_json
-      .deep_transform_keys { |k| k.to_s.camelize(:lower) }, status: :ok
+      .each { |project| project.deep_transform_keys { |k| k.to_s.camelize(:lower) } },
+      status: :ok
   end
 
   # GET /projects/project_names
