@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
   <head></head>
-  <body bgcolor="#f7f8fa">
+  <body style="background-color: #f7f8fa">
     <table cellpadding="0" cellspacing="0" border="0" width="600" style="margin: 25px auto; font-family: Arial;">
       <thead>
         <tr>
@@ -15,7 +15,7 @@
       <tbody>
         <tr>
           <td colspan="2" style="background-color: #ffffff; padding: 0 15px 15px; font-size: 15px; color: #777d93; line-height: 1.4">
-            <p style="margin-bottom: 30px;">Hello <span style="color:#4e8ef7;"><%= @beta_requester.full_name %></span>!</p>
+            <p style="margin-bottom: 30px;">Hello <span style="color:#4e8ef7;"><%= @name %></span>!</p>
             <p style="margin-bottom: 30px;">Today, we’re very excited to announce that Draft App private beta is ready for you to explore! Now it is ready for testing and scrutiny. We are searching for honest, sharp opinions from  knowledgeable community members like you in order to tell us what we are doing wrong  and, hopefully, what we are doing right.</p>
             <p style="margin-bottom: 30px;">Together, let’s collaborate to build something that real people will love to use as much as we  are enjoying in building it, as simple as that!.</p>
             <p style="margin-bottom: 30px;">Ready to get started?</p>
@@ -31,7 +31,7 @@
       <tfoot>
         <tr>
           <td colspan="2">
-            <p style="text-align: center; color: #787d94; font-size: 12px; margin-top: 20px;">You are receiving this email because you subscribed for Draft App Private Beta. <br />If you did not, you can <%= link_to 'unsubscribe here', beta_requester_url(@beta_requester, confirmation_token: @beta_requester.confirmation_token), method: :delete, remote: true, target: '_blank', style: 'color: #4e8ef7; text-decoration: none;' %></p>
+            <p style="text-align: center; color: #787d94; font-size: 12px; margin-top: 20px;">You are receiving this email because you subscribed for Draft App Private Beta. <br />If you did not, you can <%= link_to 'unsubscribe here', beta_requester_url(@beta_requester, confirmation_token: @beta_requester.confirmation_token), method: :delete, remote: true, target: '_blank', style: 'color: #4e8ef7; text-decoration: none;' if @beta_requester %></p>
           </td>
         </tr>
       </tfoot>

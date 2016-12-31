@@ -54,7 +54,8 @@ class ProjectsController < BaseController
       @projects = current_user.projects.unarchived
     end
 
-    render json: @projects.decorate.to_json, status: :ok
+    render json: @projects.decorate.to_json
+      .deep_transform_keys { |k| k.to_s.camelize(:lower) }, status: :ok
   end
 
   # GET /projects/project_names
