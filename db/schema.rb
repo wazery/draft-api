@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161222112418) do
+ActiveRecord::Schema.define(version: 20161231114545) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -149,12 +149,12 @@ ActiveRecord::Schema.define(version: 20161222112418) do
     t.boolean  "summary"
     t.boolean  "mention_me"
     t.boolean  "create_project"
-    t.string   "weekly_summary"
     t.boolean  "project_comment"
     t.boolean  "new_features"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
     t.integer  "user_id"
+    t.boolean  "weekly_summary"
     t.index ["user_id"], name: "index_notification_settings_on_user_id", using: :btree
   end
 
@@ -174,6 +174,7 @@ ActiveRecord::Schema.define(version: 20161222112418) do
     t.integer  "status",          default: 0
     t.datetime "due_date"
     t.boolean  "archived",        default: false, null: false
+    t.json     "fonts"
     t.index ["slug"], name: "index_projects_on_slug", using: :btree
   end
 
