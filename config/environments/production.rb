@@ -11,7 +11,7 @@ Rails.application.configure do
   config.eager_load = true
 
   # Full error reports are disabled and caching is turned on.
-  config.consider_all_requests_local       = false
+  config.consider_all_requests_local       = true
   config.action_controller.perform_caching = true
 
   # Disable serving static files from the `/public` folder by default since
@@ -82,8 +82,8 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_deliveries = true
 
-  config.action_controller.asset_host = 'http://api2.draftapp.io'
-  config.action_mailer.default_url_options = { host: 'api2.draftapp.io' }
+  config.action_controller.asset_host = 'https://api.draftapp.io'
+  config.action_mailer.default_url_options = { host: 'api.draftapp.io' }
 
   config.action_mailer.delivery_method = :smtp
 
