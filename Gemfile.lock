@@ -230,6 +230,9 @@ GEM
       nokogiri (~> 1.6.0)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
+    rails_12factor (0.0.3)
+      rails_serve_static_assets
+      rails_stdout_logging
     rails_admin (1.1.0)
       builder (~> 3.1)
       coffee-rails (~> 4.0)
@@ -245,6 +248,8 @@ GEM
       sass-rails (>= 4.0, < 6)
     rails_admin_rollincode (1.1)
       rails (>= 4.0, < 6)
+    rails_serve_static_assets (0.0.5)
+    rails_stdout_logging (0.0.5)
     railties (5.0.0.1)
       actionpack (= 5.0.0.1)
       activesupport (= 5.0.0.1)
@@ -363,6 +368,7 @@ DEPENDENCIES
   puma (~> 3.0)
   rack-cors
   rails (~> 5.0.0)
+  rails_12factor
   rails_admin (~> 1.0)
   rails_admin_rollincode (~> 1.0)
   redis (~> 3.0)
