@@ -12,9 +12,9 @@ class Project < ApplicationRecord
   has_one :styleguide, dependent: :destroy
   has_many :artboards, dependent: :destroy
   has_many :attachments, as: :attachable, dependent: :destroy
+  has_many :implemented_screens, dependent: :destroy
   has_many :taggings, as: :taggable, dependent: :destroy
   has_many :tags, through: :taggings
-  has_many :implemented_screens
 
   accepts_nested_attributes_for :artboards
 
