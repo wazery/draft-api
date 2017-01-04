@@ -238,7 +238,7 @@ class ProjectsController < BaseController
   error code: 404, desc: 'Project not found'
   ################# /Documentation #############################################
   def destroy
-    @project.destroy
+    DestroyProjectJob.perform_later(project_id: @project.id)
 
     render json: {}, status: :ok
   end
