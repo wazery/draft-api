@@ -158,9 +158,7 @@ class ProjectsController < BaseController
 
     if @project
       # TODO: Offload the processing and creation to a BG job, in an idempotent way
-      project_params   = project_params.to_
-
-      @project.update_settings(project_settings.to_h)
+      @project.update_settings(project_settings)
 
       if project_params[:artboards_attributes].present?
         @project.add_or_update_artboards(project_params[:artboards_attributes])
