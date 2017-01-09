@@ -157,11 +157,25 @@ class ProjectsController < BaseController
     @project = Project.find_by(slug: project_params[:slug]) if project_params[:slug].present?
 
     if @project
-      # Offload the processing and creation to a BG job
-      UpdateProjectJob.perform_later(project_id: @project.id,
-                                     project_settings: project_settings.to_h,
-                                     project_params: project_params.to_h,
-                                     current_user: current_user)
+      # TODO: Offload the processing and creation to a BG job, in an idempotent way
+      project_params   = project_params.to_
+
+      @project.update_settings(project_settings.to_h)
+
+      if project_params[:artboards_attributes].present?
+        @project.add_or_update_artboards(project_params[:artboards_attributes])
+      end
+
+      @project.slices = project_params[:slices] if project_params[:slices].present?
+      @project.colors = project_params[:colors] if project_params[:colors].present?
+      @project.fonts  = project_params[:fonts]  if project_params[:fonts].present?
+
+      @project.save
+
+      # UpdateProjectJob.perform_later(project_id: @project.id,
+                                     # project_settings: project_settings.to_h,
+                                     # project_params: project_params.to_h,
+                                     # current_user: current_user)
 
       # TODO: Return the location of the project sharing link
       return render json: @project.decorate.to_json
