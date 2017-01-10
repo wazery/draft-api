@@ -40,15 +40,14 @@ ActiveRecord::Schema.define(version: 20161231114545) do
     t.string   "page_name"
     t.string   "name"
     t.string   "slug"
-    t.integer  "status",                    default: 0
+    t.integer  "status",         default: 0
     t.integer  "width"
     t.integer  "height"
     t.datetime "due_date"
     t.string   "token"
     t.json     "layers"
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
-    t.boolean  "artboard_image_processing"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.string   "style"
     t.integer  "user_id"
     t.index ["project_id"], name: "index_artboards_on_project_id", using: :btree

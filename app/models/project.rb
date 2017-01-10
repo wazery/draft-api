@@ -106,9 +106,12 @@ class Project < ApplicationRecord
     # Get record IDs to map it with the resulting hash
     record_ids = existing_records.map(&:id)
     object_ids = object_id_array(existing_records)
+    dup_artboards_data = artboards_data.dup
 
     existing_records =
-      artboards_data.map { |record| artboards_data.delete(record) if record[:object_id].in?(object_ids) }.compact
+      dup_artboards_data.map do |record|
+        artboards_data.delete(record) if record['object_id'].in?(object_ids)
+      end.compact
 
     format_existing_records(existing_records, record_ids)
   end

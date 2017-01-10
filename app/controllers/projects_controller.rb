@@ -157,23 +157,16 @@ class ProjectsController < BaseController
     @project = Project.find_by(slug: project_params[:slug]) if project_params[:slug].present?
 
     if @project
-      # TODO: Offload the processing and creation to a BG job, in an idempotent way
-      @project.update_settings(project_settings)
-
       if project_params[:artboards_attributes].present?
-        @project.add_or_update_artboards(project_params[:artboards_attributes])
+        artboards_data = project_params[:artboards_attributes].map { |artboard_params| artboard_params.to_h }
+        @project.add_or_update_artboards(artboards_data)
       end
 
       @project.slices = project_params[:slices] if project_params[:slices].present?
       @project.colors = project_params[:colors] if project_params[:colors].present?
       @project.fonts  = project_params[:fonts]  if project_params[:fonts].present?
 
-      @project.save
-
-      # UpdateProjectJob.perform_later(project_id: @project.id,
-                                     # project_settings: project_settings.to_h,
-                                     # project_params: project_params.to_h,
-                                     # current_user: current_user)
+      @project.update_settings(project_settings)
 
       # TODO: Return the location of the project sharing link
       return render json: @project.decorate.to_json
@@ -250,7 +243,7 @@ class ProjectsController < BaseController
   error code: 404, desc: 'Project not found'
   ################# /Documentation #############################################
   def destroy
-    DestroyProjectJob.perform_later(project_id: @project.id)
+    @project.destroy
 
     render json: {}, status: :ok
   end
@@ -426,7 +419,9 @@ class ProjectsController < BaseController
   # TODO: The remaining issue to handle is when the artboard is deleted
   # the slices should also be deleted
   def upload_artboard_or_slice
-    if params[:object_id]
+    project = Project.find(params[:id])
+
+    if params[:object_id] && project
       artboard = Artboard.find_or_create_by(object_id: params[:object_id],
                                             project_id: params[:id])
 
@@ -437,8 +432,6 @@ class ProjectsController < BaseController
         render json: { errors: 'Cannot find that artboad!'}, status: :unprocessable_entity
       end
     else
-      project = Project.find(params[:id])
-
       if project
         attachment = project.attachments.create(payload: params[:file])
         render json: { url: attachment.payload.url(:original)}, status: :ok
