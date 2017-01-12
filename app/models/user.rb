@@ -4,6 +4,10 @@ class User < ActiveRecord::Base
     admin: 1
   }
 
+  amoeba do
+    enable
+  end
+
   devise :omniauthable, :database_authenticatable, :recoverable,
     :trackable, :validatable, :registerable, :rememberable,
     :omniauthable, :invitable # TODO: :confirmable

@@ -31,6 +31,9 @@ gem 'omniauth-github'
 gem 'omniauth-dropbox'
 gem 'devise_invitable'
 
+# To enable duplicating records with associations
+gem 'amoeba'
+
 # Environment variables managmenet
 gem 'figaro'
 
