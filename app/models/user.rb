@@ -58,7 +58,7 @@ class User < ActiveRecord::Base
     team = Team.create(project_id: duplicate_project.id)
     Membership.create(user_id: id, team_id: team.id)
 
-    @project.create_activity(action: 'create_project',
+    duplicate_project.create_activity(action: 'create_project',
                              project_id: duplicate_project.id,
                              parameters: { type: 0, what: duplicate_project.name },
                              owner: self)
