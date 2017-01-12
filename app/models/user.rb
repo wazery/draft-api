@@ -50,13 +50,13 @@ class User < ActiveRecord::Base
 
   # FIXME: Very dirty code to duplicate demo project
   def create_demo_project
-    project = Project.find(82)
-
-    duplicate_project = project.deep_clone include: [ { artboards: :artboard_image_attachment }, :attachments]
-    duplicate_project.save
-
-    team = Team.create(project_id: duplicate_project.id)
-    Membership.create(user_id: id, team_id: team.id)
+    # project = Project.find(82)
+    #
+    # duplicate_project = project.deep_clone include: [ { artboards: :artboard_image_attachment }, :attachments]
+    # duplicate_project.save
+    #
+    # team = Team.create(project_id: duplicate_project.id)
+    # Membership.create(user_id: id, team_id: team.id)
 
     # duplicate_project.create_activity(action: 'create_project',
                              # project_id: duplicate_project.id,
