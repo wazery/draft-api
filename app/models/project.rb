@@ -106,7 +106,7 @@ class Project < ApplicationRecord
     # Get record IDs to map it with the resulting hash
     record_ids = existing_records.map(&:id)
     object_ids = object_id_array(existing_records)
-    dup_artboards_data = artboards_data.dup
+    dup_artboards_data = artboards_data.deep_dup
 
     existing_records =
       dup_artboards_data.map do |record|
