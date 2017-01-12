@@ -26,7 +26,8 @@ class User < ActiveRecord::Base
     convert_options: { thumb: '-gravity north -thumbnail 270x179^ -extent 270x179' },
     processors: %i(thumbnail compression)
 
-  # Delegations
+  # Callbacks
+  after_create :create_demo_project
 
   # # Validations
   # # :username
@@ -45,5 +46,21 @@ class User < ActiveRecord::Base
     }
 
     create(attributes)
+  end
+
+  # FIXME: Very dirty code to duplicate demo project
+  def create_demo_project
+    project = Project.find(73)
+
+    duplicate_project = project.dup
+    duplicate_project.save
+
+    team = Team.create(project_id: duplicate_project.id)
+    Membership.create(user_id: id, team_id: team.id)
+
+    @project.create_activity(action: 'create_project',
+                             project_id: duplicate_project.id,
+                             parameters: { type: 0, what: duplicate_project.name },
+                             owner: self)
   end
 end
