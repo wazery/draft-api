@@ -167,6 +167,7 @@ class ProjectsController < BaseController
       @project.fonts  = project_params[:fonts]  if project_params[:fonts].present?
 
       @project.update_settings(project_settings)
+      @project.save
 
       # TODO: Return the location of the project sharing link
       return render json: @project.decorate.to_json
