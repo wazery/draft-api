@@ -31,6 +31,9 @@ gem 'omniauth-github'
 gem 'omniauth-dropbox'
 gem 'devise_invitable'
 
+# To enable duplication of the associations
+gem 'deep_cloneable', '~> 1.4.0'
+
 # Environment variables managmenet
 gem 'figaro'
 
