@@ -52,7 +52,7 @@ class User < ActiveRecord::Base
   def create_demo_project
     project = Project.find(73)
 
-    duplicate_project = project.dup include: :mateys
+    duplicate_project = project.dup include: [:artboards, :attachments, :implemented_screens]
     duplicate_project.save
 
     team = Team.create(project_id: duplicate_project.id)
