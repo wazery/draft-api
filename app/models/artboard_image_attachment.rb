@@ -11,7 +11,7 @@ class ArtboardImageAttachment < Attachment
 
   # Extensions
   ## Paperclip
-  has_attached_file :payload, path: 'attachments/:attachment/:id/:hash/:style/:filename',
+  has_attached_file :payload, path: 'attachments/:attachment/:style/:filename',
     hash_secret: 'sticky_notes',
     styles: PAPERCLIP_ARTBOARD_IMAGE_STYLES,
     processors: %i(thumbnail compression)
