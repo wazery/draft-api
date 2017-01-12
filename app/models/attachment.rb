@@ -14,7 +14,7 @@ class Attachment < ApplicationRecord
 
   # Extensions
   ## Paperclip
-  has_attached_file :payload, path: 'attachments/:attachment/:id/:hash/:style/:filename',
+  has_attached_file :payload, path: 'attachments/:attachment/:style/:filename',
     hash_secret: 'sticky_notes', # styles: lambda {
   #   |attachment| {
   #     thumb: (
