@@ -57,8 +57,6 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.0)
       public_suffix (~> 2.0, >= 2.0.2)
-    amoeba (3.0.0)
-      activerecord (>= 3.2.6)
     apipie-rails (0.3.7)
       json
     arel (7.1.4)
@@ -346,7 +344,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  amoeba
   apipie-rails
   awesome_print
   aws-sdk
