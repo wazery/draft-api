@@ -7,9 +7,18 @@
 # Ignore bundler config.
 /.bundle
 
+# Mac stuff
+.DS_Store
+
+# Rubymine
+.idea
+
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3-journal
+
+# Environment variables
+*.env
 
 # Ignore all logfiles and tempfiles.
 /log/*

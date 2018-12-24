@@ -1,4 +1,4 @@
-FROM ruby:latest
+FROM ruby:2.4.1
 MAINTAINER Islam Wazery <wazery@ubuntu.com>
 
 ENV HOME /home/rails/api
